@@ -1,6 +1,6 @@
 # 源代码与第三方组件
 
-启动器采用 GPL-3.0-or-later。启动器、打包脚本和定制词库源文件位于 [nodesire7/Lichii](https://github.com/nodesire7/Lichii/tree/afei-launcher-v1.0.6/afei-launcher)。
+启动器采用 GPL-3.0-or-later。启动器、打包脚本和定制词库源文件位于 [nodesire7/Lichii](https://github.com/nodesire7/Lichii/tree/afei-launcher-v1.0.7/afei-launcher)。
 
 - Lichii 图标来自 [上游 Lichii](https://github.com/zortos293/Lichii) 的 `dist/lichii.ico`，原始图稿作者：YOB（yobslab）。
 - 附带的 Fritchii 简体中文词库基于 [Fritchii v5.4](https://github.com/Frizti/Fritchii/tree/8ce6c1e0d49b7022d2fa87e60109c7c04f1b5a80) 的 `dist/languages/zh_CN.ts`。译文在 `overrides.fritchii.zh_CN.json` 和 `source.fritchii.zh_CN.json`。使用 `align_catalog.py --source <v5.4 源码目录> --legacy-output afei-launcher/afei-fritchii-zh_CN.qm` 重新生成。中文更新日志译自同一版本的 `src/yuzu/fritchii/whats-new.md`。

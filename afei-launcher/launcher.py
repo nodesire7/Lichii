@@ -44,6 +44,7 @@ OVERLAY_QT_DLLS = {
     "Qt6Widgets.dll": "d34ef78b3d3b5506ee8279ce6efbfc263d773b74860af76e66b0715346897a3a",
 }
 GAME_EXTENSIONS = {".nup", ".xci", ".nsp", ".nro", ".nca", ".nsz", ".xcz"}
+STATUS_COLORS = {"pending": "#b5b3c4", "error": "#ffb0b0", "done": "#b8ddc7"}
 
 STYLE = """
 QMainWindow, QDialog, QWidget#surface { background: #111113; color: #ececf1; }
@@ -54,15 +55,17 @@ QLabel#muted { color: #b5b3c4; }
 QLabel#message[state="error"] { color: #ffb0b0; }
 QLabel#message[state="done"] { color: #b8ddc7; }
 QToolTip { background: #1f1f24; color: #ececf1; border: 1px solid #565365; padding: 5px; }
-QPushButton, QComboBox, QLineEdit {
+QPushButton, QComboBox, QLineEdit, QPlainTextEdit {
     background: #1f1f24; color: #ececf1; border: 1px solid #565365;
     border-radius: 8px; padding: 7px 12px; min-height: 19px;
 }
 QPushButton:hover, QComboBox:hover { background: #28272f; border-color: #888297; }
 QPushButton:pressed { background: #322b45; }
-QPushButton:focus, QComboBox:focus, QLineEdit:focus { border: 1px solid #b59dfb; }
+QPushButton:focus, QComboBox:focus, QLineEdit:focus, QPlainTextEdit:focus { border: 1px solid #b59dfb; }
 QComboBox QAbstractItemView { background: #1b1b1f; color: #ececf1; selection-background-color: #3b2f58; }
-QLineEdit { placeholder-text-color: #b5b3c4; }
+QLineEdit, QPlainTextEdit { placeholder-text-color: #b5b3c4; }
+QPlainTextEdit { selection-color: #ececf1; selection-background-color: #3b2f58; }
+QPlainTextEdit[readOnly="true"] { background: #18181b; }
 QPushButton:disabled, QComboBox:disabled { background: #19191d; color: #a19dad; border-color: #363440; }
 QPushButton#primary { background: #a78bfa; color: #1c1433; border-color: #a78bfa; font-weight: 700; }
 QPushButton#primary:hover { background: #b59dfb; }
@@ -290,11 +293,17 @@ def apply_dark_titlebar(window):
         set_attribute(hwnd, 19, ctypes.byref(dark), ctypes.sizeof(dark))
 
 
-class Preferences(QDialog):
+class LauncherDialog(QDialog):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.setWindowIcon(parent.windowIcon())
+
     def showEvent(self, event):
         super().showEvent(event)
         apply_dark_titlebar(self)
 
+
+class Preferences(LauncherDialog):
     def __init__(self, parent):
         super().__init__(parent)
         self.setWindowTitle("启动器设置")
@@ -394,6 +403,7 @@ class Launcher(QMainWindow):
         self.cancel = Event()
         self.worker = None
         self.setWindowTitle("Lichii 中文启动器")
+        self.setWindowIcon(QApplication.windowIcon())
         self.resize(780, 670)
         self.setMinimumSize(680, 520)
         root = QWidget(objectName="surface")
@@ -499,7 +509,7 @@ class Launcher(QMainWindow):
             self.details_button.show()
 
     def show_details(self):
-        dialog = QDialog(self)
+        dialog = LauncherDialog(self)
         dialog.setWindowTitle("更新线路详情")
         dialog.resize(640, 320)
         layout = QVBoxLayout(dialog)
@@ -511,7 +521,6 @@ class Launcher(QMainWindow):
         actions.addWidget(button("复制详情", lambda: QApplication.clipboard().setText(self.details)))
         actions.addWidget(button("关闭", dialog.accept))
         layout.addLayout(actions)
-        apply_dark_titlebar(dialog)
         dialog.exec()
 
     def refresh_builds(self):
@@ -578,7 +587,9 @@ class Launcher(QMainWindow):
                 item.setToolTip(node.url)
             self.table.setItem(row, 0, item)
             self.table.setItem(row, 1, QTableWidgetItem("—"))
-            self.table.setItem(row, 2, QTableWidgetItem("待测速" if asset or self.measure_only else "待检查"))
+            status = QTableWidgetItem("待测速" if asset or self.measure_only else "待检查")
+            status.setForeground(QColor(STATUS_COLORS["pending"]))
+            self.table.setItem(row, 2, status)
 
     def copy_node(self, row, _column):
         url = self.table.item(row, 0).data(Qt.ItemDataRole.UserRole)
@@ -595,8 +606,10 @@ class Launcher(QMainWindow):
                 self.table.item(row, 1).setText(speed)
             status = override or (sample.error.split("。", 1)[0] if sample.error
                                   else f"首包 {sample.latency * 1000:.0f} ms")
-            self.table.item(row, 2).setText(status)
-            self.table.item(row, 2).setToolTip(sample.error or status)
+            cell = self.table.item(row, 2)
+            cell.setText(status)
+            cell.setToolTip(sample.error or status)
+            cell.setForeground(QColor(STATUS_COLORS["error" if sample.error else "done"]))
             break
 
     def start_game(self):
@@ -788,9 +801,7 @@ class Launcher(QMainWindow):
             super().closeEvent(event)
 
 
-def main():
-    ROOT.mkdir(parents=True, exist_ok=True)
-    app = QApplication(sys.argv)
+def configure_appearance(app):
     app.setApplicationName("Lichii 中文启动器")
     app.setStyle("Fusion")
     font = QFont("Microsoft YaHei UI")
@@ -804,6 +815,7 @@ def main():
         QPalette.ColorRole.WindowText: "#ececf1",
         QPalette.ColorRole.Text: "#ececf1",
         QPalette.ColorRole.ButtonText: "#ececf1",
+        QPalette.ColorRole.PlaceholderText: "#b5b3c4",
         QPalette.ColorRole.Highlight: "#3b2f58",
         QPalette.ColorRole.HighlightedText: "#ececf1",
     }.items():
@@ -813,6 +825,12 @@ def main():
     icon = BINARY_ICON if BINARY_ICON.is_file() else REPO_ICON
     if icon.is_file():
         app.setWindowIcon(QIcon(str(icon)))
+
+
+def main():
+    ROOT.mkdir(parents=True, exist_ok=True)
+    app = QApplication(sys.argv)
+    configure_appearance(app)
     lock = QLockFile(str(ROOT / "launcher.lock"))
     if not lock.tryLock(0):
         return 0

@@ -2,6 +2,7 @@
 import hashlib
 import json
 from io import BytesIO
+import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from threading import Event
@@ -11,7 +12,10 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 
 from PySide6.QtCore import QSettings
+from PySide6.QtGui import QPalette
+from PySide6.QtWidgets import QApplication
 from align_catalog import add_runtime_contexts, align, messages, reuse_translations, source_coverage
+import launcher
 from launcher import set_ui_language
 import updater
 
@@ -20,6 +24,28 @@ def make_zip(path, files):
     with ZipFile(path, "w") as zipped:
         for name, contents in files.items():
             zipped.writestr(name, contents)
+
+
+class AppearanceTests(unittest.TestCase):
+    def test_dialog_icons_and_multiline_editor_match_launcher_theme(self):
+        with patch.dict(os.environ, {"QT_QPA_PLATFORM": "offscreen", "QT_PLUGIN_PATH": "",
+                                     "QT_QPA_PLATFORM_PLUGIN_PATH": ""}):
+            app = QApplication.instance() or QApplication([])
+        launcher.configure_appearance(app)
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with patch.multiple(launcher, ROOT=root, RUNTIMES=root / "runtimes"):
+                window = launcher.Launcher(root)
+            preferences = launcher.Preferences(window)
+            details = launcher.LauncherDialog(window)
+            self.assertFalse(window.windowIcon().pixmap(16, 16).isNull())
+            self.assertEqual(preferences.windowIcon().cacheKey(), window.windowIcon().cacheKey())
+            self.assertEqual(details.windowIcon().cacheKey(), window.windowIcon().cacheKey())
+            preferences.custom.ensurePolished()
+            palette = preferences.custom.palette()
+            self.assertEqual(palette.color(QPalette.ColorRole.Text).name(), "#ececf1")
+            self.assertEqual(palette.color(QPalette.ColorRole.Base).name(), "#1f1f24")
+            self.assertEqual(palette.color(QPalette.ColorRole.PlaceholderText).name(), "#b5b3c4")
 
 
 class UpdateTests(unittest.TestCase):

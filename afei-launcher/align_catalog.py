@@ -18,23 +18,35 @@ from updater import UPSTREAM, official_asset, sha256_file
 HERE = Path(__file__).resolve().parent
 
 
-def add_qt_button_labels(catalog):
-    context = ET.SubElement(catalog, "context")
-    ET.SubElement(context, "name").text = "QPlatformTheme"
-    for source, translated in (
+def add_qt_widget_labels(catalog):
+    standard_buttons = (
         ("OK", "确定"), ("Cancel", "取消"), ("Close", "关闭"), ("Apply", "应用"),
         ("&Yes", "是(&Y)"), ("&No", "否(&N)"), ("Help", "帮助"), ("Reset", "重置"),
         ("Open", "打开"), ("Save", "保存"), ("Discard", "丢弃"), ("Retry", "重试"),
         ("Restore Defaults", "恢复默认值"),
-    ):
-        message = ET.SubElement(context, "message")
-        ET.SubElement(message, "source").text = source
-        ET.SubElement(message, "translation").text = translated
+    )
+    entries = [{"context": "QPlatformTheme", "source": source, "translation": translation}
+               for source, translation in standard_buttons]
+    entries += json.loads((HERE / "source.qt.zh_CN.json").read_text(encoding="utf-8"))
+    template = ET.Element("TS")
+    contexts = {}
+    for entry in entries:
+        name = entry["context"]
+        if name not in contexts:
+            context = ET.SubElement(template, "context")
+            ET.SubElement(context, "name").text = name
+            contexts[name] = context
+        message = ET.SubElement(contexts[name], "message")
+        ET.SubElement(message, "source").text = entry["source"]
+        if entry.get("comment"):
+            ET.SubElement(message, "comment").text = entry["comment"]
+    align(catalog, template, entries)
 
 
 def revision():
     return hashlib.sha256(b"".join((HERE / name).read_bytes().replace(b"\r\n", b"\n") for name in (
-        "align_catalog.py", "overrides.zh_CN.json", "source.zh_CN.json", "source.graphics.zh_CN.json"
+        "align_catalog.py", "overrides.zh_CN.json", "source.zh_CN.json", "source.graphics.zh_CN.json",
+        "source.qt.zh_CN.json",
     ))).hexdigest()
 
 
@@ -135,6 +147,81 @@ def add_graphics_source_keys(template, source):
             current[key] = message
 
 
+def add_runtime_source_keys(template, source):
+    path = source / "src/yuzu/configuration/configure_ui.cpp"
+    if not path.is_file():
+        return
+    cpp = path.read_text(encoding="utf-8")
+    key = ("QWidget", "Auto", "Screenshot height option")
+    if ('QWidget* parent)' in cpp and 'parent->tr("Auto", "Screenshot height option")' in cpp
+            and key not in messages(template)):
+        context = next((item for item in template.findall("context") if item.findtext("name") == key[0]), None)
+        if context is None:
+            context = ET.SubElement(template, "context")
+            ET.SubElement(context, "name").text = key[0]
+        message = ET.SubElement(context, "message")
+        ET.SubElement(message, "source").text = key[1]
+        ET.SubElement(message, "comment").text = key[2]
+
+
+def add_runtime_contexts(base, template, source):
+    """Copy extracted keys to the Qt classes that actually call translate()."""
+    aliases = {}
+    cpp_sources = source / "src"
+    checks = (
+        ("qt_common/qt_common.cpp", "return rootObject->tr(str);",
+         tuple(f"QtCommon::{name}" for name in ("Content", "FS", "Game", "Mod", "Path")), "QWidget"),
+        ("qt_common/qt_string_lookup.h", "return QObject::tr(strings.at(key).data());",
+         ("QtCommon::StringLookup",), "QObject"),
+        ("yuzu/multiplayer/message.cpp", "QObject::tr(text.c_str())", ("NetworkMessage",), "QObject"),
+        ("yuzu/fritchii/fritchii_ui.cpp", "[](const char* text) { return QObject::tr(text); }",
+         ("FritchiiUi",), "QObject"),
+    )
+    for filename, call, extracted, runtime in checks:
+        path = cpp_sources / filename
+        if path.is_file() and call in path.read_text(encoding="utf-8"):
+            aliases.update(dict.fromkeys(extracted, runtime))
+    header = cpp_sources / "yuzu/configuration/system/profile_avatar_dialog.h"
+    if header.is_file():
+        cpp = header.read_text(encoding="utf-8")
+        if ("class ProfileAvatarDialog : public QDialog" in cpp
+                and not re.search(r"\b(?:Q_OBJECT|Q_DECLARE_TR_FUNCTIONS)\b", cpp)):
+            aliases["ProfileAvatarDialog"] = "QDialog"
+
+    live = messages(template)
+    current = messages(base)
+    live_contexts = {context.findtext("name"): context for context in template.findall("context")}
+    base_contexts = {context.findtext("name"): context for context in base.findall("context")}
+    for key, extracted in list(live.items()):
+        name = aliases.get(key[0])
+        if name is None:
+            continue
+        runtime_key = (name, *key[1:])
+        if runtime_key not in live:
+            if name not in live_contexts:
+                context = ET.SubElement(template, "context")
+                ET.SubElement(context, "name").text = name
+                live_contexts[name] = context
+            live[runtime_key] = deepcopy(extracted)
+            live_contexts[name].append(live[runtime_key])
+        donor = current.get(key)
+        if translation_text(current.get(runtime_key)) or not translation_text(donor):
+            continue
+        target = current.get(runtime_key)
+        if target is None:
+            if name not in base_contexts:
+                context = ET.SubElement(base, "context")
+                ET.SubElement(context, "name").text = name
+                base_contexts[name] = context
+            target = deepcopy(extracted)
+            base_contexts[name].append(target)
+            current[runtime_key] = target
+        old = target.find("translation")
+        if old is not None:
+            target.remove(old)
+        target.append(deepcopy(donor.find("translation")))
+
+
 def align(base, template, overrides):
     active = messages(template)
     current = messages(base)
@@ -219,18 +306,20 @@ def main():
                         "-locations", "none", "-ts", str(template)], cwd=source, check=True)
         live = ET.parse(template).getroot()
         add_graphics_source_keys(live, source)
+        add_runtime_source_keys(live, source)
         references = ()
         if args.legacy_output:
             upstream = ET.parse(HERE.parent / "dist/languages/zh_CN.ts").getroot()
             references = (messages(upstream),)
         reuse_translations(base, live, *references)
         applied, pending = align(base, live, overrides)
+        add_runtime_contexts(base, live, source)
         coverage = source_coverage(base, live)
         if args.audit_output:
             args.audit_output.write_text(json.dumps(coverage, ensure_ascii=False, indent=2) + "\n",
                                          encoding="utf-8")
         print(f"Catalog text: {coverage['entries_with_catalog_text']}/{coverage['source_entries']} source entries.")
-        add_qt_button_labels(base)
+        add_qt_widget_labels(base)
         merged = tmp / "zh_CN.ts"
         ET.ElementTree(base).write(merged, encoding="utf-8", xml_declaration=True)
         qm = tmp / "zh_CN.qm"

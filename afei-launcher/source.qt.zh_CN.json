@@ -1,0 +1,486 @@
+[
+  {
+    "context": "QColorDialog",
+    "source": "Hu&e:",
+    "translation": "色相(&E)："
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&Sat:",
+    "translation": "饱和度(&S)："
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&Val:",
+    "translation": "明度(&V)："
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&Red:",
+    "translation": "红色(&R)："
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&Green:",
+    "translation": "绿色(&G)："
+  },
+  {
+    "context": "QColorDialog",
+    "source": "Bl&ue:",
+    "translation": "蓝色(&U)："
+  },
+  {
+    "context": "QColorDialog",
+    "source": "A&lpha channel:",
+    "translation": "透明度(&A)："
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&HTML:",
+    "translation": "HTML(&H)："
+  },
+  {
+    "context": "QColorDialog",
+    "source": "Cursor at %1, %2\nPress ESC to cancel",
+    "translation": "光标位置：%1, %2\n按 Esc 取消"
+  },
+  {
+    "context": "QColorDialog",
+    "source": "Select Color",
+    "translation": "选择颜色"
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&Basic colors",
+    "translation": "基本颜色(&B)"
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&Custom colors",
+    "translation": "自定义颜色(&C)"
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&Add to Custom Colors",
+    "translation": "添加到自定义颜色(&A)"
+  },
+  {
+    "context": "QColorDialog",
+    "source": "&Pick Screen Color",
+    "translation": "从屏幕取色(&P)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "All Files (*)",
+    "translation": "所有文件 (*)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Look in:",
+    "translation": "位置："
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Back",
+    "translation": "后退"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Go back",
+    "translation": "返回上一个位置"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Forward",
+    "translation": "前进"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Go forward",
+    "translation": "前往下一个位置"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Parent Directory",
+    "translation": "上一级目录"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Go to the parent directory",
+    "translation": "转到上一级目录"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Create New Folder",
+    "translation": "新建文件夹"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Create a New Folder",
+    "translation": "新建文件夹"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "List View",
+    "translation": "列表视图"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Change to list view mode",
+    "translation": "切换到列表视图"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Detail View",
+    "translation": "详细信息视图"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Change to detail view mode",
+    "translation": "切换到详细信息视图"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Sidebar",
+    "translation": "侧栏"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "List of places and bookmarks",
+    "translation": "位置与书签列表"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Files",
+    "translation": "文件"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Files of type:",
+    "translation": "文件类型："
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Find Directory",
+    "translation": "查找目录"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Open",
+    "translation": "打开"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Save As",
+    "translation": "另存为"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Directory:",
+    "translation": "目录："
+  },
+  {
+    "context": "QFileDialog",
+    "source": "File &name:",
+    "translation": "文件名(&N)："
+  },
+  {
+    "context": "QFileDialog",
+    "source": "&Open",
+    "translation": "打开(&O)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "&Choose",
+    "translation": "选择(&C)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "&Save",
+    "translation": "保存(&S)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Show ",
+    "translation": "显示 "
+  },
+  {
+    "context": "QFileDialog",
+    "source": "&Rename",
+    "translation": "重命名(&R)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "&Delete",
+    "translation": "删除(&D)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Show &hidden files",
+    "translation": "显示隐藏文件(&H)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "&New Folder",
+    "translation": "新建文件夹(&N)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "All files (*)",
+    "translation": "所有文件 (*)"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Directories",
+    "translation": "目录"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "%1\nDirectory not found.\nPlease verify the correct directory name was given.",
+    "translation": "%1\n找不到目录。\n请检查目录名是否正确。"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "%1 already exists.\nDo you want to replace it?",
+    "translation": "%1 已存在。\n要替换它吗？"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "%1\nFile not found.\nPlease verify the correct file name was given.",
+    "translation": "%1\n找不到文件。\n请检查文件名是否正确。"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "New Folder",
+    "translation": "新建文件夹"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Delete",
+    "translation": "删除"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "'%1' is write protected.\nDo you want to delete it anyway?",
+    "translation": "“%1”有写保护。\n仍要删除吗？"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Are you sure you want to delete '%1'?",
+    "translation": "确定要删除“%1”吗？"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Could not delete directory.",
+    "translation": "无法删除目录。"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Recent Places",
+    "translation": "最近访问的位置"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Remove",
+    "translation": "移除"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "My Computer",
+    "translation": "我的电脑"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Drive",
+    "translation": "驱动器"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "%1 File",
+    "translation": "%1 文件"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "File",
+    "translation": "文件"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "File Folder",
+    "comment": "Match Windows Explorer",
+    "translation": "文件夹"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Folder",
+    "comment": "All other platforms",
+    "translation": "文件夹"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Shortcut",
+    "comment": "All other platforms",
+    "translation": "快捷方式"
+  },
+  {
+    "context": "QFileDialog",
+    "source": "Unknown",
+    "translation": "未知"
+  },
+  {
+    "context": "QFileSystemModel",
+    "source": "<b>The name \"%1\" cannot be used.</b><p>Try using another name, with fewer characters or no punctuation marks.",
+    "translation": "<b>无法使用名称“%1”。</b><p>请尝试更短的名称，或去掉标点符号。"
+  },
+  {
+    "context": "QFileSystemModel",
+    "source": "Invalid filename",
+    "translation": "文件名无效"
+  },
+  {
+    "context": "QFileSystemModel",
+    "source": "Name",
+    "translation": "名称"
+  },
+  {
+    "context": "QFileSystemModel",
+    "source": "Size",
+    "translation": "大小"
+  },
+  {
+    "context": "QFileSystemModel",
+    "source": "Type",
+    "comment": "All other platforms",
+    "translation": "类型"
+  },
+  {
+    "context": "QFileSystemModel",
+    "source": "Date Modified",
+    "translation": "修改日期"
+  },
+  {
+    "context": "QFileSystemModel",
+    "source": "My Computer",
+    "translation": "我的电脑"
+  },
+  {
+    "context": "QFileSystemModel",
+    "source": "Computer",
+    "translation": "计算机"
+  },
+  {
+    "context": "QInputDialog",
+    "source": "Enter a value:",
+    "translation": "请输入一个值："
+  },
+  {
+    "context": "QLineEdit",
+    "source": "&Undo",
+    "translation": "撤销(&U)"
+  },
+  {
+    "context": "QLineEdit",
+    "source": "&Redo",
+    "translation": "重做(&R)"
+  },
+  {
+    "context": "QLineEdit",
+    "source": "Cu&t",
+    "translation": "剪切(&T)"
+  },
+  {
+    "context": "QLineEdit",
+    "source": "&Copy",
+    "translation": "复制(&C)"
+  },
+  {
+    "context": "QLineEdit",
+    "source": "&Paste",
+    "translation": "粘贴(&P)"
+  },
+  {
+    "context": "QLineEdit",
+    "source": "Delete",
+    "translation": "删除"
+  },
+  {
+    "context": "QLineEdit",
+    "source": "Select All",
+    "translation": "全选"
+  },
+  {
+    "context": "QMessageBox",
+    "source": "Show Details...",
+    "translation": "显示详细信息..."
+  },
+  {
+    "context": "QMessageBox",
+    "source": "Hide Details...",
+    "translation": "隐藏详细信息..."
+  },
+  {
+    "context": "QPlatformTheme",
+    "source": "Save All",
+    "translation": "全部保存"
+  },
+  {
+    "context": "QPlatformTheme",
+    "source": "Yes to &All",
+    "translation": "全部选是(&A)"
+  },
+  {
+    "context": "QPlatformTheme",
+    "source": "N&o to All",
+    "translation": "全部选否(&O)"
+  },
+  {
+    "context": "QPlatformTheme",
+    "source": "Abort",
+    "translation": "中止"
+  },
+  {
+    "context": "QPlatformTheme",
+    "source": "Ignore",
+    "translation": "忽略"
+  },
+  {
+    "context": "QWidgetTextControl",
+    "source": "&Undo",
+    "translation": "撤销(&U)"
+  },
+  {
+    "context": "QWidgetTextControl",
+    "source": "&Redo",
+    "translation": "重做(&R)"
+  },
+  {
+    "context": "QWidgetTextControl",
+    "source": "Cu&t",
+    "translation": "剪切(&T)"
+  },
+  {
+    "context": "QWidgetTextControl",
+    "source": "&Copy",
+    "translation": "复制(&C)"
+  },
+  {
+    "context": "QWidgetTextControl",
+    "source": "Copy &Link Location",
+    "translation": "复制链接地址(&L)"
+  },
+  {
+    "context": "QWidgetTextControl",
+    "source": "&Paste",
+    "translation": "粘贴(&P)"
+  },
+  {
+    "context": "QWidgetTextControl",
+    "source": "Delete",
+    "translation": "删除"
+  },
+  {
+    "context": "QWidgetTextControl",
+    "source": "Select All",
+    "translation": "全选"
+  }
+]

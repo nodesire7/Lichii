@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 
 from PySide6.QtCore import QSettings
-from align_catalog import align, messages, reuse_translations, source_coverage
+from align_catalog import add_runtime_contexts, align, messages, reuse_translations, source_coverage
 from launcher import set_ui_language
 import updater
 
@@ -104,6 +104,28 @@ class UpdateTests(unittest.TestCase):
         coverage = source_coverage(catalog, live)
         self.assertEqual(coverage["entries_with_catalog_text"], 1)
         self.assertEqual(coverage["without_catalog_text"][0]["comment"], "adjective")
+
+    def test_wrapped_translation_uses_runtime_qt_context(self):
+        live = ET.fromstring(
+            '<TS><context><name>QtCommon::Content</name>'
+            '<message><source>Open</source><comment>verb</comment></message></context>'
+            '<context><name>QtCommon::Game</name>'
+            '<message><source>Open</source><comment>verb</comment></message></context></TS>'
+        )
+        catalog = ET.fromstring(
+            '<TS><context><name>QtCommon::Content</name>'
+            '<message><source>Open</source><comment>verb</comment><translation>打开</translation></message>'
+            '</context></TS>'
+        )
+        with TemporaryDirectory() as tmp:
+            source = Path(tmp)
+            cpp = source / "src/qt_common/qt_common.cpp"
+            cpp.parent.mkdir(parents=True)
+            cpp.write_text("const QString tr(const char* str) { return rootObject->tr(str); }", encoding="utf-8")
+            add_runtime_contexts(catalog, live, source)
+        runtime = live.find("context[name='QWidget']")
+        self.assertEqual(len(runtime.findall("message")), 1)
+        self.assertEqual(messages(catalog)[("QWidget", "Open", "verb")].findtext("translation"), "打开")
 
 
 if __name__ == "__main__":

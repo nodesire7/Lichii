@@ -34,6 +34,8 @@ CUSTOM_QM = ROOT / "translation" / "zh_CN.qm"
 REPO_ICON = Path(__file__).resolve().parent.parent / "dist" / "lichii.ico"
 BINARY_ICON = Path(__file__).resolve().with_name("lichii.ico")
 FRITCHII_QM = Path(__file__).resolve().with_name("afei-fritchii-zh_CN.qm")
+FRITCHII_NOTES = Path(__file__).resolve().with_name("fritchii-v5.4-notes.zh_CN.md")
+FRITCHII_V54_SHA256 = "336411d4a4ff40da4cadc4a74ab79afec3e9de619392e5d6a393769ceb28c520"
 GAME_EXTENSIONS = {".nup", ".xci", ".nsp", ".nro", ".nca", ".nsz", ".xcz"}
 
 STYLE = """
@@ -103,6 +105,18 @@ def valid_catalog(path):
     return QTranslator().load(path.as_posix(), ":/languages/")
 
 
+def cache_translation_resource(source, directory):
+    digest = updates.sha256_file(source)
+    path = directory / f"{source.stem}-{digest[:12]}{source.suffix}"
+    if not path.is_file() or updates.sha256_file(path) != digest:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=path.parent) as staging:
+            staged = Path(staging) / path.name
+            shutil.copyfile(source, staged)
+            os.replace(staged, path)
+    return path.resolve().as_posix()
+
+
 def language_for(build, custom_path):
     if custom_path.is_file():
         if not valid_catalog(custom_path):
@@ -113,15 +127,7 @@ def language_for(build, custom_path):
         if valid_catalog(path):
             return path.resolve().as_posix()
     if not build.release and is_fritchii(build.directory) and valid_catalog(FRITCHII_QM):
-        digest = updates.sha256_file(FRITCHII_QM)
-        path = custom_path.parent / "bundled" / f"fritchii-{digest[:12]}.qm"
-        if not path.is_file() or updates.sha256_file(path) != digest:
-            path.parent.mkdir(parents=True, exist_ok=True)
-            with tempfile.TemporaryDirectory(dir=path.parent) as staging:
-                staged = Path(staging) / path.name
-                shutil.copyfile(FRITCHII_QM, staged)
-                os.replace(staged, path)
-        return path.resolve().as_posix()
+        return cache_translation_resource(FRITCHII_QM, custom_path.parent / "bundled")
     return "zh_CN"
 
 
@@ -543,6 +549,11 @@ class Launcher(QMainWindow):
             # A frozen launcher can otherwise give the child its bundled Qt library location.
             env.pop("QT_PLUGIN_PATH", None)
             env.pop("QT_QPA_PLATFORM_PLUGIN_PATH", None)
+            if (not build.release and is_fritchii(build.directory) and FRITCHII_NOTES.is_file()
+                    and not env.get("FRITCHII_NOTES_PREVIEW")
+                    and updates.sha256_file(build.directory / "lichii.exe") == FRITCHII_V54_SHA256):
+                env["FRITCHII_NOTES_PREVIEW"] = cache_translation_resource(
+                    FRITCHII_NOTES, CUSTOM_QM.parent / "bundled")
             if getattr(sys, "frozen", False):
                 import ctypes
                 ctypes.windll.kernel32.SetDllDirectoryW(None)

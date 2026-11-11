@@ -10,10 +10,12 @@
 
 ## 汉化与更新渠道
 
-- **作者仓库（同步汉化）**。发布清单提供与上游版本对应的外置 Qt 词库。扫描 `src/yuzu` 和 `src/qt_common` 的 C++ 与 `.ui` 文件，按 Qt 上下文、原文和消歧注释匹配。上游改掉的文本会列入清单的 `needs_review`，原有译文仍留在 JSON。[发布清单](https://github.com/nodesire7/Lichii/tree/afei-feed) · [源码补译](source.zh_CN.json) · [既有定制译文](overrides.zh_CN.json)
+- **作者仓库（同步汉化）**。发布清单提供与上游版本对应的外置 Qt 词库。扫描 `src/yuzu` 和 `src/qt_common` 的 C++ 与 `.ui` 文件，按 Qt 上下文、原文和消歧注释匹配，并补上经源码确认的实际运行上下文。上游改掉的文本会列入清单的 `needs_review`，原有译文仍留在 JSON。[发布清单](https://github.com/nodesire7/Lichii/tree/afei-feed) · [源码补译](source.zh_CN.json) · [既有定制译文](overrides.zh_CN.json)
 - **上游官方（内置简体中文）**：直接读取 [Lichii 正式发布](https://github.com/zortos293/Lichii/releases)，不依赖作者词库。所选渠道不可达时会尝试另一渠道，界面会显示实际来源。
 - **本地自定义汉化**。在设置中打开自定义汉化目录，将已编译的 Qt 词库命名为 `zh_CN.qm` 放入。启动器优先加载该文件，更新也会保留它。移出该文件后恢复各版本的默认词库。
-- **原版 Fritchii v5.4**。启动器附带对应源码的外置词库，并沿用深色和紫色配色。状态栏的 `DOCKED` 等直接显示的字符串没有调用 Qt 翻译接口，外置词库无法替换。[v5.4 源码](https://github.com/Frizti/Fritchii/tree/8ce6c1e0d49b7022d2fa87e60109c7c04f1b5a80) · [Fritchii 源码补译](source.fritchii.zh_CN.json)
+- **原版 Fritchii v5.4**。启动器附带对应源码的外置词库，并沿用深色和紫色配色。已验证的 Windows 原版可通过模拟器自带的预览入口显示中文更新日志。[v5.4 源码](https://github.com/Frizti/Fritchii/tree/8ce6c1e0d49b7022d2fa87e60109c7c04f1b5a80) · [Fritchii 源码补译](source.fritchii.zh_CN.json) · [中文更新日志](fritchii-v5.4-notes.zh_CN.md)
+
+状态栏的 `DOCKED`、软件键盘的 `Caps Lock` 等文字直接由模拟器显示。外置词库只能翻译模拟器提交给 Qt 的文字。
 
 Fork 的 `nx2` 分支镜像上游源码；`afei-zh` 保存启动器和自定义译文；`afei-feed` 发布词库及更新清单。GitHub Actions 每 5 分钟尝试同步，实际调度可能延迟；在 Actions 可手动运行。词库以正式发行标签指向的提交为准，编译过程不改上游源码。启动器不分发游戏、固件、密钥或本机数据。
 

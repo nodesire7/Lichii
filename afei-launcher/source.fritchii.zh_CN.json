@@ -578,5 +578,30 @@
     "context": "Updater",
     "source": "Please start Fritchii again yourself.",
     "translation": "请手动重新启动 Fritchii。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Lossless Scaling (LSFG)",
+    "translation": "无损缩放帧生成（LSFG）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "AMD FidelityFX Super Resolution 1 (FSR 1)",
+    "translation": "AMD FidelityFX 超分辨率 1（FSR 1）"
+  },
+  {
+    "context": "ConfigureInputPlayer",
+    "source": "Home",
+    "translation": "主菜单键"
+  },
+  {
+    "context": "DataDialog",
+    "source": "Mods",
+    "translation": "模组"
+  },
+  {
+    "context": "QObject",
+    "source": "Home",
+    "translation": "主菜单键"
   }
 ]

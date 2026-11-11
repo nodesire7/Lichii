@@ -1409,5 +1409,36 @@
     "context": "RyujinxDialog",
     "source": "From Lichii",
     "translation": "从 Lichii"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "AMD FidelityFX Super Resolution 1 (FSR 1)",
+    "translation": "AMD FidelityFX 超分辨率 1（FSR 1）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Lossless Scaling (LSFG)",
+    "translation": "Lossless Scaling 帧生成（LSFG）"
+  },
+  {
+    "context": "DataDialog",
+    "source": "Mods",
+    "translation": "模组"
+  },
+  {
+    "context": "NxTools",
+    "source": "DLC %1 (v%2)",
+    "translation": "追加内容 %1（v%2）"
+  },
+  {
+    "context": "QtCommon::Mod",
+    "source": "ExeFS/Patch",
+    "translation": "ExeFS／补丁"
+  },
+  {
+    "context": "QWidget",
+    "source": "Auto",
+    "comment": "Screenshot height option",
+    "translation": "自动"
   }
 ]

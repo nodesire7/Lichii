@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 import hashlib
+import json
+from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from threading import Event
@@ -21,6 +23,65 @@ def make_zip(path, files):
 
 
 class UpdateTests(unittest.TestCase):
+    def test_raw_tls_failure_and_api_403_recover_via_author_archive(self):
+        manifest = {"schema": 1, "upstream": updater.UPSTREAM, "release_commit": "c" * 40,
+                    "asset": {"tag": "build-150", "size": 1000, "sha256": "a" * 64},
+                    "catalog": {"name": "build-150-bbbbbbbbbbbb.qm", "sha256": "b" * 64}}
+        archive = BytesIO()
+        make_zip(archive, {"Lichii-afei-feed/manifest.json": json.dumps(manifest)})
+
+        def fake_curl(command, **_kwargs):
+            url = command[command.index("--url") + 1]
+            path = Path(command[command.index("--output") + 1])
+            if "raw.githubusercontent.com" in url:
+                return updater.subprocess.CompletedProcess(command, 35, b"000", b"schannel: handshake failed")
+            if "api.github.com" in url:
+                if "--dump-header" in command:
+                    header = Path(command[command.index("--dump-header") + 1])
+                    header.write_bytes(b"HTTP/1.1 403 rate limit exceeded\r\nX-RateLimit-Remaining: 0\r\n\r\n")
+                return updater.subprocess.CompletedProcess(command, 22, b"403", b"The requested URL returned error: 403")
+            self.assertIn("codeload.github.com", url)
+            path.write_bytes(archive.getvalue())
+            return updater.subprocess.CompletedProcess(command, 0, b"200", b"")
+
+        with patch.object(updater.subprocess, "run", side_effect=fake_curl):
+            checked = updater.check_release("fork")
+        self.assertEqual(checked.release.asset.tag, "build-150")
+        self.assertFalse(checked.cached)
+        self.assertIn("归档", checked.release.source)
+        self.assertIn("TLS 握手失败", checked.details)
+        self.assertIn("次数已用完", checked.details)
+        self.assertNotIn("schannel", checked.details)
+
+    def test_offline_check_reuses_known_version_and_fresh_install_can_probe(self):
+        release = updater.Release(updater.Asset("build-150", 1000, "a" * 64))
+        with patch.object(updater, "read_url", side_effect=updater.TransferError(28, b"timed out")):
+            offline = updater.check_release("fork", release)
+            with self.assertRaises(updater.UpdateError) as unknown:
+                updater.check_release("fork")
+        self.assertTrue(offline.cached)
+        self.assertEqual(offline.release.asset, release.asset)
+        self.assertIn("超时", offline.details)
+        self.assertIn("可先测速", str(unknown.exception))
+        routes = updater.nodes(None, "https://mirror.example/{tag}/{asset}\nhttps://backup.example/{url}")
+        self.assertEqual(len(routes), len(updater.DOWNLOAD_ROUTES) + 1)
+        self.assertTrue(all("/releases/latest/download/" in node.url for node in routes))
+
+    def test_catalog_routes_retry_on_digest_mismatch(self):
+        contents = b"verified catalog"
+        digest = hashlib.sha256(contents).hexdigest()
+        release = updater.Release(updater.Asset("build-150", 1000, "a" * 64),
+                                  updater.Catalog(f"build-150-{digest[:12]}.qm", digest))
+
+        def fake_fetch(url, path, **_kwargs):
+            path.write_bytes(contents if "cdn.jsdelivr.net" in url else b"wrong catalog")
+
+        with TemporaryDirectory() as tmp, patch.object(updater, "fetch", side_effect=fake_fetch) as fetch:
+            root = Path(tmp)
+            updater.install_catalog(root, release)
+            self.assertEqual(updater.runtime_catalog(root, release).read_bytes(), contents)
+            self.assertEqual(fetch.call_count, 2)
+
     def test_bad_archive_never_writes_outside_stage(self):
         for invalid in ("../escape.txt", "sub/../../escape.txt", "User/config/test.ini",
                         "C:/file", "sub/file:stream", "sub/COM1.txt", "sub/file."):

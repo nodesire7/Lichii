@@ -2,8 +2,9 @@
 """Fetch verified upstream releases and install them beside the original emulator."""
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 import hashlib
+from io import BytesIO
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -13,15 +14,28 @@ import stat
 import subprocess
 import tempfile
 from threading import Event
-import time
 from urllib.parse import urlsplit
 import zipfile
+
+from network_errors import describe_curl_error, describe_io_error
 
 UPSTREAM = "zortos293/Lichii"
 FORK = "nodesire7/Lichii"
 API = f"https://api.github.com/repos/{UPSTREAM}"
 FEED = f"https://raw.githubusercontent.com/{FORK}/afei-feed"
+FEED_ARCHIVE = f"https://codeload.github.com/{FORK}/zip/refs/heads/afei-feed"
+CATALOG_CDNS = ("cdn.jsdelivr.net", "fastly.jsdelivr.net")
 ASSET_NAME = "lichii-windows-x86_64.zip"
+LATEST_ASSET_URL = f"https://github.com/{UPSTREAM}/releases/latest/download/{ASSET_NAME}"
+DOWNLOAD_ROUTES = (
+    ("GitHub 官方", ""),
+    ("GH-Proxy CDN", "https://gh-proxy.org/"),
+    ("GH-Proxy 备用", "https://gh-proxy.com/"),
+    ("GHProxy.net", "https://ghproxy.net/"),
+    ("GHFile 代理", "https://ghfile.geekertao.top/"),
+    ("IMCiel 代理", "https://ghproxy.imciel.com/"),
+    ("GHFast 代理", "https://ghfast.top/"),
+)
 SAMPLE_BYTES = 256 * 1024
 MIB = 1024 * 1024
 FLAGS = getattr(subprocess, "CREATE_NO_WINDOW", 0)
@@ -29,11 +43,20 @@ CURL = str(Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "cur
 
 
 class UpdateError(Exception):
-    pass
+    def __init__(self, message, details=""):
+        super().__init__(message)
+        self.details = details
 
 
 class Cancelled(UpdateError):
     pass
+
+
+class TransferError(UpdateError):
+    def __init__(self, code, stderr, http_status=0):
+        super().__init__(describe_curl_error(code, stderr, http_status))
+        self.code = code
+        self.http_status = http_status
 
 
 @dataclass(frozen=True)
@@ -89,6 +112,13 @@ class Release:
 
 
 @dataclass(frozen=True)
+class ReleaseCheck:
+    release: Release
+    cached: bool = False
+    details: str = ""
+
+
+@dataclass(frozen=True)
 class Node:
     name: str
     url: str
@@ -103,17 +133,27 @@ class Sample:
 
 
 def nodes(asset, custom=""):
-    values = [
-        Node("GitHub 官方", asset.url),
-        Node("GH-Proxy CDN", f"https://gh-proxy.org/{asset.url}"),
-        Node("GHFast 代理", f"https://ghfast.top/{asset.url}"),
-    ]
-    if custom.strip():
-        url = custom.strip().replace("{tag}", asset.tag).replace("{asset}", ASSET_NAME).replace("{url}", asset.url)
-        parsed = urlsplit(url)
-        if parsed.scheme != "https" or not parsed.hostname or parsed.username or "{" in url or "}" in url:
-            raise UpdateError("自定义节点必须是 HTTPS 地址，可用 {tag}、{asset}、{url}。")
-        values.append(Node("自定义 CDN / 代理", url))
+    upstream_url = asset.url if asset else LATEST_ASSET_URL
+    values = [Node(name, prefix + upstream_url) for name, prefix in DOWNLOAD_ROUTES]
+    seen = {node.url for node in values}
+    for number, line in enumerate(custom.splitlines(), 1):
+        template = line.strip()
+        if not template or (not asset and "{tag}" in template):
+            continue
+        url = template.replace("{asset}", ASSET_NAME).replace("{url}", upstream_url)
+        if asset:
+            url = url.replace("{tag}", asset.tag)
+        try:
+            parsed = urlsplit(url)
+            valid = (parsed.scheme == "https" and parsed.hostname and parsed.username is None
+                     and parsed.password is None and not parsed.fragment and not re.search(r"[\s{}]", url))
+        except ValueError:
+            valid = False
+        if not valid:
+            raise UpdateError(f"第 {number} 行自定义线路无效。请输入 HTTPS 地址，可用 {{tag}}、{{asset}}、{{url}}。")
+        if url not in seen:
+            values.append(Node(f"自定义线路 {number}", url))
+            seen.add(url)
     return values
 
 
@@ -128,16 +168,31 @@ def curl_args(url, path, timeout, limit):
 
 def fetch(url, path, *, timeout=15, limit=2 * MIB, extra=()):
     args = curl_args(url, path, timeout, limit)
-    result = subprocess.run(args + list(extra), capture_output=True, creationflags=FLAGS)
+    api_request = urlsplit(url).hostname == "api.github.com"
+    headers = path.with_suffix(".headers")
+    if api_request:
+        args += ["--dump-header", str(headers)]
+    if "--write-out" not in extra:
+        args += ["--write-out", "%{http_code}"]
+    try:
+        result = subprocess.run(args + list(extra), capture_output=True, creationflags=FLAGS)
+    except FileNotFoundError as exc:
+        raise UpdateError("找不到 Windows 的 curl 下载组件。请检查系统文件后重试。") from exc
     if result.returncode:
-        raise UpdateError(result.stderr.decode("utf-8", "replace").strip() or "连接失败。")
+        match = re.match(rb"^([0-9]{3})(?:\s|$)", result.stdout)
+        status = int(match[1]) if match else 0
+        if api_request and status in (403, 429) and headers.is_file():
+            blocks = re.split(rb"\r?\n\r?\n", headers.read_bytes().strip())
+            if re.search(rb"(?im)^x-ratelimit-remaining:\s*0\s*$", blocks[-1]):
+                raise UpdateError("GitHub 更新接口的请求次数已用完。可稍后重试或切换网络。")
+        raise TransferError(result.returncode, result.stderr, status)
     return result.stdout
 
 
-def read_url(url, limit=2 * MIB):
+def read_url(url, limit=2 * MIB, timeout=10):
     with tempfile.TemporaryDirectory() as temp:
         target = Path(temp) / "response"
-        fetch(url, target, limit=limit)
+        fetch(url, target, limit=limit, timeout=timeout)
         data = target.read_bytes()
         if len(data) > limit:
             raise UpdateError("响应超过允许大小。")
@@ -166,17 +221,63 @@ def from_feed(data):
     return Release(Asset(**data["asset"]), Catalog(**data["catalog"]), "作者仓库 · 同步汉化")
 
 
-def check_release(channel):
-    sources = {"fork": FEED + "/manifest.json", "official": API + "/releases/latest"}
-    order = (channel, "official" if channel == "fork" else "fork")
+def feed_archive_file(filename, limit):
+    data = read_url(FEED_ARCHIVE, limit=24 * MIB, timeout=15)
+    try:
+        with zipfile.ZipFile(BytesIO(data)) as archive:
+            entry = archive.getinfo(f"Lichii-afei-feed/{filename}")
+            if entry.is_dir() or entry.file_size > limit:
+                raise UpdateError("作者归档中的文件大小异常。")
+            return archive.read(entry)
+    except (KeyError, zipfile.BadZipFile, RuntimeError) as exc:
+        raise UpdateError("作者归档中没有有效的更新数据。") from exc
+
+
+def saved_release(data):
+    return Release(Asset(**data["asset"]), Catalog(**data["catalog"]) if data.get("catalog") else None)
+
+
+def best_known_release(releases):
+    return max((release for release in releases if release),
+               key=lambda release: (release.asset.version, bool(release.catalog)), default=None)
+
+
+def check_release(channel, known=None):
+    def author():
+        return from_feed(json.loads(read_url(FEED + "/manifest.json")))
+
+    def official():
+        return Release(official_asset(json.loads(read_url(API + "/releases/latest"))))
+
     errors = []
-    for key in order:
+
+    def read(name, operation):
         try:
-            data = json.loads(read_url(sources[key]))
-            return from_feed(data) if key == "fork" else Release(official_asset(data))
-        except (ValueError, KeyError, TypeError, OSError, UpdateError) as exc:
-            errors.append(f"{'作者仓库' if key == 'fork' else '上游官方'}：{exc}")
-    raise UpdateError("无法检查更新。\n" + "\n".join(errors))
+            return operation()
+        except (UpdateError, OSError, ValueError, KeyError, TypeError) as exc:
+            reason = (str(exc) if isinstance(exc, UpdateError) else describe_io_error(exc)
+                      if isinstance(exc, OSError) else "收到的版本清单格式无效。")
+            errors.append(f"{name}：{reason}")
+            return None
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        pending_official = pool.submit(read, "上游官方接口", official)
+        from_author = read("作者仓库直连", author)
+        from_official = pending_official.result()
+    if not from_author and (channel == "fork" or not from_official):
+        from_author = read("作者仓库归档", lambda: replace(
+            from_feed(json.loads(feed_archive_file("manifest.json", 2 * MIB))),
+            source="作者仓库归档 · 同步汉化"))
+    candidates = (from_author, from_official) if channel == "fork" else (from_official, from_author)
+    current = max((release for release in candidates if release),
+                  key=lambda release: release.asset.version, default=None)
+    if current and (not known or current.asset.version >= known.asset.version):
+        return ReleaseCheck(current, details="\n".join(errors))
+    if known:
+        if current:
+            errors.append(f"线上清单只提供 {current.asset.tag}，本机已有较新的 {known.asset.tag} 记录。")
+        return ReleaseCheck(replace(known, source="本机发布记录"), True, "\n".join(errors))
+    raise UpdateError("暂时无法确认最新版本。可先测速，或换网络后重新检查更新。", "\n".join(errors))
 
 
 def probe(node):
@@ -190,15 +291,27 @@ def probe(node):
             ).decode("ascii").split()
             with sample.open("rb") as file:
                 magic = file.read(4)
+            if info[0] == "200" and magic == b"PK\x03\x04":
+                raise UpdateError("不支持分段测速。下载时仍可尝试此线路。")
             if info[0] != "206" or sample.stat().st_size != SAMPLE_BYTES or magic != b"PK\x03\x04":
-                raise UpdateError("节点未返回可用的 ZIP 分段。")
+                raise UpdateError("没有返回有效的安装包分段。可换一条线路后重试。")
             return Sample(node, float(info[1]), float(info[2]))
-    except (UpdateError, OSError, ValueError, IndexError) as exc:
+    except TransferError as exc:
+        if exc.code in (33, 63) and exc.http_status in (0, 200):
+            return Sample(node, error="不支持分段测速。下载时仍可尝试此线路。")
         return Sample(node, error=str(exc))
+    except UpdateError as exc:
+        return Sample(node, error=str(exc))
+    except OSError as exc:
+        return Sample(node, error=describe_io_error(exc))
+    except (ValueError, IndexError):
+        return Sample(node, error="测速响应不完整。可换一条线路后重试。")
 
 
 def measure(candidates, report=lambda *_: None):
-    with ThreadPoolExecutor(max_workers=len(candidates)) as pool:
+    if not candidates:
+        return []
+    with ThreadPoolExecutor(max_workers=min(len(candidates), 8)) as pool:
         jobs = [pool.submit(probe, node) for node in candidates]
         results = []
         for job in as_completed(jobs):
@@ -225,10 +338,25 @@ def install_catalog(runtime, release):
         return
     with tempfile.TemporaryDirectory(dir=runtime) as directory:
         part = Path(directory) / "catalog.qm"
-        fetch(release.catalog.url, part, limit=4 * MIB)
-        if sha256_file(part) != release.catalog.sha256:
-            raise UpdateError("中文词库 SHA-256 不匹配。请重新检查更新后再试。")
-        os.replace(part, catalog_path)
+        entry = f"catalogs/{release.catalog.name}"
+        routes = [("作者仓库直连", release.catalog.url), *(
+            (host, f"https://{host}/gh/{FORK}@afei-feed/{entry}") for host in CATALOG_CDNS
+        ), ("作者仓库归档", None)]
+        errors = []
+        for name, url in routes:
+            try:
+                part.unlink(missing_ok=True)
+                if url:
+                    fetch(url, part, timeout=10, limit=4 * MIB)
+                else:
+                    part.write_bytes(feed_archive_file(entry, 4 * MIB))
+                if sha256_file(part) != release.catalog.sha256:
+                    raise UpdateError("收到的词库与发布校验值不符。")
+                os.replace(part, catalog_path)
+                return
+            except UpdateError as exc:
+                errors.append(f"{name}：{exc}")
+        raise UpdateError("配套中文词库下载失败。可稍后重试补齐词库。", "\n".join(errors))
 
 
 def download(node, asset, path, report, cancel):
@@ -248,7 +376,7 @@ def download(node, asset, path, report, cancel):
                     process.wait()
             if process.returncode:
                 errors.seek(0)
-                raise UpdateError(errors.read(4096).decode("utf-8", "replace").strip() or "下载中断。")
+                raise TransferError(process.returncode, errors.read(4096))
     if path.stat().st_size != asset.size or sha256_file(path) != asset.sha256:
         raise UpdateError("安装包大小或 SHA-256 不匹配。")
 
@@ -305,6 +433,8 @@ def atomic_json(path, data):
 
 def install(release, candidates, root, report=lambda *_: None, cancel=None):
     cancel = cancel or Event()
+    if cancel.is_set():
+        raise Cancelled("已取消下载。")
     asset = release.asset
     root.mkdir(parents=True, exist_ok=True)
     target = root / asset.folder
@@ -312,7 +442,15 @@ def install(release, candidates, root, report=lambda *_: None, cancel=None):
         marker = target / "afei-build.json"
         if release.catalog or not marker.exists():
             report("status", "正在同步此版本的中文词库…")
-            install_catalog(target, release)
+            try:
+                install_catalog(target, release)
+            except UpdateError as exc:
+                if cancel.is_set():
+                    raise Cancelled("已取消安装。") from exc
+                if not marker.exists():
+                    atomic_json(marker, asdict(replace(release, catalog=None)))
+                report("catalog_warning", exc)
+                return target
             if cancel.is_set():
                 raise Cancelled("已取消安装。")
             atomic_json(marker, asdict(release))
@@ -333,19 +471,26 @@ def install(release, candidates, root, report=lambda *_: None, cancel=None):
             part.unlink(missing_ok=True)
             try:
                 download(node, asset, part, report, cancel)
+                report("downloaded", node)
                 break
             except Cancelled:
                 raise
             except (UpdateError, OSError) as exc:
-                errors.append(f"{node.name}：{exc}")
-                report("download_error", Sample(node, error=str(exc)))
+                message = str(exc) if isinstance(exc, UpdateError) else describe_io_error(exc)
+                errors.append(f"{node.name}：{message}")
+                report("download_error", Sample(node, error=message))
         else:
-            raise UpdateError("所有下载节点均失败。\n" + "\n".join(errors))
+            raise UpdateError(f"已尝试 {len(results)} 条线路，均未能完成下载。请换网络或在设置中添加线路后重试。",
+                              "\n".join(errors))
         report("status", "校验通过，正在安装到独立版本目录…")
         stage = base / "runtime"
         stage.mkdir()
         extract_runtime(part, stage, cancel)
-        install_catalog(stage, release)
+        try:
+            install_catalog(stage, release)
+        except UpdateError as exc:
+            release = replace(release, catalog=None)
+            report("catalog_warning", exc)
         if cancel.is_set():
             raise Cancelled("已取消安装。")
         atomic_json(stage / "afei-build.json", asdict(release))

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Chinese desktop launcher. The upstream executable is run as a separate process."""
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 import json
 import os
 from pathlib import Path
@@ -18,7 +18,7 @@ from PySide6.QtCore import QLockFile, QObject, QRunnable, QSettings, Qt, QThread
 from PySide6.QtGui import QColor, QDesktopServices, QFont, QIcon, QPalette
 from PySide6.QtWidgets import (
     QApplication, QComboBox, QDialog, QDialogButtonBox, QFileDialog, QFormLayout, QFrame,
-    QHeaderView, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QProgressBar, QPushButton,
+    QHeaderView, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPlainTextEdit, QProgressBar, QPushButton,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget,
 )
 
@@ -31,6 +31,7 @@ REPOSITORY = f"https://github.com/{updates.FORK}"
 ROOT = Path(os.environ.get("LOCALAPPDATA", Path.home())) / "Lichii-AFEI"
 RUNTIMES = ROOT / "runtimes"
 CUSTOM_QM = ROOT / "translation" / "zh_CN.qm"
+RELEASE_CACHE = ROOT / "release-cache.json"
 REPO_ICON = Path(__file__).resolve().parent.parent / "dist" / "lichii.ico"
 BINARY_ICON = Path(__file__).resolve().with_name("lichii.ico")
 FRITCHII_QM = Path(__file__).resolve().with_name("afei-fritchii-zh_CN.qm")
@@ -95,9 +96,8 @@ def installed_builds(original, root):
     for marker in root.glob("build-*/afei-build.json"):
         try:
             data = json.loads(marker.read_text(encoding="utf-8"))
-            asset = updates.Asset(**data["asset"])
-            catalog = updates.Catalog(**data["catalog"]) if data["catalog"] else None
-            release = updates.Release(asset, catalog)
+            release = updates.saved_release(data)
+            asset = release.asset
             if marker.parent.name == asset.folder and (marker.parent / "lichii.exe").is_file():
                 managed.append(Build(asset.tag + "  ·  上游 Windows 版", marker.parent, release))
         except (ValueError, KeyError, TypeError, OSError, updates.UpdateError):
@@ -226,7 +226,7 @@ def find_game(folder):
 
 class WorkerSignals(QObject):
     event = Signal(str, object)
-    done = Signal(object, str)
+    done = Signal(object, str, str)
 
 
 class Worker(QRunnable):
@@ -237,13 +237,20 @@ class Worker(QRunnable):
 
     def run(self):
         try:
-            self.signals.done.emit(self.fn(self.signals.event.emit), "")
-        except (updates.UpdateError, OSError, ValueError, zipfile.BadZipFile) as exc:
-            self.signals.done.emit(None, str(exc))
+            self.signals.done.emit(self.fn(self.signals.event.emit), "", "")
+        except updates.UpdateError as exc:
+            self.signals.done.emit(None, str(exc), exc.details)
+        except OSError as exc:
+            self.signals.done.emit(None, updates.describe_io_error(exc), "")
+        except zipfile.BadZipFile:
+            self.signals.done.emit(None, "安装包无法解压。请重新下载后再试。", "")
         except Exception:
-            with (ROOT / "launcher-error.log").open("a", encoding="utf-8") as log:
-                traceback.print_exc(file=log)
-            self.signals.done.emit(None, "启动器遇到意外错误。详情见 launcher-error.log。")
+            try:
+                with (ROOT / "launcher-error.log").open("a", encoding="utf-8") as log:
+                    traceback.print_exc(file=log)
+            except OSError:
+                pass
+            self.signals.done.emit(None, "更新任务遇到意外错误。请重试，或提供 launcher-error.log 供排查。", "")
 
 
 def label(text, role=""):
@@ -312,10 +319,11 @@ class Preferences(QDialog):
         self.channel.addItem("上游官方（内置简体中文）", "official")
         self.channel.setCurrentIndex(self.channel.findData(parent.channel))
         form.addRow("更新渠道", self.channel)
-        self.custom = QLineEdit(parent.custom)
-        self.custom.setAccessibleName("自定义下载节点")
-        self.custom.setPlaceholderText("https://mirror.example/{tag}/{asset}")
-        form.addRow("自定义节点", self.custom)
+        self.custom = QPlainTextEdit(parent.custom)
+        self.custom.setAccessibleName("自定义下载线路")
+        self.custom.setPlaceholderText("每行一个 HTTPS 地址\nhttps://mirror.example/{tag}/{asset}")
+        self.custom.setMaximumHeight(85)
+        form.addRow("自定义线路", self.custom)
         layout.addLayout(form)
         help_text = label("节点地址可用 {tag}、{asset} 或 {url}。游戏文件留空时只打开模拟器。", "muted")
         help_text.setWordWrap(True)
@@ -356,8 +364,8 @@ class Preferences(QDialog):
             self.message.setText("找不到游戏文件。请选择现有文件，或留空。")
             return
         try:
-            updates.nodes(updates.Asset("build-1", 1, "0" * 64), self.custom.text())
-        except (ValueError, updates.UpdateError) as exc:
+            updates.nodes(updates.Asset("build-1", 1, "0" * 64), self.custom.toPlainText())
+        except updates.UpdateError as exc:
             self.message.setText(str(exc))
             return
         self.accept()
@@ -376,13 +384,17 @@ class Launcher(QMainWindow):
         self.channel = self.settings.value("channel", "fork")
         if self.channel not in ("fork", "official"):
             self.channel = "fork"
-        self.custom = self.settings.value("custom", "")
+        self.custom = self.settings.value("custom", "", type=str)
         self.release = None
+        self.lookup = None
+        self.measure_only = False
+        self.details = ""
+        self.catalog_warning = ""
         self.busy = False
         self.cancel = Event()
         self.worker = None
         self.setWindowTitle("Lichii 中文启动器")
-        self.resize(750, 555)
+        self.resize(780, 670)
         self.setMinimumSize(680, 520)
         root = QWidget(objectName="surface")
         self.setCentralWidget(root)
@@ -421,7 +433,7 @@ class Launcher(QMainWindow):
         self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Fixed)
         self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Fixed)
         self.table.setColumnWidth(1, 125)
-        self.table.setColumnWidth(2, 182)
+        self.table.setColumnWidth(2, 250)
         self.table.verticalHeader().hide()
         self.table.verticalHeader().setDefaultSectionSize(30)
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
@@ -429,7 +441,7 @@ class Launcher(QMainWindow):
         self.table.setAlternatingRowColors(True)
         self.table.setToolTip("双击节点复制下载地址")
         self.table.cellDoubleClicked.connect(self.copy_node)
-        self.table.setMinimumHeight(126)
+        self.table.setMinimumHeight(152)
         layout.addWidget(self.table, 1)
 
         actions = QHBoxLayout()
@@ -454,7 +466,12 @@ class Launcher(QMainWindow):
         self.message.setWordWrap(True)
         self.message.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         self.message.setMaximumHeight(68)
-        layout.addWidget(self.message)
+        feedback = QHBoxLayout()
+        feedback.addWidget(self.message, 1)
+        self.details_button = button("查看详情", self.show_details)
+        self.details_button.hide()
+        feedback.addWidget(self.details_button, alignment=Qt.AlignmentFlag.AlignTop)
+        layout.addLayout(feedback)
         layout.addWidget(rule())
 
         footer = QLabel(
@@ -475,6 +492,27 @@ class Launcher(QMainWindow):
         self.message.setProperty("state", state)
         self.message.style().unpolish(self.message)
         self.message.style().polish(self.message)
+
+    def add_details(self, text):
+        if text:
+            self.details = "\n\n".join(filter(None, (self.details, text)))
+            self.details_button.show()
+
+    def show_details(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("更新线路详情")
+        dialog.resize(640, 320)
+        layout = QVBoxLayout(dialog)
+        details = QPlainTextEdit(self.details)
+        details.setReadOnly(True)
+        layout.addWidget(details)
+        actions = QHBoxLayout()
+        actions.addStretch()
+        actions.addWidget(button("复制详情", lambda: QApplication.clipboard().setText(self.details)))
+        actions.addWidget(button("关闭", dialog.accept))
+        layout.addLayout(actions)
+        apply_dark_titlebar(dialog)
+        dialog.exec()
 
     def refresh_builds(self):
         selected = self.settings.value("version", "")
@@ -509,29 +547,38 @@ class Launcher(QMainWindow):
         self.original = Path(dialog.path.text().strip())
         self.game = dialog.game.text().strip()
         self.channel = dialog.channel.currentData()
-        self.custom = dialog.custom.text().strip()
+        self.custom = dialog.custom.toPlainText().strip()
         for key, value in (("original", str(self.original)), ("game", self.game),
                            ("channel", self.channel), ("custom", self.custom)):
             self.settings.setValue(key, value)
         self.settings.sync()
         self.release = None
+        self.lookup = None
+        self.measure_only = False
         self.version_label.setText("尚未检查")
         self.refresh_builds()
         self.reset_nodes()
+        self.details = ""
+        self.details_button.hide()
         self.set_message("设置已保存。")
 
     def reset_nodes(self):
-        example = self.release.asset if self.release else updates.Asset("build-1", 1, "0" * 64)
-        candidates = updates.nodes(example, self.custom)
+        asset = self.release.asset if self.release else None
+        example = asset if asset or self.measure_only else updates.Asset("build-1", 1, "0" * 64)
+        try:
+            candidates = updates.nodes(example, self.custom)
+        except updates.UpdateError as exc:
+            candidates = updates.nodes(example)
+            self.set_message(str(exc), "error")
         self.table.setRowCount(len(candidates))
         for row, node in enumerate(candidates):
             item = QTableWidgetItem(node.name)
-            if self.release:
+            if asset or self.measure_only:
                 item.setData(Qt.ItemDataRole.UserRole, node.url)
                 item.setToolTip(node.url)
             self.table.setItem(row, 0, item)
             self.table.setItem(row, 1, QTableWidgetItem("—"))
-            self.table.setItem(row, 2, QTableWidgetItem("待测速" if self.release else "待检查"))
+            self.table.setItem(row, 2, QTableWidgetItem("待测速" if asset or self.measure_only else "待检查"))
 
     def copy_node(self, row, _column):
         url = self.table.item(row, 0).data(Qt.ItemDataRole.UserRole)
@@ -546,7 +593,8 @@ class Launcher(QMainWindow):
             if not override:
                 speed = f"{sample.rate / updates.MIB:.2f} MB/s" if not sample.error else "—"
                 self.table.item(row, 1).setText(speed)
-            status = override or ("抽样不可用" if sample.error else f"首包 {sample.latency * 1000:.0f} ms")
+            status = override or (sample.error.split("。", 1)[0] if sample.error
+                                  else f"首包 {sample.latency * 1000:.0f} ms")
             self.table.item(row, 2).setText(status)
             self.table.item(row, 2).setToolTip(sample.error or status)
             break
@@ -584,12 +632,20 @@ class Launcher(QMainWindow):
                 ctypes.windll.kernel32.SetDllDirectoryW(None)
             subprocess.Popen(command, cwd=build.directory, env=env, close_fds=True)
             self.set_message(f"已启动：{build.label}", "done")
-        except (OSError, subprocess.SubprocessError, updates.UpdateError) as exc:
+        except updates.UpdateError as exc:
             self.set_message(str(exc), "error")
+        except OSError as exc:
+            self.set_message(updates.describe_io_error(exc), "error")
+        except subprocess.SubprocessError:
+            self.set_message("无法启动模拟器。请关闭占用该程序的进程后重试。", "error")
 
     def run_job(self, operation):
         self.busy = True
         self.cancel.clear()
+        self.catalog_warning = ""
+        self.installed_before = False
+        self.details = ""
+        self.details_button.hide()
         for control in (self.play, self.versions, self.settings_button, self.check, self.speed, self.download):
             control.setEnabled(False)
         self.stop.setVisible(operation == "install")
@@ -597,18 +653,45 @@ class Launcher(QMainWindow):
         self.set_message("正在检查上游正式版…")
         self.bar.setRange(0, 0)
         channel, custom = self.channel, self.custom
-        known = None if operation == "check" else self.release
+        previous_lookup = self.lookup
+        known = None if operation == "check" else previous_lookup
+        original = self.original
 
         def run(report):
-            release = known or updates.check_release(channel)
-            report("release", release)
+            if known:
+                checked = known
+            else:
+                try:
+                    cached = updates.saved_release(json.loads(RELEASE_CACHE.read_text(encoding="utf-8")))
+                except (OSError, ValueError, TypeError, KeyError, updates.UpdateError):
+                    cached = None
+                local = [build.release for build in installed_builds(original, RUNTIMES)]
+                fallback = updates.best_known_release([cached, previous_lookup.release if previous_lookup else None, *local])
+                try:
+                    checked = updates.check_release(channel, fallback)
+                except updates.UpdateError as exc:
+                    if self.cancel.is_set():
+                        raise updates.Cancelled("已取消下载。") from exc
+                    if operation != "speed":
+                        raise
+                    report("measure_only", exc.details)
+                    report("status", "暂未取得发布清单，正在测试各线路的连通性和速度…")
+                    return updates.measure(updates.nodes(None, custom), report)
+                if not checked.cached:
+                    try:
+                        updates.atomic_json(RELEASE_CACHE, asdict(checked.release))
+                    except OSError as exc:
+                        report("details", f"无法保存发布记录。{updates.describe_io_error(exc)}")
+            release = checked.release
+            report("release", checked)
             candidates = updates.nodes(release.asset, custom)
             if operation == "speed":
                 report("status", "正在并行抽样测速…")
                 return updates.measure(candidates, report)
             if operation == "install":
+                report("installed_before", (RUNTIMES / release.asset.folder / "lichii.exe").is_file())
                 return updates.install(release, candidates, RUNTIMES, report, self.cancel)
-            return release
+            return checked
 
         self.worker = Worker(run)
         self.worker.signals.event.connect(self.event_received)
@@ -622,14 +705,33 @@ class Launcher(QMainWindow):
 
     def event_received(self, kind, value):
         if kind == "release":
-            self.release = value
-            self.version_label.setText(f"{value.asset.tag}  ·  {'同步汉化' if value.catalog else '上游官方'}")
-            self.version_label.setToolTip(value.source)
+            self.lookup = value
+            self.release = value.release
+            self.measure_only = False
+            source = "本机记录 · 最新未确认" if value.cached else value.release.source
+            self.version_label.setText(f"{value.release.asset.tag}  ·  {source}")
+            self.version_label.setToolTip(source)
             self.reset_nodes()
+            self.add_details(value.details)
+        elif kind == "measure_only":
+            self.measure_only = True
+            self.version_label.setText("仅测速 · 最新版本未确认")
+            self.version_label.setToolTip("查到可信发布清单后才能安装。")
+            self.reset_nodes()
+            self.add_details(value)
         elif kind == "sample":
             self.show_sample(value)
         elif kind == "download_error":
-            self.show_sample(value, "下载失败，尝试下一节点")
+            self.show_sample(value, "下载失败 · " + value.error.split("。", 1)[0])
+        elif kind == "downloaded":
+            self.show_sample(updates.Sample(value), "下载完成 · 校验通过")
+        elif kind == "details":
+            self.add_details(value)
+        elif kind == "catalog_warning":
+            self.catalog_warning = str(value)
+            self.add_details(value.details)
+        elif kind == "installed_before":
+            self.installed_before = value
         elif kind == "progress" and not self.cancel.is_set():
             node, received, total = value
             self.bar.setRange(0, 100)
@@ -638,7 +740,7 @@ class Launcher(QMainWindow):
         elif kind == "status" and not self.cancel.is_set():
             self.set_message(value)
 
-    def job_finished(self, value, error):
+    def job_finished(self, value, error, details):
         self.worker = None
         self.busy = False
         self.stop.hide()
@@ -647,22 +749,36 @@ class Launcher(QMainWindow):
         self.bar.setRange(0, 100)
         self.bar.setValue(100 if isinstance(value, Path) and not error else 0)
         if error:
+            self.add_details(details)
             self.set_message(error, "" if self.cancel.is_set() else "error")
         elif isinstance(value, Path):
             self.refresh_builds()
-            self.set_message(f"{self.release.asset.tag} 已安装。可在上方选择该版本启动。", "done")
+            tag = self.release.asset.tag
+            if self.catalog_warning:
+                self.set_message(f"{tag} 已安装。{self.catalog_warning}", "error")
+            elif self.installed_before:
+                self.set_message(f"{tag} 已在本机，可直接启动。若要检查线路，请点击测速。", "done")
+            else:
+                self.set_message(f"{tag} 已安装。可在上方选择该版本启动。", "done")
         elif isinstance(value, list):
             best = next((sample for sample in value if not sample.error), None)
+            self.add_details("\n".join(f"{sample.node.name}：{sample.error}" for sample in value if sample.error))
             if best:
-                self.show_sample(best, "最快")
-                self.set_message(f"最快节点：{best.node.name}。下载时会重新测速。", "done")
+                self.show_sample(best, f"最快 · 首包 {best.latency * 1000:.0f} ms")
+                action = "下载前须先确认发布清单。" if self.measure_only else "下载时会重新测速。"
+                self.set_message(f"最快线路是 {best.node.name}。{action}", "done")
             else:
-                self.set_message("没有节点支持本次分段测速。下载时仍可逐个尝试。", "error")
-        elif isinstance(value, updates.Release):
-            installed = any(build.release and build.release.asset == value.asset
+                action = "请换网络后重新检查更新。" if self.measure_only else "仍可点击下载逐条尝试，或换网络重试。"
+                self.set_message(f"{len(value)} 条线路均未通过测速。{action}", "error")
+        elif isinstance(value, updates.ReleaseCheck):
+            release = value.release
+            if value.cached:
+                self.set_message(f"暂时无法确认最新版本。仍可使用本机记录对 {release.asset.tag} 测速或下载。")
+                return
+            installed = any(build.release and build.release.asset == release.asset
                             for build in installed_builds(self.original, RUNTIMES))
             status = "已安装，可点击下载补齐词库。" if installed else "可下载新版本。"
-            self.set_message(f"{value.asset.tag} · {status}", "done")
+            self.set_message(f"{release.asset.tag} {status}", "done")
 
     def closeEvent(self, event):
         if self.busy:

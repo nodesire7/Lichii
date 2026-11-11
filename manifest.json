@@ -2,18 +2,18 @@
   "schema": 1,
   "upstream": "zortos293/Lichii",
   "release_commit": "17baed716da04fd743fbd8f9604bec96eab0a123",
-  "revision": "6e9660021041ca9fab4e336da861128586e9396853795076effca8af784505d4",
+  "revision": "ee0d7fa064b75034d5195e5f69dc670236e0951dc35d17e36ba5ca0baa4111ba",
   "asset": {
     "tag": "build-150",
     "size": 91226322,
     "sha256": "773ebd792d127dc3e6c44c01440cc16bd340caf9b37f15ba875b33ba7e79ca7d"
   },
   "catalog": {
-    "name": "build-150-96befa0e8b51.qm",
-    "sha256": "96befa0e8b5181cce5b2a0767f3a460b246219f2d6168614e384f45c94954e9a"
+    "name": "build-150-49bc6b243040.qm",
+    "sha256": "49bc6b243040211135b1ef9ec01c51210a94d07fc5e2d72d427de89b7e3a5780"
   },
   "translation": {
-    "overrides_applied": 16,
+    "overrides_applied": 101,
     "needs_review": []
   }
 }

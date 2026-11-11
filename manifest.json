@@ -1,22 +1,47 @@
 {
   "schema": 1,
   "upstream": "zortos293/Lichii",
-  "release_commit": "17baed716da04fd743fbd8f9604bec96eab0a123",
+  "release_commit": "2eb5f081c8734affd272466f89133aa4e3e56e18",
   "revision": "77cb07a46cda12857414b9a9a43199e82c9467fd47b6abc6a053d3136e1969ad",
   "asset": {
-    "tag": "build-150",
-    "size": 91226322,
-    "sha256": "773ebd792d127dc3e6c44c01440cc16bd340caf9b37f15ba875b33ba7e79ca7d"
+    "tag": "build-160",
+    "size": 90057554,
+    "sha256": "215459edfbd9f6c542b4548cabf4c16d487feca8ce1003a1094f9beda5f02460"
   },
   "catalog": {
-    "name": "build-150-916c54b30acc.qm",
-    "sha256": "916c54b30accfe6e9ff54a1382831f570c8328e2174d95db5e81434c1c23814f"
+    "name": "build-160-904d63025934.qm",
+    "sha256": "904d63025934f14f474f550db0b49521b9649c6676ba4d86e72459808d3c984d"
   },
   "translation": {
-    "overrides_applied": 427,
-    "needs_review": [],
-    "source_entries": 2609,
-    "entries_with_catalog_text": 2583,
-    "entries_with_chinese_text": 2426
+    "overrides_applied": 421,
+    "needs_review": [
+      {
+        "context": "AboutDialog",
+        "source": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\nhr { height: 1px; border-width: 0; }\nli.unchecked::marker { content: \"\\2610\"; }\nli.checked::marker { content: \"\\2612\"; }\n</style></head><body style=\" font-family:'Noto Sans'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'MS Shell Dlg 2'; font-size:12pt;\">Lichii is an experimental open-source emulator for the Nintendo Switch 2, based on Eglantine and Eden. <br /><br />This software should not be used to play games you have not legally obtained.</span></p></body></html>"
+      },
+      {
+        "context": "AboutDialog",
+        "source": "<html><body><p><a href=\"https://github.com/zortos293/Eglantine\">Source Code</a> | <a href=\"https://github.com/zortos293/Eglantine/issues\">Report an Issue</a> | <a href=\"https://github.com/zortos293/Eglantine#credits-and-license\">Credits and License</a></p></body></html>"
+      },
+      {
+        "context": "NxTools",
+        "source": "NX Archive"
+      },
+      {
+        "context": "NxTools",
+        "source": "NX converter unavailable: Windows blocked nxformat.dll (Smart App Control or a code integrity policy). Error %1."
+      },
+      {
+        "context": "NxTools",
+        "source": "NX converter unavailable: could not load nxformat.dll. Error %1: %2"
+      },
+      {
+        "context": "NxTools",
+        "source": "No icon"
+      }
+    ],
+    "source_entries": 2640,
+    "entries_with_catalog_text": 2563,
+    "entries_with_chinese_text": 2411
   }
 }

@@ -78,5 +78,430 @@
     "context": "UpdateDialog",
     "source": "The new version is installed. The previous version is kept as %1.\n\nRestart now?",
     "translation": "新版本已安装，旧版本已保留为 %1。\n\n现在重启吗？"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Open &Lichii Folders",
+    "translation": "打开 Lichii 文件夹(&L)"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Am&iibo",
+    "translation": "Amiibo(&I)"
+  },
+  {
+    "context": "MainWindow",
+    "source": "&About Lichii",
+    "translation": "关于 Lichii(&A)"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Apply Recommended &Settings...",
+    "translation": "应用推荐设置(&S)…"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Restore My &Previous Settings",
+    "translation": "还原此前的设置(&P)"
+  },
+  {
+    "context": "MainWindow",
+    "source": "&Lichii Dependencies",
+    "translation": "Lichii 依赖组件(&L)"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Restore Previous Version...",
+    "translation": "还原上一版本…"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Restore Previous Version",
+    "translation": "还原上一版本"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Go back to the version this one replaced? Your settings and data are not changed.",
+    "translation": "要回到更新前的版本吗？设置和用户数据会保留。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Failed to restore",
+    "translation": "还原失败"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Could not restore the previous version: %1",
+    "translation": "无法还原上一版本：%1"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Not enough memory to start the game",
+    "translation": "内存不足，无法启动游戏"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Lichii could not allocate the game's memory. Close other applications and check that your system has enough available memory and paging-file space, then try again.",
+    "translation": "Lichii 无法分配游戏所需的内存。请关闭其他应用，确认系统有足够的可用内存和分页文件空间后重试。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Conversion in Progress",
+    "translation": "正在转换"
+  },
+  {
+    "context": "MainWindow",
+    "source": "This game cannot be started while its dump is being converted.",
+    "translation": "游戏文件正在转换，完成后即可启动。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shader Precache in Progress",
+    "translation": "正在预缓存着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Games cannot be started while the shader precache is being built. Wait for it to finish or cancel it.",
+    "translation": "着色器正在预缓存，请等待完成或取消后再启动游戏。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Preparing game files...",
+    "translation": "正在准备游戏文件…"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Unable to prepare game files",
+    "translation": "无法准备游戏文件"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Game preparation failed. See the log for details.",
+    "translation": "游戏准备失败，详情请查看日志。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Precache Shaders",
+    "translation": "预缓存着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Close the running game first.",
+    "translation": "请先关闭正在运行的游戏。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "This game is being converted. Try again when it is done.",
+    "translation": "此游戏正在转换，请在完成后重试。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Precache now",
+    "translation": "立即预缓存"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Start without",
+    "translation": "直接启动"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Delete Shader Precache",
+    "translation": "清理着色器预缓存"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shaders are being precached. Try again when it is done.",
+    "translation": "正在预缓存着色器，请在完成后重试。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Delete the shader precache files of this game? They are built again the next time the game is precached.",
+    "translation": "要清理此游戏的着色器预缓存吗？下次预缓存时将重新生成。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The files could not be deleted: %1",
+    "translation": "无法清理这些文件：%1"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Could not check for updates: GitHub rate limit reached. Lichii will try again at the next start.",
+    "translation": "GitHub 请求次数已达上限，Lichii 会在下次启动时再次检查。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Could not check for updates: GitHub answered with HTTP %1.",
+    "translation": "无法检查更新，GitHub 返回 HTTP %1。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Are you sure you want to close Lichii?",
+    "translation": "确定关闭 Lichii 吗？"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The currently running application has requested Lichii to not exit.\n\nWould you like to bypass this and exit anyway?",
+    "translation": "正在运行的应用请求 Lichii 保持运行。\n\n要强制退出吗？"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Building: %n shader(s)",
+    "translation": "正在编译 %n 个着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Auto",
+    "translation": "自动"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Quality",
+    "translation": "质量"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Balanced",
+    "translation": "平衡"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Performance",
+    "translation": "性能"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Ultra Performance",
+    "translation": "极致性能"
+  },
+  {
+    "context": "MainWindow",
+    "source": "NVIDIA default",
+    "translation": "NVIDIA 默认"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Optical Flow",
+    "translation": "光流"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Frame generation is off.",
+    "translation": "帧生成已关闭。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Frame generation needs the Vulkan renderer.",
+    "translation": "帧生成需要 Vulkan 渲染器。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "This build was compiled without frame generation.",
+    "translation": "此版本未包含帧生成功能。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "FG UNAVAILABLE",
+    "translation": "帧生成不可用"
+  },
+  {
+    "context": "MainWindow",
+    "source": "NO FG",
+    "translation": "帧生成关闭"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Docked",
+    "translation": "底座模式"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Handheld",
+    "translation": "掌机模式"
+  },
+  {
+    "context": "ConfigureDialog",
+    "source": "Lichii Configuration",
+    "translation": "Lichii 设置"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Loading...",
+    "translation": "正在加载…"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Launching...",
+    "translation": "正在启动…"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Estimated Time %1",
+    "translation": "预计剩余 %1"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Loading Shaders %1 / %2",
+    "translation": "正在加载着色器 %1 / %2"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Reading game files",
+    "translation": "正在读取游戏文件"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Extracting shaders",
+    "translation": "正在提取着色器"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Converting shaders",
+    "translation": "正在转换着色器"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Writing the precache file",
+    "translation": "正在写入预缓存文件"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Precache shaders: %1",
+    "translation": "预缓存着色器：%1"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Starting",
+    "translation": "正在启动"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Cancel",
+    "translation": "取消"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Stopping",
+    "translation": "正在停止"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Shader precache is ready.",
+    "translation": "着色器预缓存已就绪。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "This game keeps its shaders in a format Lichii can't read, so none are prepared from the game files.",
+    "translation": "Lichii 无法读取此游戏的着色器格式，因此没有从游戏文件生成预缓存。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "The game files have no compute shaders to prepare.",
+    "translation": "游戏文件中没有需要预缓存的计算着色器。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "The shaders your earlier play sessions saved are still precached.",
+    "translation": "此前游玩时生成的着色器预缓存仍然可用。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Compute programs: %L1",
+    "translation": "计算程序：%L1"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Skipped (could not be read or converted): %L1",
+    "translation": "已跳过无法读取或转换的项目：%L1"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "It is built on the loading screen when Precache shaders before game start is on.",
+    "translation": "启用「启动游戏前预缓存着色器」后，预缓存会在加载画面生成。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Shader precache stopped.",
+    "translation": "着色器预缓存已停止。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Shader precache could not be built.",
+    "translation": "无法生成着色器预缓存。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "No details were given.",
+    "translation": "未提供详细信息。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Close",
+    "translation": "关闭"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": " This release has no PGO build, so the standard build will be downloaded.",
+    "translation": " 此发行版没有 PGO 构建，将下载标准版。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Failed to restart",
+    "translation": "重启失败"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Please start %1 again yourself.",
+    "translation": "请手动重新启动 %1。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Could not start the update installer.",
+    "translation": "无法启动更新安装程序。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Another Lichii window is already updating this installation.",
+    "translation": "另一个 Lichii 窗口正在更新此安装。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Could not create a folder for the update.",
+    "translation": "无法创建更新目录。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Unpacking...",
+    "translation": "正在解压…"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "The downloaded update could not be unpacked.",
+    "translation": "无法解压已下载的更新。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Update Ready",
+    "translation": "更新已就绪"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Lichii will close, install the update and start again. The previous version is kept, and your settings and data are not changed.\n\nRestart now?",
+    "translation": "Lichii 将关闭、安装更新并重新启动。旧版本、设置和用户数据都会保留。\n\n现在重启吗？"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Downloading... (try %1 of %2)",
+    "translation": "正在下载（第 %1 次，共 %2 次）"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Download failed verification",
+    "translation": "下载文件校验失败"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "The downloaded file does not match the checksum GitHub published for it, so it was discarded. Try again later.",
+    "translation": "下载文件与 GitHub 公布的校验值不符，已丢弃。请稍后重试。"
   }
 ]

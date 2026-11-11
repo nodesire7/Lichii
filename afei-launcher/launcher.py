@@ -15,7 +15,7 @@ import traceback
 import zipfile
 
 from PySide6.QtCore import QLockFile, QObject, QRunnable, QSettings, Qt, QThreadPool, QTimer, QTranslator, QUrl, Signal
-from PySide6.QtGui import QDesktopServices, QFont, QIcon
+from PySide6.QtGui import QColor, QDesktopServices, QFont, QIcon, QPalette
 from PySide6.QtWidgets import (
     QApplication, QComboBox, QDialog, QDialogButtonBox, QFileDialog, QFormLayout, QFrame,
     QHeaderView, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QProgressBar, QPushButton,
@@ -33,37 +33,40 @@ RUNTIMES = ROOT / "runtimes"
 CUSTOM_QM = ROOT / "translation" / "zh_CN.qm"
 REPO_ICON = Path(__file__).resolve().parent.parent / "dist" / "lichii.ico"
 BINARY_ICON = Path(__file__).resolve().with_name("lichii.ico")
+FRITCHII_QM = Path(__file__).resolve().with_name("afei-fritchii-zh_CN.qm")
 GAME_EXTENSIONS = {".nup", ".xci", ".nsp", ".nro", ".nca", ".nsz", ".xcz"}
 
 STYLE = """
-QMainWindow, QDialog, QWidget#surface { background: #f3f5f1; color: #1d2d25; }
-QLabel { color: #1d2d25; }
+QMainWindow, QDialog, QWidget#surface { background: #111113; color: #ececf1; }
+QLabel { color: #ececf1; }
 QLabel#title { font-size: 27px; font-weight: 700; }
 QLabel#section { font-size: 16px; font-weight: 700; }
-QLabel#muted { color: #4b6254; }
-QLabel#message[state="error"] { color: #923a2c; }
-QLabel#message[state="done"] { color: #286041; }
+QLabel#muted { color: #b5b3c4; }
+QLabel#message[state="error"] { color: #ffb0b0; }
+QLabel#message[state="done"] { color: #b8ddc7; }
+QToolTip { background: #1f1f24; color: #ececf1; border: 1px solid #565365; padding: 5px; }
 QPushButton, QComboBox, QLineEdit {
-    background: #ffffff; color: #1d2d25; border: 1px solid #a6b5ac;
-    border-radius: 5px; padding: 7px 12px; min-height: 19px;
+    background: #1f1f24; color: #ececf1; border: 1px solid #565365;
+    border-radius: 8px; padding: 7px 12px; min-height: 19px;
 }
-QPushButton:hover, QComboBox:hover { background: #e9f0e9; border-color: #608172; }
-QPushButton:pressed { background: #dbe7df; }
-QPushButton:focus, QComboBox:focus, QLineEdit:focus { border: 1px solid #1b6347; }
-QLineEdit { placeholder-text-color: #4b6254; }
-QPushButton:disabled, QComboBox:disabled { background: #e8ece7; color: #6a776e; border-color: #c3cec5; }
-QPushButton#primary { background: #245c43; color: #fff; border-color: #245c43; font-weight: 700; }
-QPushButton#primary:hover { background: #2a7151; }
-QPushButton#primary:pressed { background: #1d4b37; }
-QPushButton#primary:focus { border: 2px solid #80ad95; padding: 6px 11px; }
-QPushButton#primary:disabled { background: #e2e9e2; color: #617268; border-color: #becbc1; }
-QFrame#rule { color: #cbd6ce; }
-QTableWidget { background: #fff; alternate-background-color: #f5f8f4; border: 1px solid #b9c7bd;
-    border-radius: 5px; color: #1d2d25; gridline-color: #e2e9e3; }
-QHeaderView::section { background: #e8eee8; color: #31483a; padding: 7px 9px; border: 0; }
+QPushButton:hover, QComboBox:hover { background: #28272f; border-color: #888297; }
+QPushButton:pressed { background: #322b45; }
+QPushButton:focus, QComboBox:focus, QLineEdit:focus { border: 1px solid #b59dfb; }
+QComboBox QAbstractItemView { background: #1b1b1f; color: #ececf1; selection-background-color: #3b2f58; }
+QLineEdit { placeholder-text-color: #b5b3c4; }
+QPushButton:disabled, QComboBox:disabled { background: #19191d; color: #a19dad; border-color: #363440; }
+QPushButton#primary { background: #a78bfa; color: #1c1433; border-color: #a78bfa; font-weight: 700; }
+QPushButton#primary:hover { background: #b59dfb; }
+QPushButton#primary:pressed { background: #9579e8; }
+QPushButton#primary:focus { border: 2px solid #e7dbff; padding: 6px 11px; }
+QPushButton#primary:disabled { background: #302641; color: #c0afd8; border-color: #544369; }
+QFrame#rule { color: #383541; }
+QTableWidget { background: #18181b; alternate-background-color: #1f1f24; border: 1px solid #3d3a47;
+    border-radius: 8px; color: #ececf1; gridline-color: #302d39; }
+QHeaderView::section { background: #24232a; color: #e3dff0; padding: 7px 9px; border: 0; }
 QTableWidget::item { padding-left: 8px; }
-QProgressBar { border: 0; border-radius: 3px; background: #dde7dd; min-height: 5px; max-height: 5px; }
-QProgressBar::chunk { background: #377b57; border-radius: 3px; }
+QProgressBar { border: 0; border-radius: 3px; background: #2a2635; min-height: 5px; max-height: 5px; }
+QProgressBar::chunk { background: #a78bfa; border-radius: 3px; }
 """
 
 
@@ -74,8 +77,12 @@ class Build:
     release: updates.Release | None = None
 
 
+def is_fritchii(directory):
+    return (directory / "user/config/frizti.ini").is_file()
+
+
 def installed_builds(original, root):
-    items = [Build("原有模拟器", original)]
+    items = [Build("原版 Fritchii" if is_fritchii(original) else "原有模拟器", original)]
     managed = []
     for marker in root.glob("build-*/afei-build.json"):
         try:
@@ -84,7 +91,7 @@ def installed_builds(original, root):
             catalog = updates.Catalog(**data["catalog"]) if data["catalog"] else None
             release = updates.Release(asset, catalog)
             if marker.parent.name == asset.folder and (marker.parent / "lichii.exe").is_file():
-                managed.append(Build(asset.tag + "  ·  上游 Windows x64", marker.parent, release))
+                managed.append(Build(asset.tag + "  ·  上游 Windows 版", marker.parent, release))
         except (ValueError, KeyError, TypeError, OSError, updates.UpdateError):
             continue
     return items + sorted(managed, key=lambda build: build.release.asset.version, reverse=True)
@@ -105,6 +112,16 @@ def language_for(build, custom_path):
         path = updates.runtime_catalog(build.directory, build.release)
         if valid_catalog(path):
             return path.resolve().as_posix()
+    if not build.release and is_fritchii(build.directory) and valid_catalog(FRITCHII_QM):
+        digest = updates.sha256_file(FRITCHII_QM)
+        path = custom_path.parent / "bundled" / f"fritchii-{digest[:12]}.qm"
+        if not path.is_file() or updates.sha256_file(path) != digest:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with tempfile.TemporaryDirectory(dir=path.parent) as staging:
+                staged = Path(staging) / path.name
+                shutil.copyfile(FRITCHII_QM, staged)
+                os.replace(staged, path)
+        return path.resolve().as_posix()
     return "zh_CN"
 
 
@@ -344,7 +361,7 @@ class Launcher(QMainWindow):
         release_row = QHBoxLayout()
         release_row.addWidget(label("上游更新", "section"))
         self.version_label = label("尚未检查", "muted")
-        self.version_label.setWordWrap(True)
+        self.version_label.setMinimumWidth(245)
         release_row.addWidget(self.version_label, 1, Qt.AlignmentFlag.AlignRight)
         layout.addLayout(release_row)
         self.table = QTableWidget(0, 3)
@@ -390,9 +407,9 @@ class Launcher(QMainWindow):
         layout.addWidget(rule())
 
         footer = QLabel(
-            f'启动器与汉化：<b>{AUTHOR}</b>　·　<a style="color:#245c43" href="{FORUM}">GBTGAME 论坛</a>　'
-            f'·　<a style="color:#245c43" href="{TELEGRAM}">Telegram</a>　'
-            f'·　<a style="color:#245c43" href="{REPOSITORY}">GitHub</a>'
+            f'启动器与汉化：<b>{AUTHOR}</b>　·　<a style="color:#c7b5ff" href="{FORUM}">GBTGAME 论坛</a>　'
+            f'·　<a style="color:#c7b5ff" href="{TELEGRAM}">Telegram 群组</a>　'
+            f'·　<a style="color:#c7b5ff" href="{REPOSITORY}">GitHub 仓库</a>'
         )
         footer.setOpenExternalLinks(True)
         footer.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse |
@@ -546,7 +563,8 @@ class Launcher(QMainWindow):
     def event_received(self, kind, value):
         if kind == "release":
             self.release = value
-            self.version_label.setText(f"{value.asset.tag}  ·  {value.source}")
+            self.version_label.setText(f"{value.asset.tag}  ·  {'同步汉化' if value.catalog else '上游官方'}")
+            self.version_label.setToolTip(value.source)
             self.reset_nodes()
         elif kind == "sample":
             self.show_sample(value)
@@ -600,6 +618,19 @@ def main():
     app.setApplicationName("Lichii 中文启动器")
     app.setStyle("Fusion")
     app.setFont(QFont("Microsoft YaHei UI", 10))
+    palette = app.palette()
+    for role, color in {
+        QPalette.ColorRole.Window: "#111113",
+        QPalette.ColorRole.Base: "#18181b",
+        QPalette.ColorRole.Button: "#1f1f24",
+        QPalette.ColorRole.WindowText: "#ececf1",
+        QPalette.ColorRole.Text: "#ececf1",
+        QPalette.ColorRole.ButtonText: "#ececf1",
+        QPalette.ColorRole.Highlight: "#3b2f58",
+        QPalette.ColorRole.HighlightedText: "#ececf1",
+    }.items():
+        palette.setColor(role, QColor(color))
+    app.setPalette(palette)
     app.setStyleSheet(STYLE)
     icon = BINARY_ICON if BINARY_ICON.is_file() else REPO_ICON
     if icon.is_file():

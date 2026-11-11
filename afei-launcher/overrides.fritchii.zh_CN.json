@@ -1,0 +1,422 @@
+[
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Library",
+    "translation": "游戏库"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Settings",
+    "translation": "设置"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Help",
+    "translation": "帮助"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Menu",
+    "translation": "菜单"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Game Settings...",
+    "translation": "游戏设置…"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Delete Shader Cache...",
+    "translation": "清理着色器缓存…"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Play",
+    "translation": "启动游戏"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Add your games",
+    "translation": "添加游戏"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Add Folder",
+    "translation": "添加文件夹"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "All games",
+    "translation": "全部游戏"
+  },
+  {
+    "context": "FritchiiUi::Home",
+    "source": "Add folder",
+    "translation": "添加文件夹"
+  },
+  {
+    "context": "FritchiiUi::PrecompileGate",
+    "source": "Preparing shaders %1%",
+    "translation": "正在准备着色器 %1%"
+  },
+  {
+    "context": "FritchiiUi::PrecompileGate",
+    "source": "Preparing shaders",
+    "translation": "正在准备着色器"
+  },
+  {
+    "context": "FritchiiUi::PrecompileGate",
+    "source": "This happens once, so %1 runs smoothly from the start.",
+    "translation": "首次启动需要准备着色器，让 %1 从一开始就能更流畅地运行。"
+  },
+  {
+    "context": "FritchiiUi::PrecompileGate",
+    "source": "Play now",
+    "translation": "立即进入游戏"
+  },
+  {
+    "context": "FritchiiUi::PrecompileGate",
+    "source": "Getting ready",
+    "translation": "正在准备"
+  },
+  {
+    "context": "FritchiiUi::PrecompileGate",
+    "source": "Less than a minute left",
+    "translation": "剩余不到一分钟"
+  },
+  {
+    "context": "FritchiiUi::PrecompileGate",
+    "source": "About %n min left",
+    "translation": "预计剩余 %n 分钟"
+  },
+  {
+    "context": "FritchiiUi::PrecompileGate",
+    "source": "About %1 h %2 min left",
+    "translation": "预计剩余 %1 小时 %2 分钟"
+  },
+  {
+    "context": "QObject",
+    "source": "GRAPHICS",
+    "translation": "图形"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Game",
+    "translation": "游戏(&G)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Ad&vanced",
+    "translation": "高级(&V)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Export Log...",
+    "translation": "导出日志(&E)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "What's &New",
+    "translation": "更新内容(&N)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Delete Shader Cache...",
+    "translation": "清理着色器缓存(&D)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Open &Recent",
+    "translation": "最近打开(&R)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Open &Folder",
+    "translation": "打开文件夹(&F)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Game &List",
+    "translation": "游戏列表(&L)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Icon Size",
+    "translation": "图标大小(&I)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Window Size",
+    "translation": "窗口大小(&W)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Create &Shortcut",
+    "translation": "创建快捷方式(&S)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Open Game...",
+    "translation": "打开游戏(&O)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Open &Extracted Game...",
+    "translation": "打开已解包的游戏(&E)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Install Update or DLC...",
+    "translation": "安装更新或 DLC(&I)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Settings...",
+    "translation": "设置(&S)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Game &Settings...",
+    "translation": "游戏设置(&S)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Data",
+    "translation": "用户数据(&D)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&NAND",
+    "translation": "NAND(&N)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&SD Card",
+    "translation": "SD 卡(&S)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Mods",
+    "translation": "模组(&M)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Open &Log Folder",
+    "translation": "打开日志目录(&L)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&List",
+    "translation": "列表(&L)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Grid",
+    "translation": "网格(&G)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Carousel",
+    "translation": "轮播(&C)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Show Game &Names",
+    "translation": "显示游戏名称(&N)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Performance Overlay",
+    "translation": "性能浮层(&P)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Status Bar",
+    "translation": "状态栏(&S)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Search &Bar",
+    "translation": "搜索栏(&B)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Single &Window",
+    "translation": "单窗口(&W)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Overlay Display Applet",
+    "translation": "浮层显示组件(&O)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Data Manager...",
+    "translation": "数据管理(&D)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "Take &Screenshot",
+    "translation": "截图(&S)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Load or Remove Amiibo...",
+    "translation": "加载或移除 Amiibo(&L)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "From &Folder...",
+    "translation": "从文件夹加载(&F)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "From &ZIP...",
+    "translation": "从 ZIP 加载(&Z)…"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&About Fritchii",
+    "translation": "关于 Fritchii(&A)"
+  },
+  {
+    "context": "FritchiiUi",
+    "source": "&Open-Source Components",
+    "translation": "开源组件(&O)"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Delete Shader Cache",
+    "translation": "清理着色器缓存"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Delete OoT's shader cache?",
+    "translation": "要清理《时之笛》的着色器缓存吗？"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Delete this game's shader cache?",
+    "translation": "要清理此游戏的着色器缓存吗？"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Only if the game crashes or looks wrong because of it. The shaders are prepared again on the next start.",
+    "translation": "着色器缓存引起崩溃或显示异常时可清理。下次启动会重新准备。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Prepare &Shaders Now",
+    "translation": "立即准备着色器(&S)"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shader Warm-up in Progress",
+    "translation": "正在预热着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Games cannot be started while the shader warm-up is being prepared. Wait for it to finish or cancel it.",
+    "translation": "正在预热着色器，请等待完成或取消后再启动游戏。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Prepare Shaders",
+    "translation": "准备着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Delete Shader Warm-up",
+    "translation": "清理着色器预热文件"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shaders are being prepared. Try again when it is done.",
+    "translation": "正在准备着色器，请在完成后重试。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Prepare Shaders Now",
+    "translation": "立即准备着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shaders are ready.",
+    "translation": "着色器已就绪。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Building compute shaders",
+    "translation": "正在编译计算着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Building graphics shaders",
+    "translation": "正在编译图形着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Building precompiled shaders",
+    "translation": "正在处理预编译着色器"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shader warm-up: compute %L1 / %L2",
+    "translation": "正在预热计算着色器：%L1 / %L2"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shader warm-up: compute %L1",
+    "translation": "正在预热计算着色器：%L1"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shader warm-up: graphics %L1 / %L2 (%3%)",
+    "translation": "正在预热图形着色器：%L1 / %L2（%3%）"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shader warm-up: graphics %L1",
+    "translation": "正在预热图形着色器：%L1"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Starting...",
+    "translation": "即将进入游戏…"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Almost ready...",
+    "translation": "即将就绪…"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Preparing shaders %1 / %2",
+    "translation": "正在准备着色器 %1 / %2"
+  },
+  {
+    "context": "ConfigureDialog",
+    "source": "Settings",
+    "translation": "设置"
+  },
+  {
+    "context": "ConfigureDialog",
+    "source": "Advanced",
+    "translation": "高级"
+  },
+  {
+    "context": "ConfigureDialog",
+    "source": "Interface",
+    "translation": "界面"
+  },
+  {
+    "context": "ConfigureDialog",
+    "source": "Shortcuts",
+    "translation": "快捷键"
+  },
+  {
+    "context": "ConfigureDialog",
+    "source": "Users",
+    "translation": "用户"
+  }
+]

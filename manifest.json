@@ -2,18 +2,21 @@
   "schema": 1,
   "upstream": "zortos293/Lichii",
   "release_commit": "17baed716da04fd743fbd8f9604bec96eab0a123",
-  "revision": "ee0d7fa064b75034d5195e5f69dc670236e0951dc35d17e36ba5ca0baa4111ba",
+  "revision": "d8709773efc32394d66f9d8e8a8b65bc8d6845bac089ab155cdd075ba9ba7872",
   "asset": {
     "tag": "build-150",
     "size": 91226322,
     "sha256": "773ebd792d127dc3e6c44c01440cc16bd340caf9b37f15ba875b33ba7e79ca7d"
   },
   "catalog": {
-    "name": "build-150-49bc6b243040.qm",
-    "sha256": "49bc6b243040211135b1ef9ec01c51210a94d07fc5e2d72d427de89b7e3a5780"
+    "name": "build-150-c97481c635d8.qm",
+    "sha256": "c97481c635d83fa4a619301e7e99d21e3b751acf4202019a83de272290075883"
   },
   "translation": {
-    "overrides_applied": 101,
-    "needs_review": []
+    "overrides_applied": 421,
+    "needs_review": [],
+    "source_entries": 2452,
+    "entries_with_catalog_text": 2423,
+    "entries_with_chinese_text": 2266
   }
 }

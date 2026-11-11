@@ -1,0 +1,582 @@
+[
+  {
+    "context": "AboutDialog",
+    "source": "About Fritchii",
+    "translation": "关于 Fritchii"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Uses NVIDIA DLSS on GeForce RTX cards in place of a Switch 2 game's own DLSS, instead of AMD FSR 3.1.\nNeeds NVIDIA's Streamline loader, and NVIDIA DLSS unless the NVIDIA app has downloaded it; Lichii does not ship NVIDIA's files. Use the download button below.\nFire Emblem: Fortune's Weave also needs EDEN_NX2_DLSS_REPLACEMENT=dlss. Without that override, its spatial workaround remains active.\nIn The Legend of Zelda: Ocarina of Time it replaces the game's upscaler at 1x resolution scale.\nTakes effect when a game starts.",
+    "translation": "在 GeForce RTX 显卡上使用 NVIDIA DLSS 替代 Switch 2 游戏内置的 DLSS，而非使用 AMD FSR 3.1。\n此功能需要 NVIDIA Streamline 加载器。若 NVIDIA 应用尚未下载 NVIDIA DLSS，也需下载它。Lichii 不附带这些 NVIDIA 文件，可用下方按钮下载。\n《火焰之纹章：万缕千丝》还需设置 EDEN_NX2_DLSS_REPLACEMENT=dlss，否则仍会使用空间放大的兼容方案。\n在《塞尔达传说：时之笛》中，此功能会在分辨率缩放为 1 倍时替代游戏内置的超分辨率方案。\n启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "How much of a Switch 2 compute shader's storage buffer is treated as written by the GPU after each dispatch.\nAuto marks what the shader's stores can reach and falls back to Full when that cannot be proven.\nFull marks the whole binding (up to 8 MiB), the original behaviour: it can delay the game's own writes to nearby memory (flickering effects) and copy far more data back from the GPU.\n64 KiB cap marks at most 64 KiB, which can miss data a large dispatch really wrote.",
+    "translation": "控制 Switch 2 计算着色器每次调度后，存储缓冲区有多少范围被视为由 GPU 写入。\n自动模式标记着色器写入可触及的范围，无法确定时则使用完整范围。\n完整模式沿用原有行为，标记整个绑定范围（最多 8 MiB）。这可能延迟游戏写入附近的内存（造成特效闪烁），并从 GPU 回读更多数据。\n64 KiB 上限模式最多标记 64 KiB，可能遗漏大规模调度实际写入的数据。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Shader libraries (faster first-time shader builds)",
+    "translation": "着色器库（加快首次编译）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Builds each shader stage once and links them into pipelines, so new shaders cause shorter stutters.\nUsed on NVIDIA and AMD GPUs. The graphics half of the shader warm-up (Prepare shaders in the game list) needs it.\nTakes effect after restarting the game.",
+    "translation": "每个着色器阶段只编译一次，再链接为管线，减少遇到新着色器时的卡顿。\n适用于 NVIDIA 和 AMD 显卡。预热图形着色器需要启用此项，可在游戏列表中选择「预热着色器」。\n重启游戏后生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Shader warm-up threads:",
+    "translation": "着色器预热线程数："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "CPU threads the shader warm-up uses (low priority). More threads finish the warm-up sooner. It builds only while the game is paused, or from Emulation, Prepare Shaders Now, when it shares the CPU with the game.\nTakes effect at the next game start.",
+    "translation": "着色器预热所用的低优先级 CPU 线程数。增加线程数可以缩短预热时间。预热仅在游戏暂停时进行，或通过「模拟 > 立即预热着色器」在游戏运行时使用 CPU。\n下次启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Ocarina of Time: 30 FPS mode (lower-end PCs)",
+    "translation": "《时之笛》30 帧模式（适合低配置电脑）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Caps Ocarina of Time at 30 FPS. The game keeps its normal speed. Takes effect at once; the 60 FPS / 30 FPS button in the status bar switches it too.",
+    "translation": "将《时之笛》的帧率限制为每秒 30 帧，游戏仍以正常速度运行。立即生效，也可以通过状态栏的「60 帧 / 30 帧」按钮切换。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "64 KiB cap",
+    "translation": "上限 64 KiB"
+  },
+  {
+    "context": "ConfigureDialog",
+    "source": "Some settings can't change while a game runs.",
+    "translation": "游戏运行时，部分设置无法更改。"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Game Settings",
+    "translation": "游戏设置"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Advanced Graphics",
+    "translation": "高级图形设置"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Graphics Extras",
+    "translation": "附加图形设置"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Controls",
+    "translation": "控制"
+  },
+  {
+    "context": "FritchiiUi::GameControls",
+    "source": "Pause",
+    "translation": "暂停"
+  },
+  {
+    "context": "FritchiiUi::GameControls",
+    "source": "Restart",
+    "translation": "重新启动"
+  },
+  {
+    "context": "FritchiiUi::GameControls",
+    "source": "Stop",
+    "translation": "停止"
+  },
+  {
+    "context": "FritchiiUi::GameControls",
+    "source": "Fullscreen",
+    "translation": "全屏"
+  },
+  {
+    "context": "FritchiiUi::GameControls",
+    "source": "Menu",
+    "translation": "菜单"
+  },
+  {
+    "context": "FritchiiUi::GameControls",
+    "source": "Continue",
+    "translation": "继续"
+  },
+  {
+    "context": "FritchiiUi::GameControls",
+    "source": "Leave fullscreen",
+    "translation": "退出全屏"
+  },
+  {
+    "context": "FritchiiUi::PerfOverlay",
+    "source": "fps",
+    "translation": "帧/秒"
+  },
+  {
+    "context": "FritchiiUi::PerfOverlay",
+    "source": "%1 ms",
+    "translation": "%1 毫秒"
+  },
+  {
+    "context": "FritchiiUi::PerfOverlay",
+    "source": "low %1",
+    "translation": "最低 %1"
+  },
+  {
+    "context": "GameList",
+    "source": "Rebuild shader warm-up",
+    "translation": "重新预热着色器"
+  },
+  {
+    "context": "GameList",
+    "source": "Prepare shaders (warm-up)",
+    "translation": "预热着色器"
+  },
+  {
+    "context": "GameList",
+    "source": "Delete shader warm-up",
+    "translation": "清理着色器预热文件"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Stop the game first.",
+    "translation": "请先停止游戏。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Delete",
+    "translation": "删除"
+  },
+  {
+    "context": "MainWindow",
+    "source": "the game",
+    "translation": "此游戏"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Ocarina of Time frame rate",
+    "translation": "《时之笛》帧率"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Which frame rate should Ocarina of Time run at?",
+    "translation": "要以多少帧运行《时之笛》？"
+  },
+  {
+    "context": "MainWindow",
+    "source": "60 FPS needs a fast, recent CPU.\n30 FPS is for lower-end PCs. The game keeps its normal speed either way.\n\nSwitch any time with the 60 FPS / 30 FPS button at the bottom of the window.",
+    "translation": "每秒 60 帧需要较新且性能较高的 CPU。\n每秒 30 帧适合低配置电脑。两种模式下，游戏均以正常速度运行。\n\n可随时点击窗口底部的「60 帧 / 30 帧」按钮切换。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "60 FPS",
+    "translation": "60 帧"
+  },
+  {
+    "context": "MainWindow",
+    "source": "30 FPS (lower-end PCs)",
+    "translation": "30 帧（适合低配置电脑）"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Shaders prepared ahead of time so the game stutters less when it first uses them.\nIt never slows the game down: it builds while the game is paused, or right away from Emulation > Prepare Shaders Now.",
+    "translation": "提前编译着色器，减少首次使用时的卡顿。\n预热默认在游戏暂停时运行。要立即预热，可选择「模拟 > 立即预热着色器」。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Ocarina of Time frame rate. Click to switch between 60 FPS and 30 FPS (lower-end PCs); it takes effect at once.",
+    "translation": "《时之笛》帧率。点击即可在每秒 60 帧和 30 帧（适合低配置电脑）之间切换，立即生效。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Check for Updates...",
+    "translation": "检查更新…"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Roll Back to the Previous Version...",
+    "translation": "还原上一版本…"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Recommended Mario Kart World settings",
+    "translation": "《马力欧卡丁车 世界》推荐设置"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Use the recommended settings for Mario Kart World?\n\nVulkan, 1x resolution, GPU Fast, asynchronous shaders, BC3, conservative VRAM, reactive flushing off, FIFO Relaxed VSync, handheld mode, ScaleForce, and FXAA.\n\nThey apply to Mario Kart World until Lichii is closed. Your saved settings are not changed.",
+    "translation": "要为《马力欧卡丁车 世界》使用推荐设置吗？\n\n推荐设置包括 Vulkan、1 倍分辨率、GPU 精度「快速」、异步着色器、BC3、保守显存策略、关闭响应式刷新、FIFO Relaxed 垂直同步、掌机模式、ScaleForce 和 FXAA。\n\n这些设置将用于《马力欧卡丁车 世界》，直到关闭 Lichii。已保存的设置会保留。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Export Log...",
+    "translation": "导出日志…"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Delete the shader warm-up files of this game? You can prepare them again at any time.",
+    "translation": "要清理此游戏的着色器预热文件吗？可以随时重新预热。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "This game has no shader warm-up left to build.\n\nTo make one, close the game, right-click it in the game list and choose Prepare shaders (warm-up). A warm-up that ran to the end runs again only after a driver update.",
+    "translation": "此游戏没有剩余着色器需要预热。\n\n要生成预热文件，请先关闭游戏，再右键点击游戏列表中的条目并选择「预热着色器」。完整预热后，只有更新显卡驱动程序才需再次预热。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Stop",
+    "translation": "停止"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The game keeps running and can stutter or slow down until this is done; pausing it makes this faster. Stop keeps what is built: the rest builds while the game is paused, or the next time you start this.",
+    "translation": "预热期间游戏继续运行，可能会卡顿或减速。暂停游戏可加快预热。停止时会保留已编译的着色器，其余着色器会在暂停游戏时或下次手动预热时继续编译。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Close",
+    "translation": "关闭"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Starting",
+    "translation": "正在启动"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Could not check for updates: GitHub rate limit reached. Fritchii will try again at the next start.",
+    "translation": "GitHub 请求次数已达上限。Fritchii 将在下次启动时重新检查。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Could not check for updates. Check your internet connection.",
+    "translation": "无法检查更新。请检查网络连接。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Check for Updates",
+    "translation": "检查更新"
+  },
+  {
+    "context": "MainWindow",
+    "source": "You have the latest version (%1 %2).",
+    "translation": "当前已是最新版本（%1 %2）。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "%1 is available. It will be offered when the game closes.",
+    "translation": "%1 已可下载。关闭游戏后会提示更新。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "(waits while you play)",
+    "translation": "（游玩时暂停预热）"
+  },
+  {
+    "context": "MainWindow",
+    "source": "30 FPS",
+    "translation": "30 帧"
+  },
+  {
+    "context": "QObject",
+    "source": "&Renderer",
+    "translation": "渲染器(&R)"
+  },
+  {
+    "context": "QObject",
+    "source": "GPU &Accuracy",
+    "translation": "GPU 精度(&A)"
+  },
+  {
+    "context": "QObject",
+    "source": "Upscaling &Filter",
+    "translation": "放大滤镜(&F)"
+  },
+  {
+    "context": "QObject",
+    "source": "Anti-&Aliasing",
+    "translation": "抗锯齿(&A)"
+  },
+  {
+    "context": "QObject",
+    "source": "&Effects",
+    "translation": "效果(&E)"
+  },
+  {
+    "context": "QObject",
+    "source": "Off",
+    "translation": "关闭"
+  },
+  {
+    "context": "QObject",
+    "source": "Configure Effects...",
+    "translation": "效果设置…"
+  },
+  {
+    "context": "QObject",
+    "source": "More Settings...",
+    "translation": "更多设置…"
+  },
+  {
+    "context": "QObject",
+    "source": "What's New",
+    "translation": "更新内容"
+  },
+  {
+    "context": "QObject",
+    "source": "What's new in %1",
+    "translation": "%1 的更新内容"
+  },
+  {
+    "context": "QObject",
+    "source": "No notes for this version yet.",
+    "translation": "此版本暂无更新说明。"
+  },
+  {
+    "context": "QObject",
+    "source": "Got it",
+    "translation": "知道了"
+  },
+  {
+    "context": "QObject",
+    "source": "Export Log",
+    "translation": "导出日志"
+  },
+  {
+    "context": "QObject",
+    "source": "Zip file (*.zip)",
+    "translation": "ZIP 文件 (*.zip)"
+  },
+  {
+    "context": "QObject",
+    "source": "the log of this session",
+    "translation": "本次会话日志"
+  },
+  {
+    "context": "QObject",
+    "source": "the log of the session before",
+    "translation": "上次会话日志"
+  },
+  {
+    "context": "QObject",
+    "source": "Couldn't save the log to %1.\nTry another folder.",
+    "translation": "无法将日志保存到 %1。\n请换一个文件夹。"
+  },
+  {
+    "context": "QObject",
+    "source": "Log Exported",
+    "translation": "日志已导出"
+  },
+  {
+    "context": "QObject",
+    "source": "<b>Saved %1</b>",
+    "translation": "<b>已保存 %1</b>"
+  },
+  {
+    "context": "QObject",
+    "source": "Drag this file into your post in the Fritchii Discord issues, or send it to Frizti.<br><br>What's inside:<ul style='margin-left:-20px'><li>Your log from this session and the one before</li><li>Your Fritchii version and the settings that matter for support</li><li>A short summary of your PC: Windows version, CPU, graphics card and driver, RAM and screen</li></ul>Your Windows user name and PC name are removed. Nothing else from your PC is in it.",
+    "translation": "将此文件拖入你在 Fritchii Discord 问题频道发布的帖子，或发送给 Frizti。<br><br>文件包含：<ul style='margin-left:-20px'><li>本次和上次会话的日志</li><li>Fritchii 版本及排查问题所需的设置</li><li>电脑概况：Windows 版本、CPU、显卡和驱动程序、内存及屏幕</li></ul>文件已去除 Windows 用户名和电脑名称，仅包含上述信息。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Tip for NVIDIA GPUs: the compiled shaders are kept in the driver's shader cache. In the NVIDIA Control Panel, Manage 3D settings, set Shader Cache Size to 10 GB or Unlimited; a full cache throws them away and the warm-up has to run again.",
+    "translation": "NVIDIA 显卡提示：编译好的着色器保存在驱动程序的着色器缓存中。可在 NVIDIA 控制面板的「管理 3D 设置」中将「着色器缓存大小」设为 10 GB 或「无限制」。缓存已满时，驱动程序会淘汰着色器，需要重新预热。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Writing warm-up files",
+    "translation": "正在写入着色器预热文件"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Prepare shaders: %1",
+    "translation": "预热着色器：%1"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Shader warm-up is ready.",
+    "translation": "着色器预热文件已就绪。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Compute programs: %L1\nVertex programs: %L2\nFragment programs: %L3",
+    "translation": "计算程序：%L1\n顶点程序：%L2\n片元程序：%L3"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Next, start the game: the shaders are compiled for your GPU while the game is paused, or right away with Emulation > Prepare Shaders Now (a title screen is a good place). It never slows the game down on its own, and it is done once per driver version.",
+    "translation": "接下来请启动游戏。着色器会在游戏暂停时针对当前显卡进行编译。也可在游戏标题画面选择「模拟 > 立即预热着色器」立即编译。自动预热不会拖慢游戏，每个驱动版本只需完成一次。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "The graphics part also needs Shader libraries, in Configure, Graphics, Advanced.",
+    "translation": "预热图形着色器还需要启用「设置 > 图形 > 高级」中的「着色器库」。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Shader warm-up stopped.",
+    "translation": "着色器预热已停止。"
+  },
+  {
+    "context": "ShaderWarmDialog",
+    "source": "Shader warm-up could not be built.",
+    "translation": "无法生成着色器预热文件。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "the previous version",
+    "translation": "上一版本"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Update",
+    "translation": "更新"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "%1 is ready",
+    "translation": "%1 已就绪"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "%1 is available. You have Fritchii v%2.",
+    "translation": "%1 已可下载。当前版本为 Fritchii v%2。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Open Release Page",
+    "translation": "打开发行页面"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "This release has no published checksum, so it can't be installed automatically.",
+    "translation": "此版本未发布校验值，无法自动安装。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Install",
+    "translation": "安装"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Fritchii will download the update, install it and restart. Your settings, saves and keys are not changed.",
+    "translation": "Fritchii 将下载并安装更新，然后重新启动。设置、存档和密钥会保留。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Update Needs to Be Installed by Hand",
+    "translation": "需要手动安装更新"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Fritchii can't write to its folder (%1), so it can't update itself there. The update will be downloaded instead: unzip it and copy its contents over your Fritchii folder, or move Fritchii to a folder you can write to, such as Documents.",
+    "translation": "Fritchii 无法写入所在文件夹（%1），因此无法自动更新。更新包仍会下载。请解压后将内容复制到 Fritchii 文件夹，也可以将 Fritchii 移到有写入权限的文件夹，例如「文档」。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Successfully downloaded %1. Would you like to open its folder?",
+    "translation": "已成功下载 %1。要打开所在文件夹吗？"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Another Fritchii window is already updating this folder.",
+    "translation": "另一个 Fritchii 窗口正在更新此文件夹。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "An earlier update is unfinished. Start Fritchii again to finish it first.",
+    "translation": "先前的更新尚未完成。请重新启动 Fritchii 以完成更新。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Could not create %1: %2",
+    "translation": "无法创建 %1：%2"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "The downloaded update does not contain lichii.exe.",
+    "translation": "下载的更新包中没有 lichii.exe。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "%1 is installed.\n\nThe previous version is kept: Help > Roll Back to the Previous Version brings it back.",
+    "translation": "%1 已安装。\n\n上一版本已保留。可通过「帮助 > 还原上一版本」恢复。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Could not replace the files of this version (%1). Fritchii was not changed.",
+    "translation": "无法替换此版本的文件（%1）。Fritchii 保持原状。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "The update failed (%1) and some files could not be put back. Close Fritchii and start it again to restore the previous version. If it does not start, download the release again and unzip it over your Fritchii folder; your user data is not affected.",
+    "translation": "更新失败（%1），部分文件未能恢复。请关闭并重新启动 Fritchii 以还原上一版本。如果无法启动，请重新下载发行包并解压到 Fritchii 文件夹。用户数据会保留。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Could not download the update. Check your internet connection and try again.",
+    "translation": "无法下载更新。请检查网络连接后重试。"
+  },
+  {
+    "context": "Updater",
+    "source": "An update was interrupted, so the version it was replacing has been put back.",
+    "translation": "更新中断，已恢复更新前的版本。"
+  },
+  {
+    "context": "Updater",
+    "source": "Interrupted Update",
+    "translation": "更新中断"
+  },
+  {
+    "context": "Updater",
+    "source": "An update was interrupted and could not be undone (%1). Close every Fritchii window and start Fritchii again. If it keeps failing, download the release again and unzip it over your Fritchii folder; your user data is not affected.",
+    "translation": "更新中断且无法撤销（%1）。请关闭所有 Fritchii 窗口后重新启动。如果仍然失败，请重新下载发行包并解压到 Fritchii 文件夹。用户数据会保留。"
+  },
+  {
+    "context": "Updater",
+    "source": "Roll Back",
+    "translation": "还原"
+  },
+  {
+    "context": "Updater",
+    "source": "Fritchii can't write to its folder (%1).",
+    "translation": "Fritchii 无法写入所在文件夹（%1）。"
+  },
+  {
+    "context": "Updater",
+    "source": "Go back to %1? Fritchii will restart. Your settings, saves and keys are not changed, and you can switch back to this version the same way.",
+    "translation": "要还原到 %1 吗？Fritchii 将重新启动。设置、存档和密钥会保留，也可以用同样的方法切回当前版本。"
+  },
+  {
+    "context": "Updater",
+    "source": "Another Fritchii window is already updating this folder.",
+    "translation": "另一个 Fritchii 窗口正在更新此文件夹。"
+  },
+  {
+    "context": "Updater",
+    "source": "%1 is back. Help > Roll Back to the Previous Version switches to the newer version again.",
+    "translation": "已恢复 %1。可通过「帮助 > 还原上一版本」切回较新的版本。"
+  },
+  {
+    "context": "Updater",
+    "source": "Could not roll back (%1). Fritchii was not changed.",
+    "translation": "无法还原（%1）。Fritchii 保持原状。"
+  },
+  {
+    "context": "Updater",
+    "source": "Rolling back failed (%1) and some files could not be put back. Close Fritchii and start it again to restore this version.",
+    "translation": "还原失败（%1），部分文件未能恢复。请关闭并重新启动 Fritchii 以恢复此版本。"
+  },
+  {
+    "context": "Updater",
+    "source": "Failed to restart",
+    "translation": "重新启动失败"
+  },
+  {
+    "context": "Updater",
+    "source": "Please start Fritchii again yourself.",
+    "translation": "请手动重新启动 Fritchii。"
+  }
+]

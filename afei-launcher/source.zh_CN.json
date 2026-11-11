@@ -1,0 +1,1413 @@
+[
+  {
+    "context": "AboutDialog",
+    "source": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\nhr { height: 1px; border-width: 0; }\nli.unchecked::marker { content: \"\\2610\"; }\nli.checked::marker { content: \"\\2612\"; }\n</style></head><body style=\" font-family:'Noto Sans'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'MS Shell Dlg 2'; font-size:12pt;\">Lichii is an experimental open-source emulator for the Nintendo Switch 2, based on Eglantine and Eden. <br /><br />This software should not be used to play games you have not legally obtained.</span></p></body></html>",
+    "translation": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\nhr { height: 1px; border-width: 0; }\nli.unchecked::marker { content: \"\\2610\"; }\nli.checked::marker { content: \"\\2612\"; }\n</style></head><body style=\" font-family:'Noto Sans'; font-size:9pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'MS Shell Dlg 2'; font-size:12pt;\">Lichii 是一款基于 Eglantine 和 Eden 的实验性 Nintendo Switch 2 开源模拟器。 <br /><br />请仅使用本软件运行您合法取得的游戏。</span></p></body></html>"
+  },
+  {
+    "context": "AboutDialog",
+    "source": "<html><body><p><a href=\"https://github.com/zortos293/Eglantine\">Source Code</a> | <a href=\"https://github.com/zortos293/Eglantine/issues\">Report an Issue</a> | <a href=\"https://github.com/zortos293/Eglantine#credits-and-license\">Credits and License</a></p></body></html>",
+    "translation": "<html><body><p><a href=\"https://github.com/zortos293/Eglantine\">源代码</a> | <a href=\"https://github.com/zortos293/Eglantine/issues\">报告问题</a> | <a href=\"https://github.com/zortos293/Eglantine#credits-and-license\">致谢与许可证</a></p></body></html>"
+  },
+  {
+    "context": "AboutDialog",
+    "source": "<html><head/><body><p><span style=\" font-size:7pt;\">&quot;Nintendo Switch&quot; is a trademark of Nintendo. Lichii is not affiliated with Nintendo in any way.</span></p></body></html>",
+    "translation": "<html><head/><body><p><span style=\" font-size:7pt;\">“Nintendo Switch”是任天堂的商标。Lichii 与任天堂无关联。</span></p></body></html>"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "API:",
+    "translation": "图形 API："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Use the game's own DLSS",
+    "translation": "使用游戏自带的 DLSS"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Runs a Switch 2 game's own DLSS (its upscaling network, translated for this GPU) instead of AMD FSR 3.1 in its place.\nAMD FSR 3.1 still draws while the network is checked, when it can't run on this GPU, with resolution scaling, and for the rest of the session if its output fails Lichii's checks.\nTakes effect when a game starts.",
+    "translation": "在当前 GPU 上运行 Switch 2 游戏自带的 DLSS 超分辨率网络，代替 AMD FSR 3.1。\n检查网络期间、当前 GPU 无法运行网络时、使用分辨率缩放时，均使用 AMD FSR 3.1。如果输出未通过 Lichii 的检查，本次运行的剩余时间也会使用 AMD FSR 3.1。\n启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Frame rate limit (Switch 2):",
+    "translation": "帧率上限（Switch 2）："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Rate of the Switch 2 VSync event that games start their frames on (default 60 Hz).\nAbove 60 Hz most games run too fast; use it with a game patch that follows real time, such as \"FPS Unlock (built-in)\" for Ocarina of Time.\nTakes effect when a game starts.",
+    "translation": "控制 Switch 2 垂直同步事件的频率，游戏据此开始处理新的一帧，默认 60 Hz。\n超过 60 Hz 时，多数游戏会运行过快。请配合按实际时间运行的游戏补丁，例如《时之笛》的“解除帧率限制（内置）”。\n启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "RCAS Sharpness:",
+    "translation": "RCAS 锐化强度："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Strength of RCAS (AMD's contrast-adaptive sharpening) on the upscaler used in place of a game's DLSS (AMD FSR 3.1); 0% turns it off.\nAlso sets the sharpening of the AMD FSR 1 and SGSR window adapting filters.",
+    "translation": "设置代替游戏 DLSS 的 AMD FSR 3.1 超分辨率算法所用的 RCAS（AMD 对比度自适应锐化）强度。0% 表示关闭。\n此设置也控制 AMD FSR 1 和 SGSR 窗口缩放滤镜的锐化强度。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Use AMD FSR 3.1 upscaling in Ocarina of Time",
+    "translation": "在《时之笛》中使用 AMD FSR 3.1 超分辨率"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Replaces Ocarina of Time's native upscaler using scene depth and camera motion. Works on any supported Vulkan GPU. NVIDIA DLSS takes precedence when enabled and available. RCAS Sharpness controls sharpening. Takes effect when a game starts.",
+    "translation": "根据场景深度和相机运动替换《时之笛》原有的超分辨率算法。适用于支持 Vulkan 的 GPU。启用且可用时优先使用 NVIDIA DLSS。锐化强度由 RCAS 设置控制。启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Use AMD FSR 4 in place of FSR 3.1",
+    "translation": "使用 AMD FSR 4 代替 FSR 3.1"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Uses AMD's ML-based FSR 4 where FSR replaces a game's upscaler (Ocarina of Time with the setting above). Radeon RX 6000 or newer, or a Ryzen AI processor, with a current AMD driver.\nNeeds AMD's FidelityFX runtime, which Lichii downloads from AMD when you ask. The files are AMD's, under AMD's licence. Without them, or if FSR 4 can't run, FSR 3.1 is used. Takes effect when a game starts.",
+    "translation": "由 FSR 接管游戏超分辨率时，改用 AMD 基于机器学习的 FSR 4，例如启用上方设置后的《时之笛》。需要 Radeon RX 6000 或更新显卡，或 Ryzen AI 处理器，并安装新版 AMD 驱动。\n需使用 AMD FidelityFX 运行时。你可以让 Lichii 从 AMD 下载。文件归 AMD 所有，并遵循 AMD 的许可证。缺少文件或 FSR 4 无法运行时使用 FSR 3.1。启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Use NVIDIA DLSS in place of a game's DLSS (experimental)",
+    "translation": "使用 NVIDIA DLSS 替换游戏的 DLSS（实验性）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Uses NVIDIA DLSS on GeForce RTX cards in place of a Switch 2 game's own DLSS, instead of AMD FSR 3.1.\nNeeds NVIDIA's Streamline loader, and NVIDIA DLSS unless the NVIDIA app has downloaded it; Lichii does not ship NVIDIA's files. Use the download button below.\nFire Emblem: Fortune's Weave also needs EDEN_NX2_DLSS_REPLACEMENT=dlss. Without that override, its spatial workaround remains active.\nIn The Legend of Zelda: Ocarina of Time it replaces the game's upscaler at 1x resolution scale.\nThe window adapting filter (the FSR 1, Bilinear and similar button in the status bar) is separate and runs after DLSS. While DLSS runs, the status bar shows DLSS, its mode and its preset. If DLSS fails, it stays off until the game restarts and the log says why.\nTakes effect when a game starts.",
+    "translation": "在 GeForce RTX 显卡上以 NVIDIA DLSS 替代 Switch 2 游戏自带的 DLSS。\n需要 NVIDIA Streamline 加载器。若 NVIDIA 应用尚未下载 DLSS，也需要下载 NVIDIA DLSS。Lichii 不附带 NVIDIA 的文件，请使用下方的下载按钮。\n《火焰之纹章：万缕千丝》还需设置 EDEN_NX2_DLSS_REPLACEMENT=dlss，否则继续使用空间缩放替代方案。\n在《塞尔达传说：时之笛》中，1 倍分辨率下会替换游戏的超分辨率算法。\n状态栏中的 FSR 1、双线性等窗口缩放滤镜会在 DLSS 之后单独运行。DLSS 运行时，状态栏会显示 DLSS 及其模式和预设。DLSS 失败时会保持关闭，直至重启游戏，原因会记录在日志中。\n启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "NVIDIA DLSS quality:",
+    "translation": "NVIDIA DLSS 画质："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Applies only when a game uses its own DLSS.\nAutomatic selects a mode for the game's render/output sizes. Native (DLAA) applies anti-aliasing at the game's render resolution, then scales to its output; Ocarina's 1440p mode stays at 1440p instead of reconstructing to 4K.\nExplicit modes only apply when the game's render size is within NVIDIA's supported range; otherwise Automatic is used and the fallback is logged. This does not change the game's render resolution. Apply/OK updates it while playing.",
+    "translation": "仅在游戏使用自带的 DLSS 时生效。\n“自动”根据游戏的渲染分辨率和输出分辨率选择模式。“原生（DLAA）”在游戏渲染分辨率下进行抗锯齿，再缩放至游戏输出分辨率。《时之笛》的 1440p 模式会保持 1440p，不会重建为 4K。\n只有游戏的渲染分辨率处于 NVIDIA 支持的范围内时才采用手动选择的模式，否则回退到“自动”并记入日志。此设置不影响游戏渲染分辨率。游戏运行时，点击“应用”或“确定”即可更新。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "NVIDIA DLSS model preset:",
+    "translation": "NVIDIA DLSS 模型预设："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Applies only when a game uses its own DLSS.\nM (DLSS 4.5) is Lichii's default for every quality mode. NVIDIA recommends K for DLAA/Quality/Balanced, M for Performance, and L for Ultra Performance.\nL/M cost more on RTX 20/30 GPUs; consider K. J may reduce ghosting but flicker more. E/F are deprecated CNN models. NVIDIA default lets the runtime choose.\nL/M require DLSS 310.5 or newer; the download button provides 310.9.16. If Fire Emblem shows horizontal lines with L/M at 2x, try K. NVIDIA app overrides may supersede this choice. Apply/OK updates it while playing.",
+    "translation": "仅在游戏使用自带的 DLSS 时生效。\n所有画质模式默认使用 M（DLSS 4.5）。NVIDIA 建议 DLAA、质量和平衡模式用 K，性能模式用 M，极致性能模式用 L。\nL 和 M 在 RTX 20/30 系列上开销较大，可考虑使用 K。J 可能减少重影，但闪烁可能更明显。E 和 F 是已弃用的 CNN 模型。“NVIDIA 默认”由运行时决定。\nL 和 M 需要 DLSS 310.5 或更新版本，下载按钮提供 310.9.16。若《火焰之纹章》以 2 倍分辨率运行时使用 L 或 M 出现横线，请尝试 K。NVIDIA 应用的设置可能覆盖这里的选择。游戏运行时，点击“应用”或“确定”即可更新。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Ocarina of Time anti-aliasing:",
+    "translation": "《时之笛》抗锯齿："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "The Legend of Zelda: Ocarina of Time only.\nGame: the game's own anti-aliasing network, which sharpens heavily.\nNo sharpening: the image as the game renders it, without the network (faster; pairs well with a higher resolution). Has no effect while NVIDIA DLSS is on.\nTakes effect when the game starts.",
+    "translation": "仅适用于《塞尔达传说：时之笛》。\n“游戏内置”使用游戏自带的抗锯齿网络，锐化效果较强。\n“无锐化”直接使用游戏渲染的画面，速度更快，适合搭配较高分辨率。启用 NVIDIA DLSS 时，此选项不生效。\n启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "FPS Limit",
+    "translation": "帧率上限"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Caps how often the game presents, so the game itself runs at this rate. 0 leaves the frame rate to the game and the display.",
+    "translation": "限制游戏呈现画面的频率，使游戏以该帧率运行。设为 0 时，帧率由游戏和显示器决定。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Enable Frame Generation",
+    "translation": "启用帧生成"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Frame Generation Type",
+    "translation": "帧生成类型"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Frame Generation Multiplier",
+    "translation": "帧生成倍率"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Target Frame Rate",
+    "translation": "目标帧率"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Auto Flow Scale",
+    "translation": "自动调整光流比例"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Flow Scale",
+    "translation": "光流比例"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Queue Target",
+    "translation": "目标队列长度"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Dump Optical Flow",
+    "translation": "导出光流"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Native compute write mark:",
+    "translation": "原生计算着色器写入标记："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "How much of a Switch 2 compute shader's storage buffer is treated as written by the GPU after each dispatch.\nAuto marks what the shader's stores can reach and falls back to Full when that cannot be proven.\nFull marks the whole binding (up to 8 MiB), the original behaviour: it can delay the game's own writes to nearby memory (flickering effects) and copy far more data back from the GPU.",
+    "translation": "控制每次调度后，将 Switch 2 计算着色器存储缓冲区中的多大范围标记为 GPU 已写入。\n“自动”只标记着色器能写入的范围，无法确定时使用“完整绑定范围”。\n“完整绑定范围”沿用原行为，标记整个绑定范围（最多 8 MiB）。它可能延迟游戏对邻近内存的写入，造成特效闪烁，并大幅增加从 GPU 回读的数据。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Pin GPU threads to their own cores",
+    "translation": "将 GPU 线程绑定到专用核心"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Pins the emulator's GPU threads to dedicated physical CPU cores and keeps the emulated CPU cores off them.\nCan hurt performance on CPUs with few cores. Skipped on CPUs with fewer than 6 physical performance cores.\nWindows and Linux only. Takes effect when a game starts.",
+    "translation": "将模拟器的 GPU 线程绑定到专用物理 CPU 核心，并让模拟的 CPU 核心避开这些核心。\n在核心数较少的 CPU 上可能降低性能。物理性能核心少于 6 个时跳过。\n仅适用于 Windows 和 Linux。启动游戏时生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Precache shaders before game start:",
+    "translation": "启动游戏前预缓存着色器："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Builds shaders on the loading screen, on every CPU thread, so they don't stutter the first time the game uses them: the compute shaders found in the game files, and the shaders saved by earlier play sessions that the normal shader loading leaves for later. The first launch reads the game files and takes a few minutes; later launches only build what is new, until the GPU driver changes. The loading screen has a Skip button.\nAsk asks at launch while the game has never been precached.",
+    "translation": "在加载画面中用所有 CPU 线程构建着色器，包括从游戏文件中找到的计算着色器和此前运行时保存的、未在常规加载时处理的着色器，减少首次使用时的卡顿。首次启动会读取游戏文件，耗时数分钟。之后只构建新增内容，直到 GPU 驱动发生变化。可在加载画面选择跳过。\n选择“询问”时，游戏尚无预缓存才会在启动时弹出提示。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Switch 2 draws with unbuilt pipelines:",
+    "translation": "Switch 2 图形管线尚未构建时："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Only applies when asynchronous shader building is on. Decides what a Switch 2 draw does when its graphics pipeline is still building.\nWait stalls the GPU until the pipeline is ready (no missing effects, but long stalls on new content). Skip drops the draw, which can leave an effect missing for a few frames. Bounded waits up to the time below per frame, then skips. The EDEN_NX2_ASYNC_DISCARD=1 environment variable still forces Skip.",
+    "translation": "仅在启用异步着色器构建时生效。设置 Switch 2 绘制指令遇到尚在构建的图形管线时如何处理。\n“等待”会停住 GPU，直到管线就绪。这样不会丢失特效，但遇到新内容时可能长时间卡顿。“跳过”会丢弃该绘制指令，特效可能短暂缺失。“限时等待”会在每帧的时间预算内等待，超时则跳过。环境变量 EDEN_NX2_ASYNC_DISCARD=1 仍会强制跳过。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Pipeline wait per frame (ms):",
+    "translation": "每帧等待管线的时间上限（毫秒）："
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Used by the Bounded mode: the most time per frame that Switch 2 draws may wait in total for pipelines that are still building. Once spent, the remaining unbuilt draws of that frame are skipped.",
+    "translation": "用于“限时等待”。设置每帧中 Switch 2 的绘制指令等待尚在构建的管线的总时长上限。时间用完后，会跳过该帧余下尚无可用管线的绘制指令。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Mario Kart World: 30 FPS mode",
+    "translation": "《马力欧卡丁车 世界》：30 FPS 模式"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Forces the game to use its native 30 FPS mode at normal game speed. Takes effect after restarting the game.",
+    "translation": "强制以游戏原生的 30 FPS 模式和正常游戏速度运行。重启游戏后生效。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Mario Kart World: dynamic FPS (experimental)",
+    "translation": "《马力欧卡丁车 世界》：动态帧率（实验性）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Lets the game adjust between 30 and 60 FPS using whole-frame timing to maintain normal game speed. Takes effect after restarting the game and takes precedence over the 30 FPS mode.",
+    "translation": "让游戏依据整帧计时在 30 至 60 FPS 间调整，维持正常游戏速度。重启游戏后生效，优先于 30 FPS 模式。"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Automatic (game resolution)",
+    "translation": "自动（游戏分辨率）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Native (DLAA)",
+    "translation": "原生（DLAA）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Quality",
+    "translation": "质量"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Performance",
+    "translation": "性能"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Ultra Performance",
+    "translation": "极致性能"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "M (DLSS 4.5, default)",
+    "translation": "M（DLSS 4.5，默认）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "NVIDIA default",
+    "translation": "NVIDIA 默认"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "E (legacy CNN)",
+    "translation": "E（旧版 CNN）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "F (legacy CNN)",
+    "translation": "F（旧版 CNN）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Auto (shader extent)",
+    "translation": "自动（按着色器写入范围）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Full binding",
+    "translation": "完整绑定范围"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Optical Flow Interpolation (built-in)",
+    "translation": "光流插帧（内置）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "B-Spline",
+    "translation": "B 样条"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Spline-1",
+    "translation": "1 阶样条"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "AMD FidelityFX Super Resolution 1, softer sharpening",
+    "translation": "AMD FidelityFX 超分辨率 1（较柔和的锐化）"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Game",
+    "translation": "游戏内置"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "No sharpening",
+    "translation": "无锐化"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Off",
+    "translation": "关闭"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Ask",
+    "translation": "询问"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Wait",
+    "translation": "等待"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Bounded wait",
+    "translation": "限时等待"
+  },
+  {
+    "context": "ConfigurationShared",
+    "source": "Skip",
+    "translation": "跳过"
+  },
+  {
+    "context": "ConfigureDebug",
+    "source": "**This will be reset automatically when Lichii closes.",
+    "translation": "**关闭 Lichii 时会自动重置此项。"
+  },
+  {
+    "context": "ConfigureGraphicsExtensions",
+    "source": "Hacks",
+    "translation": "兼容性修正"
+  },
+  {
+    "context": "ConfigureInput",
+    "source": "Microphone",
+    "translation": "麦克风"
+  },
+  {
+    "context": "ConfigureInputAdvanced",
+    "source": "Requires restarting Lichii",
+    "translation": "重启 Lichii 后生效"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Preview a local icon next to the archive. Online lookup is optional. Apply or OK saves changes.",
+    "translation": "预览游戏归档旁的本地图标。可以选择联网查找。点击“应用”或“确定”保存更改。"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Detect Icon",
+    "translation": "查找图标"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Preview a local image as the game icon. Apply or OK saves changes.",
+    "translation": "将本地图片预览为游戏图标。点击“应用”或“确定”保存更改。"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Upload Icon...",
+    "translation": "选择图标…"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Allow online lookup",
+    "translation": "允许联网查找"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "If no local icon is found, send the game name to GitHub, Wikipedia and Bing to look for an icon. Disabled by default.",
+    "translation": "找不到本地图标时，将游戏名称发送给 GitHub、维基百科和必应以查找图标。默认关闭。"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Enter game name...",
+    "translation": "输入游戏名称…"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Edit the game name stored in the NUP metadata",
+    "translation": "编辑 NUP 元数据中记录的游戏名称"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Select Game Icon",
+    "translation": "选择游戏图标"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Images (*.png *.jpg *.jpeg *.bmp *.webp);;All Files (*)",
+    "translation": "图片 (*.png *.jpg *.jpeg *.bmp *.webp);;所有文件 (*)"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Invalid Image",
+    "translation": "无效图片"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Select a PNG, JPEG, BMP or WebP image up to 8 MiB, 8192 pixels per side and 16 megapixels.",
+    "translation": "请选择 PNG、JPEG、BMP 或 WebP 图片。文件最大 8 MiB，每边最多 8192 像素，且总像素数不超过 1600 万。"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Please enter a game name first so the icon can be detected.",
+    "translation": "请先输入游戏名称，再查找图标。"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "The game name is too long to search.",
+    "translation": "游戏名称过长，无法搜索。"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Detecting...",
+    "translation": "正在查找…"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Update NUP Metadata",
+    "translation": "更新 NUP 元数据"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Stop emulation before changing NUP metadata.",
+    "translation": "修改 NUP 元数据前，请先停止模拟。"
+  },
+  {
+    "context": "ConfigurePerGame",
+    "source": "Failed to update NUP metadata:\n%1",
+    "translation": "无法更新 NUP 元数据：\n%1"
+  },
+  {
+    "context": "ConfigureTouchscreenAdvanced",
+    "source": "Warning: The settings in this page affect the inner workings of Lichii's emulated touchscreen. Changing them may result in undesirable behavior, such as the touchscreen partially or not working. You should only use this page if you know what you are doing.",
+    "translation": "警告：此页设置会改变 Lichii 的触摸屏模拟行为，可能导致触摸屏部分或完全失效。请在了解选项含义后再修改。"
+  },
+  {
+    "context": "ConfigureUi",
+    "source": "<System>",
+    "translation": "<跟随系统>"
+  },
+  {
+    "context": "ConfigureWeb",
+    "source": "Lichii Web Service",
+    "translation": "Lichii 网络服务"
+  },
+  {
+    "context": "DepsDialog",
+    "source": "Lichii Dependencies",
+    "translation": "Lichii 依赖组件"
+  },
+  {
+    "context": "DepsDialog",
+    "source": "<html><head/><body><p><span style=\" font-size:28pt;\">Lichii Dependencies</span></p></body></html>",
+    "translation": "<html><head/><body><p><span style=\" font-size:28pt;\">Lichii 依赖组件</span></p></body></html>"
+  },
+  {
+    "context": "DepsDialog",
+    "source": "<html><head/><body><p>The projects that make Lichii possible</p></body></html>",
+    "translation": "<html><head/><body><p>Lichii 使用的开源项目</p></body></html>"
+  },
+  {
+    "context": "GRenderWindow",
+    "source": "Lichii has not been compiled with OpenGL support.",
+    "translation": "此 Lichii 构建未启用 OpenGL 支持。"
+  },
+  {
+    "context": "GameList",
+    "source": "Rebuild Shader Precache",
+    "translation": "重建着色器预缓存"
+  },
+  {
+    "context": "GameList",
+    "source": "Build Shader Precache",
+    "translation": "构建着色器预缓存"
+  },
+  {
+    "context": "GameList",
+    "source": "Delete Shader Precache",
+    "translation": "清理着色器预缓存"
+  },
+  {
+    "context": "GameList",
+    "source": "Dump NUP...",
+    "translation": "导出 NUP…"
+  },
+  {
+    "context": "GameList",
+    "source": "Convert to NUP...",
+    "translation": "转换为 NUP…"
+  },
+  {
+    "context": "GameList",
+    "source": "Convert to NX...",
+    "translation": "转换为 NX…"
+  },
+  {
+    "context": "GameList",
+    "source": "Manage NX Archive",
+    "translation": "管理 NX 归档"
+  },
+  {
+    "context": "GameList",
+    "source": "Add Update or DLC...",
+    "translation": "添加更新或 DLC…"
+  },
+  {
+    "context": "GameList",
+    "source": "Remove Update or DLC...",
+    "translation": "移除更新或 DLC…"
+  },
+  {
+    "context": "GameList",
+    "source": "Edit Title and Icon...",
+    "translation": "编辑标题和图标…"
+  },
+  {
+    "context": "GameList",
+    "source": "Edit NUP Metadata...",
+    "translation": "编辑 NUP 元数据…"
+  },
+  {
+    "context": "GameList",
+    "source": "Submit compatibility report…",
+    "translation": "提交兼容性报告…"
+  },
+  {
+    "context": "HostRoomWindow",
+    "source": "Failed to announce the room to the public lobby. In order to host a room publicly, you must have a valid Eden account configured in Emulation -> Configure -> Web. If you do not want to publish a room in the public lobby, then select Unlisted instead.\nDebug Message: ",
+    "translation": "无法向公开大厅发布房间。要公开发布，请在“模拟 → 配置 → 网络”中配置有效的 Eden 账户。若不希望公开房间，请选择“不公开”。\n调试消息："
+  },
+  {
+    "context": "Hotkeys",
+    "source": "Exit Lichii",
+    "translation": "退出 Lichii"
+  },
+  {
+    "context": "Hotkeys",
+    "source": "Exit Eglantine",
+    "translation": "退出 Eglantine"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Skip",
+    "translation": "跳过"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Start the game now. The shaders not precached yet are precached on a later launch.",
+    "translation": "立即启动游戏。尚未预缓存的着色器会在之后启动时处理。"
+  },
+  {
+    "context": "LoadingScreen",
+    "source": "Precaching shaders %1 / %2",
+    "translation": "正在预缓存着色器 %1 / %2"
+  },
+  {
+    "context": "MainWindow",
+    "source": "NVIDIA DLSS is upscaling the game, in the mode shown. The window adapting filter runs after it.",
+    "translation": "NVIDIA DLSS 正以显示的模式对游戏进行超分辨率处理。之后会运行窗口缩放滤镜。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Installable Switch File (*.nca *.nsp *.nsz *.xci *.xcz);;Nintendo Content Archive (*.nca);;Nintendo Submission Package (*.nsp *.nsz);;NX Cartridge Image (*.xci *.xcz)",
+    "translation": "可安装的 Switch 文件 (*.nca *.nsp *.nsz *.xci *.xcz);;Nintendo 内容归档 (*.nca);;Nintendo 安装包 (*.nsp *.nsz);;NX 卡带镜像 (*.xci *.xcz)"
+  },
+  {
+    "context": "MainWindow",
+    "source": "NX Archive",
+    "translation": "NX 归档"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Stop the game before changing its NX archive.",
+    "translation": "修改游戏的 NX 归档前，请先关闭游戏。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Convert to NUP",
+    "translation": "转换为 NUP"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The target archive already exists:\n%1",
+    "translation": "目标归档已存在：\n%1"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Resume Conversion",
+    "translation": "继续转换"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Resume the interrupted conversion?",
+    "translation": "要继续此前中断的转换吗？"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Converting to NUP",
+    "translation": "正在转换为 NUP"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Conversion Complete",
+    "translation": "转换完成"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The NUP was created and the loose folder was removed.",
+    "translation": "已创建 NUP，并移除解包后的文件夹。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The NUP was created. You can delete the loose folder if you no longer need it.",
+    "translation": "已创建 NUP。如果不再需要解包后的文件夹，可以将其删除。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Conversion Cancelled",
+    "translation": "转换已取消"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The conversion can be resumed by choosing Convert to NUP again.",
+    "translation": "再次选择“转换为 NUP”即可继续。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Conversion Failed",
+    "translation": "转换失败"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The shaders of this game are not precached yet. Precache them now?\n\nThe game starts when they are done. The first time, the game files are read and their shaders are built on every CPU thread, with the shaders earlier play sessions saved, which takes a few minutes. Later launches only build what is new, until the GPU driver changes. The loading screen has a Skip button.\n\nYou can change this in Configure, Graphics, Advanced.",
+    "translation": "此游戏尚未预缓存着色器。现在预缓存吗？\n\n完成后会启动游戏。首次会读取游戏文件，使用所有 CPU 线程构建其中的着色器和以往游玩保存的着色器，耗时数分钟。之后只构建新增内容，直至 GPU 驱动发生变化。可在加载画面选择跳过。\n\n可在“配置 → 图形 → 高级”中修改此设置。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Extract NUP",
+    "translation": "解包 NUP"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The target directory already exists:\n%1",
+    "translation": "目标目录已存在：\n%1"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Extracting NUP",
+    "translation": "正在解包 NUP"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Extraction Complete",
+    "translation": "解包完成"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The NUP was extracted. You can delete the NUP file if you no longer need it.",
+    "translation": "NUP 已解包。如果不再需要原 NUP 文件，可以将其删除。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Extraction Failed",
+    "translation": "解包失败"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Editing NUP Metadata",
+    "translation": "正在编辑 NUP 元数据"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Edit Complete",
+    "translation": "编辑完成"
+  },
+  {
+    "context": "MainWindow",
+    "source": "The NUP metadata was updated.",
+    "translation": "NUP 元数据已更新。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Edit Failed",
+    "translation": "编辑失败"
+  },
+  {
+    "context": "MainWindow",
+    "source": " (%1 DOESN'T FIT)",
+    "translation": "（%1 不适用）",
+    "comment": "The DLSS mode the user chose"
+  },
+  {
+    "context": "MainWindow",
+    "source": " + %1 generated",
+    "translation": " + %1 个生成帧"
+  },
+  {
+    "context": "MainWindow",
+    "source": "FG %1 %2X",
+    "translation": "帧生成 %1 %2 倍"
+  },
+  {
+    "context": "MainWindow",
+    "source": "FG %1 AUTO",
+    "translation": "帧生成 %1 自动"
+  },
+  {
+    "context": "MainWindow",
+    "source": " It adds up to %1 frames per game frame to reach %2 FPS.",
+    "translation": " 每个游戏帧最多插入 %1 帧，达到 %2 FPS。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Frame generation is on.%1 Whether it runs shows here once a game starts.",
+    "translation": "帧生成已启用。%1启动游戏后可在此处查看运行状态。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "This GPU lacks Vulkan features LSFG needs (Vulkan memory model, null descriptors and 16-bit floats). The Optical Flow type may still work.",
+    "translation": "此 GPU 缺少 LSFG 所需的 Vulkan 功能（Vulkan 内存模型、空描述符和 16 位浮点）。仍可尝试光流模式。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "This GPU can't write to the window's swapchain format from a shader, so generated frames can't be presented.",
+    "translation": "此 GPU 无法通过着色器写入窗口的交换链格式，因此无法显示生成帧。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "LSFG needs Lossless.dll from Lossless Scaling in the \"lossless\" folder of the user directory. It is missing or could not be loaded.",
+    "translation": "LSFG 需要在用户目录的“lossless”文件夹内放置 Lossless Scaling 的 Lossless.dll。该文件缺失或无法加载。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Frame generation is on but not running. %1",
+    "translation": "帧生成已启用，但未运行。%1"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Frame generation is running.%1",
+    "translation": "帧生成正在运行。%1"
+  },
+  {
+    "context": "MainWindow",
+    "source": " It also pauses while the game already reaches %1 FPS.",
+    "translation": " 游戏已达到 %1 FPS 时，帧生成也会暂停。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "%1 (IDLE)",
+    "translation": "%1（空闲）"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Frame generation is on but generated no frames in the last half second. It pauses while it warms up, for a second after a frame takes longer than 100 ms, and while frames arrive in bursts.%1",
+    "translation": "帧生成已启用，但过去半秒未生成任何帧。预热期间、单帧耗时超过 100 毫秒后的 1 秒内，以及帧集中到达时，帧生成会暂停。%1"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Restart Lichii to apply the X11 backend.",
+    "translation": "请重启 Lichii 以应用 X11 后端。"
+  },
+  {
+    "context": "MainWindow",
+    "source": "B-Spline",
+    "translation": "B 样条"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Spline-1",
+    "translation": "1 阶样条"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Gaussian",
+    "translation": "高斯"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Area",
+    "translation": "面积"
+  },
+  {
+    "context": "MainWindow",
+    "source": "FSR 1 Soft",
+    "translation": "FSR 1（柔和）"
+  },
+  {
+    "context": "MigrationWorker",
+    "source": "Data was imported successfully. Existing Lichii data, if any, was kept in backup directories beside the new profile.",
+    "translation": "已成功导入数据。原有 Lichii 数据（如有）已备份至新配置目录旁。"
+  },
+  {
+    "context": "MigrationWorker",
+    "source": "\n\nData and settings are shared with %1. The source shader cache was not cleared.",
+    "translation": "\n\n数据和设置与 %1 共用。源着色器缓存仍在。"
+  },
+  {
+    "context": "MigrationWorker",
+    "source": "\n\nThe old profile was retained in backup directories at its old location. Keep these backups until you have checked your saves.",
+    "translation": "\n\n旧配置已备份在原路径。确认存档正常后再处理这些备份。"
+  },
+  {
+    "context": "MigrationWorker",
+    "source": "\n\nThe original %1 profile is unchanged. Keep it until you have checked your saves.",
+    "translation": "\n\n%1 的原配置仍在。请先核对存档，再处理该配置。"
+  },
+  {
+    "context": "MigrationWorker",
+    "source": "Import did not complete. Your source and previous destination data have been kept. Close Lichii and launch it again to retry or recover.\n\n%1",
+    "translation": "导入未完成。源数据和原目标数据已保留。请关闭并重启 Lichii，以重试或恢复。\n\n%1"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Username is not valid. Must be 4 to 20 alphanumeric characters.",
+    "translation": "用户名无效。请输入 4 至 20 个字母或数字。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Room name is not valid. Must be 4 to 20 alphanumeric characters.",
+    "translation": "房间名称无效。请输入 4 至 20 个字母或数字。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Username is already in use or not valid. Please choose another.",
+    "translation": "用户名已被占用或无效。请选择其他名称。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "IP is not a valid IPv4 address.",
+    "translation": "IP 地址不是有效的 IPv4 地址。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Port must be a number between 0 to 65535.",
+    "translation": "端口必须为 0 至 65535 之间的数字。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "You must choose a Preferred Game to host a room. If you do not have any games in your game list yet, add a game folder by clicking on the plus icon in the game list.",
+    "translation": "创建房间前请选择首选游戏。若游戏列表为空，请点击列表中的加号，添加游戏文件夹。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Unable to find an internet connection. Check your internet settings.",
+    "translation": "无法连接互联网。请检查网络设置。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Unable to connect to the host. Verify that the connection settings are correct. If you still cannot connect, contact the room host and verify that the host is properly configured with the external port forwarded.",
+    "translation": "无法连接主机。请检查连接设置。若仍无法连接，请联系房主确认已正确转发外部端口。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Unable to connect to the room because it is already full.",
+    "translation": "房间已满，无法加入。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Creating a room failed. Please retry. Restarting Eden might be necessary.",
+    "translation": "创建房间失败。请重试，必要时重启 Eden。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "The host of the room has banned you. Speak with the host to unban you or try a different room.",
+    "translation": "房主已封禁你。请联系房主解除封禁，或尝试其他房间。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Version mismatch! Please update to the latest version of Eden. If the problem persists, contact the room host and ask them to update the server.",
+    "translation": "版本不匹配。请更新至最新版本的 Eden。如果问题仍然存在，请联系房主更新服务器。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Incorrect password.",
+    "translation": "密码错误。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "An unknown error occurred. If this error continues to occur, please open an issue",
+    "translation": "发生未知错误。如果问题反复出现，请提交问题报告。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Connection to room lost. Try to reconnect.",
+    "translation": "与房间的连接已断开。请尝试重新连接。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "You have been kicked by the room host.",
+    "translation": "你已被房主移出房间。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "IP address is already in use. Please choose another.",
+    "translation": "IP 地址已被占用。请选择其他地址。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "You do not have enough permission to perform this action.",
+    "translation": "你没有执行此操作的权限。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "The user you are trying to kick/ban could not be found.\nThey may have left the room.",
+    "translation": "找不到要踢出或封禁的用户。\n对方可能已离开房间。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "No valid network interface is selected.\nPlease go to Configure -> System -> Network and make a selection.",
+    "translation": "未选择有效的网络接口。\n请前往“配置 → 系统 → 网络”选择网络接口。"
+  },
+  {
+    "context": "NetworkMessage::ErrorManager",
+    "source": "Error",
+    "translation": "错误"
+  },
+  {
+    "context": "NxTools",
+    "source": "%1 cannot be decrypted: %2\n\nCheck that your keys are installed.",
+    "translation": "无法解密 %1：%2\n\n请确认已安装密钥。"
+  },
+  {
+    "context": "NxTools",
+    "source": "NX Archive",
+    "translation": "NX 归档"
+  },
+  {
+    "context": "NxTools",
+    "source": "NX converter unavailable: Windows blocked nxformat.dll (Smart App Control or a code integrity policy). Error %1.",
+    "translation": "NX 转换工具不可用：Windows 的智能应用控制或代码完整性策略阻止了 nxformat.dll。错误 %1。"
+  },
+  {
+    "context": "NxTools",
+    "source": "NX converter unavailable: could not load nxformat.dll. Error %1: %2",
+    "translation": "NX 转换工具不可用：无法加载 nxformat.dll。错误 %1：%2"
+  },
+  {
+    "context": "NxTools",
+    "source": "Convert to NX",
+    "translation": "转换为 NX"
+  },
+  {
+    "context": "NxTools",
+    "source": "Converting to NX",
+    "translation": "正在转换为 NX"
+  },
+  {
+    "context": "NxTools",
+    "source": "NX archive (*.nx)",
+    "translation": "NX 归档 (*.nx)"
+  },
+  {
+    "context": "NxTools",
+    "source": "The archive already exists:\n%1",
+    "translation": "归档已存在：\n%1"
+  },
+  {
+    "context": "NxTools",
+    "source": "Updates and DLC of this game were found in the same folder.\nThe checked ones are added to the NX archive:",
+    "translation": "在同一文件夹中找到了此游戏的更新和 DLC。\n勾选的内容将添加到 NX 归档："
+  },
+  {
+    "context": "NxTools",
+    "source": "The NX archive was created:\n%1",
+    "translation": "已创建 NX 归档：\n%1"
+  },
+  {
+    "context": "NxTools",
+    "source": "Add to NX",
+    "translation": "添加至 NX"
+  },
+  {
+    "context": "NxTools",
+    "source": "This NX archive cannot be read.",
+    "translation": "无法读取此 NX 归档。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Add an update or DLC to this NX archive. The archive is changed in place; the content it already holds is kept.",
+    "translation": "将更新或 DLC 添加到此 NX 归档。修改会直接写入归档，并保留其中已有内容。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Update Folder...",
+    "translation": "更新文件夹…"
+  },
+  {
+    "context": "NxTools",
+    "source": "NSP or XCI Files...",
+    "translation": "NSP 或 XCI 文件…"
+  },
+  {
+    "context": "NxTools",
+    "source": "Adding to NX",
+    "translation": "正在添加至 NX"
+  },
+  {
+    "context": "NxTools",
+    "source": "Select the Update Folder",
+    "translation": "选择更新文件夹"
+  },
+  {
+    "context": "NxTools",
+    "source": "Version number of this update (for example 196608 for v196608):",
+    "translation": "此更新的版本号（例如 v196608 应输入 196608）："
+  },
+  {
+    "context": "NxTools",
+    "source": "Select Updates or DLC",
+    "translation": "选择更新或 DLC"
+  },
+  {
+    "context": "NxTools",
+    "source": "Switch packages (*.nsp *.xci)",
+    "translation": "Switch 安装包 (*.nsp *.xci)"
+  },
+  {
+    "context": "NxTools",
+    "source": "The NX archive was updated.",
+    "translation": "NX 归档已更新。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Remove from NX",
+    "translation": "从 NX 移除"
+  },
+  {
+    "context": "NxTools",
+    "source": "This NX archive cannot be read: %1",
+    "translation": "无法读取此 NX 归档：%1"
+  },
+  {
+    "context": "NxTools",
+    "source": "This NX archive holds no update or DLC to remove.",
+    "translation": "此 NX 归档中没有可移除的更新或 DLC。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Select the content to remove from the archive:",
+    "translation": "选择要从归档中移除的内容："
+  },
+  {
+    "context": "NxTools",
+    "source": "Update %1 (v%2)",
+    "translation": "更新 %1（v%2）"
+  },
+  {
+    "context": "NxTools",
+    "source": "Remove",
+    "translation": "移除"
+  },
+  {
+    "context": "NxTools",
+    "source": "Removing from NX",
+    "translation": "正在从 NX 移除"
+  },
+  {
+    "context": "NxTools",
+    "source": "The selected content was removed from the NX archive.",
+    "translation": "已从 NX 归档移除所选内容。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Edit NX Metadata",
+    "translation": "编辑 NX 元数据"
+  },
+  {
+    "context": "NxTools",
+    "source": "Title:",
+    "translation": "标题："
+  },
+  {
+    "context": "NxTools",
+    "source": "Publisher:",
+    "translation": "发行商："
+  },
+  {
+    "context": "NxTools",
+    "source": "No icon",
+    "translation": "无图标"
+  },
+  {
+    "context": "NxTools",
+    "source": "Choose Image...",
+    "translation": "选择图片…"
+  },
+  {
+    "context": "NxTools",
+    "source": "Icon:",
+    "translation": "图标："
+  },
+  {
+    "context": "NxTools",
+    "source": "The new title and icon are shown in every language. The game itself is not changed.",
+    "translation": "新标题和图标会在所有语言下显示，游戏本身保持原样。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Choose Image",
+    "translation": "选择图片"
+  },
+  {
+    "context": "NxTools",
+    "source": "Images (*.png *.jpg *.jpeg *.bmp *.webp *.gif)",
+    "translation": "图片 (*.png *.jpg *.jpeg *.bmp *.webp *.gif)"
+  },
+  {
+    "context": "NxTools",
+    "source": "This image cannot be read.",
+    "translation": "无法读取此图片。"
+  },
+  {
+    "context": "NxTools",
+    "source": "This image cannot be converted.",
+    "translation": "无法转换此图片。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Editing NX metadata",
+    "translation": "正在编辑 NX 元数据"
+  },
+  {
+    "context": "NxTools",
+    "source": "The icon cannot be saved.",
+    "translation": "无法保存图标。"
+  },
+  {
+    "context": "NxTools",
+    "source": "The NX archive metadata was updated.",
+    "translation": "NX 归档元数据已更新。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Cancel",
+    "translation": "取消"
+  },
+  {
+    "context": "NxTools",
+    "source": "Cancelling...",
+    "translation": "正在取消…"
+  },
+  {
+    "context": "NxTools",
+    "source": "Preparing...",
+    "translation": "正在准备…"
+  },
+  {
+    "context": "NxTools",
+    "source": "Finishing...",
+    "translation": "正在收尾…"
+  },
+  {
+    "context": "NxTools",
+    "source": "%1 left",
+    "translation": "剩余 %1"
+  },
+  {
+    "context": "NxTools",
+    "source": "%1\nElapsed: %2",
+    "translation": "%1\n已用时：%2"
+  },
+  {
+    "context": "NxTools",
+    "source": "Move the %1 original packages to the Recycle Bin",
+    "translation": "将 %1 个原安装包移至回收站"
+  },
+  {
+    "context": "NxTools",
+    "source": "Move the original folder to the Recycle Bin:\n%1",
+    "translation": "将原文件夹移至回收站：\n%1"
+  },
+  {
+    "context": "NxTools",
+    "source": "Move the original game to the Recycle Bin:\n%1",
+    "translation": "将原游戏移至回收站：\n%1"
+  },
+  {
+    "context": "NxTools",
+    "source": "%1 of the %2 original packages could not be moved to the Recycle Bin. They may be in use.",
+    "translation": "%2 个原安装包中有 %1 个无法移至回收站，可能正在被使用。"
+  },
+  {
+    "context": "NxTools",
+    "source": "The original could not be moved to the Recycle Bin:\n%1\n\nIt may be in use. You can delete it yourself.",
+    "translation": "无法将原文件移至回收站：\n%1\n\n文件可能正在被使用，你也可以自行删除。"
+  },
+  {
+    "context": "NxTools",
+    "source": "less than a minute",
+    "translation": "不到 1 分钟"
+  },
+  {
+    "context": "NxTools",
+    "source": "about %n minute(s)",
+    "translation": "约 %n 分钟"
+  },
+  {
+    "context": "NxTools",
+    "source": "about %1 h %2 min",
+    "translation": "约 %1 小时 %2 分钟"
+  },
+  {
+    "context": "NxTools",
+    "source": "Already added to the archive: %1",
+    "translation": "已添加至归档：%1"
+  },
+  {
+    "context": "NxTools",
+    "source": "Added: %1",
+    "translation": "已添加：%1"
+  },
+  {
+    "context": "NxTools",
+    "source": "Already in the archive: %1",
+    "translation": "归档中已有：%1"
+  },
+  {
+    "context": "NxTools",
+    "source": "Cancelled.",
+    "translation": "已取消。"
+  },
+  {
+    "context": "NxTools",
+    "source": "Cancelled. Nothing was changed on disk.",
+    "translation": "已取消，磁盘上的文件保持原样。"
+  },
+  {
+    "context": "NxTools",
+    "source": "The operation failed because the rebuild recipe could not be kept:\n%1\n\nTry again without the recipe? The game still runs from the NX archive, but the original package cannot be rebuilt exactly from it.",
+    "translation": "由于无法保留重建记录，操作失败：\n%1\n\n要放弃重建记录并重试吗？游戏仍可从 NX 归档运行，但无法按原样重建原安装包。"
+  },
+  {
+    "context": "NxTools",
+    "source": "The operation failed:\n%1",
+    "translation": "操作失败：\n%1"
+  },
+  {
+    "context": "QObject",
+    "source": "Lichii startup stopped",
+    "translation": "Lichii 已停止启动"
+  },
+  {
+    "context": "QObject",
+    "source": "Recover unfinished import",
+    "translation": "恢复未完成的导入"
+  },
+  {
+    "context": "QObject",
+    "source": "An earlier import did not finish. Recover the previous profile and retry? No source or backup data will be deleted.",
+    "translation": "先前的导入未完成。要恢复之前的配置并重试吗？源数据和备份数据会保留。"
+  },
+  {
+    "context": "QObject",
+    "source": "Move Old Data (retain backup)",
+    "translation": "移动旧数据（保留备份）"
+  },
+  {
+    "context": "QObject",
+    "source": "Import an existing emulator profile into Lichii?\nCopy keeps the original profile unchanged and is recommended.\nMove retains a recovery backup and requires space for a full copy.\nLink shares settings and saves with the source emulator.\nExisting Lichii data is kept in backup directories, not merged or deleted.\n\nClose the source emulator, then choose its profile below.\nClose this window to decide on the next launch.",
+    "translation": "要将现有模拟器配置导入 Lichii 吗？\n推荐“复制”，原配置会保留。\n“移动”会保留恢复用备份，需要有足够空间完整复制一份。\n“链接”会与源模拟器共用设置和存档。\nLichii 已有数据会保存到备份目录中。\n\n请关闭源模拟器，再从下方选择它的配置。\n如果现在关闭此窗口，下次启动时可再决定。"
+  },
+  {
+    "context": "QObject",
+    "source": "Import",
+    "translation": "导入"
+  },
+  {
+    "context": "QObject",
+    "source": "Start fresh",
+    "translation": "全新开始"
+  },
+  {
+    "context": "QObject",
+    "source": "Lichii will use its own profile. Your old emulator data has not been changed.",
+    "translation": "Lichii 将使用自己的配置。旧模拟器的数据保持原样。"
+  },
+  {
+    "context": "QObject",
+    "source": "%1 (update)",
+    "translation": "%1（更新）"
+  },
+  {
+    "context": "QtCommon::Game",
+    "source": "Failed to remove the saved compiled shaders.",
+    "translation": "无法清理已保存的编译着色器。"
+  },
+  {
+    "context": "QtCommon::StringLookup",
+    "source": "Lichii has detected user data for the following emulators:",
+    "translation": "Lichii 检测到以下模拟器的用户数据："
+  },
+  {
+    "context": "QtCommon::StringLookup",
+    "source": "Would you like to migrate your data for use in Lichii?\nSelect the corresponding button to migrate data from that emulator.\nThis may take a while.",
+    "translation": "要将旧数据迁移到 Lichii 吗？\n点击对应按钮，从该模拟器迁移数据。\n迁移可能需要一些时间。"
+  },
+  {
+    "context": "QtCommon::StringLookup",
+    "source": "Clearing shader cache is recommended when migrating from another emulator.\nEarlier Lichii builds kept their own cache in Eden's directory.",
+    "translation": "从其他模拟器迁移时，建议清理着色器缓存。\n早期 Lichii 版本将自己的缓存保存在 Eden 的目录中。"
+  },
+  {
+    "context": "QtCommon::StringLookup",
+    "source": "Copies and verifies the full profile before moving the source aside as a recovery backup.\nRequires enough free space for a full copy. Keep the backup until you have checked your saves.",
+    "translation": "完整复制并校验配置后，将源配置移作恢复备份。\n请确保有足够空间存放完整副本，并在核对存档前保留备份。"
+  },
+  {
+    "context": "QtCommon::StringLookup",
+    "source": "Creates a filesystem link between the old directory and Lichii directory.\nThis is recommended if you want to share data between emulators.",
+    "translation": "在旧目录与 Lichii 目录之间创建文件系统链接。\n若要在不同模拟器之间共用数据，建议使用此选项。"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Recommended settings",
+    "translation": "推荐设置"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Do you want to use the recommended settings from the Lichii developer?",
+    "translation": "要使用 Lichii 开发者提供的推荐设置吗？"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "They improve performance for most games. Lichii keeps your own settings, so you can go back at any time with Help > Restore My Previous Settings. Per-game settings do not change.",
+    "translation": "这些设置可改善多数游戏的运行性能。Lichii 会保留你自己的设置，可随时通过“帮助 → 还原此前的设置”恢复。各游戏的独立设置保持原样。"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Use recommended settings",
+    "translation": "使用推荐设置"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Not now",
+    "translation": "暂不使用"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Your settings already match the recommended settings. Nothing changed.",
+    "translation": "当前设置已与推荐设置一致。"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Lichii now uses the recommended settings.",
+    "translation": "Lichii 已应用推荐设置。"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "On",
+    "translation": "开启"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Off",
+    "translation": "关闭"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "To go back, use Help > Restore My Previous Settings.",
+    "translation": "可通过“帮助 → 还原此前的设置”恢复。"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Previous settings",
+    "translation": "此前的设置"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Your settings already match your previous settings. Nothing changed.",
+    "translation": "当前设置已与此前的设置一致。"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "Lichii uses your previous settings again.",
+    "translation": "Lichii 已恢复此前的设置。"
+  },
+  {
+    "context": "RecommendedSettingsDialog",
+    "source": "To use the recommended settings again, use Help > Apply Recommended Settings.",
+    "translation": "可通过“帮助 → 应用推荐设置”再次使用推荐设置。"
+  },
+  {
+    "context": "RyujinxDialog",
+    "source": "Linking save data to Ryujinx lets both Ryujinx and Lichii reference the same save files for your games.\n\nBy selecting \"From Lichii\", previous save data stored in Ryujinx will be deleted, and vice versa for \"From Ryujinx\".",
+    "translation": "将存档与 Ryujinx 关联后，Ryujinx 和 Lichii 可共用同一份游戏存档文件。\n\n选择“从 Lichii”会删除 Ryujinx 的旧存档。选择“从 Ryujinx”会删除 Lichii 的旧存档。"
+  },
+  {
+    "context": "RyujinxDialog",
+    "source": "From Lichii",
+    "translation": "从 Lichii"
+  }
+]

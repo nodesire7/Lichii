@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 
 from PySide6.QtCore import QSettings
-from align_catalog import align
+from align_catalog import align, messages, reuse_translations, source_coverage
 from launcher import set_ui_language
 import updater
 
@@ -85,6 +85,25 @@ class UpdateTests(unittest.TestCase):
         self.assertEqual(applied, [("Main", "Play", "")])
         self.assertEqual(pending, [{"context": "Main", "source": "Old"}])
         self.assertEqual(base.findtext(".//translation"), "启动")
+
+    def test_source_coverage_checks_namespace_and_disambiguation(self):
+        catalog = ET.fromstring(
+            '<TS><context><name>ErrorManager</name>'
+            '<message><source>Open</source><comment>verb</comment><translation>打开</translation></message>'
+            '</context></TS>'
+        )
+        live = ET.fromstring(
+            '<TS><context><name>NetworkMessage::ErrorManager</name>'
+            '<message><source>Open</source><comment>verb</comment></message>'
+            '<message><source>Open</source><comment>adjective</comment></message>'
+            '</context></TS>'
+        )
+        reuse_translations(catalog, live)
+        key = ("NetworkMessage::ErrorManager", "Open", "verb")
+        self.assertEqual(messages(catalog)[key].findtext("translation"), "打开")
+        coverage = source_coverage(catalog, live)
+        self.assertEqual(coverage["entries_with_catalog_text"], 1)
+        self.assertEqual(coverage["without_catalog_text"][0]["comment"], "adjective")
 
 
 if __name__ == "__main__":

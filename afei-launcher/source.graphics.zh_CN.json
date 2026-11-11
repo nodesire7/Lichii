@@ -1,0 +1,198 @@
+[
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Open Folder",
+    "translation": "打开文件夹"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Where do these files come from?",
+    "translation": "这些文件来自哪里？"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "AMD's FidelityFX SDK release on GitHub. The files are in Kits\\FidelityFX\\signedbin.",
+    "translation": "这些文件来自 AMD 在 GitHub 上发布的 FidelityFX SDK，位于 Kits\\FidelityFX\\signedbin。"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "<b>Ready.</b> Found AMD's FidelityFX runtime from FidelityFX SDK %1. FSR 4 runs if AMD's driver offers it for this GPU; otherwise FSR 3.1 does.",
+    "translation": "<b>已就绪。</b>找到 FidelityFX SDK %1 中的 AMD FidelityFX 运行库。如果 AMD 驱动支持在此显卡上运行 FSR 4，就会启用 FSR 4，否则使用 FSR 3.1。"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "<b>AMD's files needed:</b> the FidelityFX runtime from AMD's FidelityFX SDK %1 (amd_fidelityfx_loader_vk.dll and amd_fidelityfx_upscaler_vk.dll). Until then, FSR 3.1 is used.",
+    "translation": "<b>需要 AMD 文件：</b>FidelityFX SDK %1 中的运行库（amd_fidelityfx_loader_vk.dll 和 amd_fidelityfx_upscaler_vk.dll）。安装前将使用 FSR 3.1。"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Folder: %1",
+    "translation": "文件夹：%1"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Download from AMD (%1 MB)",
+    "translation": "从 AMD 下载（%1 MB）"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "AMD FSR 4",
+    "translation": "AMD FSR 4"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Could not download AMD's files: %1. FSR 3.1 is used.",
+    "translation": "无法下载 AMD 文件：%1。将使用 FSR 3.1。"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Contacting AMD's download...",
+    "translation": "正在连接 AMD 下载服务…"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Download AMD FSR 4",
+    "translation": "下载 AMD FSR 4"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Lichii will download amd_fidelityfx_loader_vk.dll and amd_fidelityfx_upscaler_vk.dll from AMD's FidelityFX SDK %1 release on GitHub into %2.<br>These files are AMD's, under AMD's licence terms below. Lichii checks AMD's signature before using them.",
+    "translation": "Lichii 将从 AMD 在 GitHub 上发布的 FidelityFX SDK %1 中下载 amd_fidelityfx_loader_vk.dll 和 amd_fidelityfx_upscaler_vk.dll，保存至 %2。<br>这些文件由 AMD 按下方许可条款提供。Lichii 会在使用前验证 AMD 签名。"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Accept and Download",
+    "translation": "接受并下载"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Downloading AMD's FSR 4 files...",
+    "translation": "正在下载 AMD FSR 4 文件…"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "Cancel",
+    "translation": "取消"
+  },
+  {
+    "context": "AmdFsr4Panel",
+    "source": "AMD's FSR 4 runtime is ready. It is used the next time a game starts.",
+    "translation": "AMD FSR 4 运行库已就绪，下次启动游戏时生效。"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Open Folder",
+    "translation": "打开文件夹"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Where do these files come from?",
+    "translation": "这些文件来自哪里？"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "NVIDIA's Streamline releases on GitHub. The files are in bin\\x64 of the release zip.",
+    "translation": "这些文件来自 NVIDIA 在 GitHub 上发布的 Streamline，位于发行 ZIP 压缩包的 bin\\x64 目录。"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "%1 from the NVIDIA app",
+    "translation": "来自 NVIDIA 应用的 %1"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "<b>Ready.</b> Found %1 and %2.<br>DLSS and the settings below apply only when a game uses its own DLSS. While DLSS runs, the status bar shows DLSS, its mode and its preset.",
+    "translation": "<b>已就绪。</b>找到 %1 和 %2。<br>只有在游戏使用内置 DLSS 时，DLSS 及下方设置才会生效。启用后，状态栏会显示 DLSS 及其模式和预设。"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "<b>Ready.</b> Found %1 and %2.",
+    "translation": "<b>已就绪。</b>找到 %1 和 %2。",
+    "legacy_only": true
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "<b>One file needed:</b> NVIDIA's Streamline loader (sl.interposer.dll). %1 will be used. Until then, games use AMD FSR 3.1.",
+    "translation": "<b>还需要一个文件：</b>NVIDIA Streamline 加载器（sl.interposer.dll）。安装后会使用 %1。安装前游戏将使用 AMD FSR 3.1。"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Download from NVIDIA (1 MB)",
+    "translation": "从 NVIDIA 下载（1 MB）"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "<b>One file needed:</b> NVIDIA DLSS (nvngx_dlss.dll). Until then, games use AMD FSR 3.1.",
+    "translation": "<b>还需要一个文件：</b>NVIDIA DLSS（nvngx_dlss.dll）。安装前游戏将使用 AMD FSR 3.1。"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Download from NVIDIA (31 MB)",
+    "translation": "从 NVIDIA 下载（31 MB）"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "<b>NVIDIA's files needed:</b> the Streamline loader and DLSS (sl.interposer.dll and nvngx_dlss.dll). Until then, games use AMD FSR 3.1.",
+    "translation": "<b>需要 NVIDIA 文件：</b>Streamline 加载器和 DLSS（sl.interposer.dll 和 nvngx_dlss.dll）。安装前游戏将使用 AMD FSR 3.1。"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Download from NVIDIA (32 MB)",
+    "translation": "从 NVIDIA 下载（32 MB）"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Folder: %1",
+    "translation": "文件夹：%1"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "NVIDIA DLSS",
+    "translation": "NVIDIA DLSS"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Could not download NVIDIA's files: %1",
+    "translation": "无法下载 NVIDIA 文件：%1"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Contacting NVIDIA's download...",
+    "translation": "正在连接 NVIDIA 下载服务…"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "NVIDIA Streamline",
+    "translation": "NVIDIA Streamline"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Download NVIDIA DLSS",
+    "translation": "下载 NVIDIA DLSS"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Lichii will download %1 from NVIDIA's Streamline %2 release on GitHub into %3.<br>These files are NVIDIA's, under NVIDIA's licence terms below.",
+    "translation": "Lichii 将从 NVIDIA 在 GitHub 上发布的 Streamline %2 中下载 %1，保存至 %3。<br>这些文件由 NVIDIA 按下方许可条款提供。"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Accept and Download",
+    "translation": "接受并下载"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Downloading NVIDIA's DLSS files...",
+    "translation": "正在下载 NVIDIA DLSS 文件…"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "Cancel",
+    "translation": "取消"
+  },
+  {
+    "context": "NvidiaDlssPanel",
+    "source": "NVIDIA DLSS is ready. It is used the next time a game starts.",
+    "translation": "NVIDIA DLSS 已就绪，下次启动游戏时生效。"
+  }
+]

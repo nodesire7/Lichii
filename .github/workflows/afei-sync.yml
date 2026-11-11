@@ -11,6 +11,8 @@ on:
       - 'afei-launcher/align_catalog.py'
       - 'afei-launcher/updater.py'
       - 'afei-launcher/overrides.zh_CN.json'
+      - 'afei-launcher/source.zh_CN.json'
+      - 'afei-launcher/source.graphics.zh_CN.json'
 
 permissions:
   contents: write

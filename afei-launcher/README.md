@@ -10,10 +10,10 @@
 
 ## 汉化与更新渠道
 
-- **作者仓库（同步汉化）**：从 [afei-feed](https://github.com/nodesire7/Lichii/tree/afei-feed) 取发布清单和对应的外置 Qt 词库。自定义译文在 [overrides.zh_CN.json](overrides.zh_CN.json)，按 Qt 上下文、原文和消歧注释与上游匹配。上游改掉的文本会列入清单的 `needs_review`，原有译文仍留在 JSON。未维护的条目使用上游已有简体中文；上游未译的新文本可能仍显示英文。
+- **作者仓库（同步汉化）**。发布清单提供与上游版本对应的外置 Qt 词库。扫描 `src/yuzu` 和 `src/qt_common` 的 C++ 与 `.ui` 文件，按 Qt 上下文、原文和消歧注释匹配。上游改掉的文本会列入清单的 `needs_review`，原有译文仍留在 JSON。[发布清单](https://github.com/nodesire7/Lichii/tree/afei-feed) · [源码补译](source.zh_CN.json) · [既有定制译文](overrides.zh_CN.json)
 - **上游官方（内置简体中文）**：直接读取 [Lichii 正式发布](https://github.com/zortos293/Lichii/releases)，不依赖作者词库。所选渠道不可达时会尝试另一渠道，界面会显示实际来源。
 - **本地自定义汉化**。在设置中打开自定义汉化目录，将已编译的 Qt 词库命名为 `zh_CN.qm` 放入。启动器优先加载该文件，更新也会保留它。移出该文件后恢复各版本的默认词库。
-- **原版 Fritchii v5.4**。启动器附带与 [v5.4 源码](https://github.com/Frizti/Fritchii/tree/8ce6c1e0d49b7022d2fa87e60109c7c04f1b5a80) 对应的外置词库，覆盖主页、设置、菜单和着色器提示。启动器采用 Fritchii 的深色和紫色配色。个别直接显示的原始文本，例如状态栏的 `DOCKED`，不经过 Qt 翻译。
+- **原版 Fritchii v5.4**。启动器附带对应源码的外置词库，并沿用深色和紫色配色。状态栏的 `DOCKED` 等直接显示的字符串没有调用 Qt 翻译接口，外置词库无法替换。[v5.4 源码](https://github.com/Frizti/Fritchii/tree/8ce6c1e0d49b7022d2fa87e60109c7c04f1b5a80) · [Fritchii 源码补译](source.fritchii.zh_CN.json)
 
 Fork 的 `nx2` 分支镜像上游源码；`afei-zh` 保存启动器和自定义译文；`afei-feed` 发布词库及更新清单。GitHub Actions 每 5 分钟尝试同步，实际调度可能延迟；在 Actions 可手动运行。词库以正式发行标签指向的提交为准，编译过程不改上游源码。启动器不分发游戏、固件、密钥或本机数据。
 
@@ -27,3 +27,5 @@ python afei-launcher/launcher.py
 ```
 
 使用 [build.ps1](build.ps1) 打包（需要 PyInstaller）。执行 `python -m unittest discover -s afei-launcher -p "test_*.py"` 运行测试。打包依赖和源代码链接见 [THIRD-PARTY.md](THIRD-PARTY.md)。
+
+生成词库时可向 `align_catalog.py` 传入 `--audit-output <报告.json>`，查看源码文本键数、词库覆盖数和未命中的键。品牌、渲染 API、快捷键和占位符可能保留原文，因此词库覆盖数与含中文的条目数分别统计。

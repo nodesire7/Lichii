@@ -50,6 +50,7 @@ QPushButton, QComboBox, QLineEdit {
 QPushButton:hover, QComboBox:hover { background: #e9f0e9; border-color: #608172; }
 QPushButton:pressed { background: #dbe7df; }
 QPushButton:focus, QComboBox:focus, QLineEdit:focus { border: 1px solid #1b6347; }
+QLineEdit { placeholder-text-color: #4b6254; }
 QPushButton:disabled, QComboBox:disabled { background: #e8ece7; color: #6a776e; border-color: #c3cec5; }
 QPushButton#primary { background: #245c43; color: #fff; border-color: #245c43; font-weight: 700; }
 QPushButton#primary:hover { background: #2a7151; }

@@ -14,7 +14,7 @@
 - **上游官方（内置简体中文）**：直接读取 [Lichii 正式发布](https://github.com/zortos293/Lichii/releases)，不依赖作者词库。所选渠道不可达时会尝试另一渠道，界面会显示实际来源。
 - **本地自定义汉化**：在设置中打开自定义汉化目录，将已编译的 Qt 词库命名为 `zh_CN.qm` 放入。启动时优先加载该文件；任何更新都不会改写它。删去或移出该文件后可恢复同步词库或内置简体中文。启动原有版本时默认用其内置简体中文，若原有构建没有嵌入对应词库，可用这个入口加载外置文件。
 
-Fork 的 `nx2` 分支镜像上游源码；`afei-zh` 保存启动器和自定义译文；`afei-feed` 发布词库及更新清单。GitHub Actions 每 15 分钟尝试同步，实际调度可能延迟；在 Actions 可手动运行。词库以正式发行标签指向的提交为准，编译过程不改上游源码。启动器不分发游戏、固件、密钥或本机数据。
+Fork 的 `nx2` 分支镜像上游源码；`afei-zh` 保存启动器和自定义译文；`afei-feed` 发布词库及更新清单。GitHub Actions 每 5 分钟尝试同步，实际调度可能延迟；在 Actions 可手动运行。词库以正式发行标签指向的提交为准，编译过程不改上游源码。启动器不分发游戏、固件、密钥或本机数据。
 
 ## 从源码运行
 
@@ -25,4 +25,4 @@ python -m pip install PySide6
 python afei-launcher/launcher.py
 ```
 
-使用 [build.ps1](build.ps1) 打包（需要 PyInstaller）。执行 `python -m unittest discover -s afei-launcher -p "test_*.py"` 运行测试。
+使用 [build.ps1](build.ps1) 打包（需要 PyInstaller）。执行 `python -m unittest discover -s afei-launcher -p "test_*.py"` 运行测试。打包依赖和源代码链接见 [THIRD-PARTY.md](THIRD-PARTY.md)。

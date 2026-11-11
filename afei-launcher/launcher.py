@@ -36,6 +36,12 @@ BINARY_ICON = Path(__file__).resolve().with_name("lichii.ico")
 FRITCHII_QM = Path(__file__).resolve().with_name("afei-fritchii-zh_CN.qm")
 FRITCHII_NOTES = Path(__file__).resolve().with_name("fritchii-v5.4-notes.zh_CN.md")
 FRITCHII_V54_SHA256 = "336411d4a4ff40da4cadc4a74ab79afec3e9de619392e5d6a393769ceb28c520"
+OVERLAY_DLL = Path(__file__).resolve().parent / "generic/afei-translation.dll"
+OVERLAY_QT_DLLS = {
+    "Qt6Core.dll": "0cc62e841959fb8f6d366ea116c6f6bbc273e30f0ef90d8aa2e4adeb81fd63f8",
+    "Qt6Gui.dll": "ca9f20d9b59d5bc321a87005b926b853ebcd6a2394823e14d3c8b5fc5702fa8c",
+    "Qt6Widgets.dll": "d34ef78b3d3b5506ee8279ce6efbfc263d773b74860af76e66b0715346897a3a",
+}
 GAME_EXTENSIONS = {".nup", ".xci", ".nsp", ".nro", ".nca", ".nsz", ".xcz"}
 
 STYLE = """
@@ -129,6 +135,21 @@ def language_for(build, custom_path):
     if not build.release and is_fritchii(build.directory) and valid_catalog(FRITCHII_QM):
         return cache_translation_resource(FRITCHII_QM, custom_path.parent / "bundled")
     return "zh_CN"
+
+
+def runtime_overlay_root(directory, cache):
+    plugin = OVERLAY_DLL
+    if not getattr(sys, "frozen", False):
+        plugin = plugin.parent.parent / "build/qt-overlay/generic" / plugin.name
+    if not plugin.is_file():
+        return None
+    for filename, digest in OVERLAY_QT_DLLS.items():
+        library = directory / filename
+        if not library.is_file() or updates.sha256_file(library) != digest:
+            return None
+    root = cache / "plugins" / updates.sha256_file(plugin)[:12]
+    cache_translation_resource(plugin, root / "generic")
+    return str(root.resolve())
 
 
 def set_ui_language(config, language):
@@ -549,6 +570,10 @@ class Launcher(QMainWindow):
             # A frozen launcher can otherwise give the child its bundled Qt library location.
             env.pop("QT_PLUGIN_PATH", None)
             env.pop("QT_QPA_PLATFORM_PLUGIN_PATH", None)
+            overlay = runtime_overlay_root(build.directory, CUSTOM_QM.parent)
+            if overlay:
+                command.extend(("-plugin", "afei-translation"))
+                env["QT_PLUGIN_PATH"] = overlay
             if (not build.release and is_fritchii(build.directory) and FRITCHII_NOTES.is_file()
                     and not env.get("FRITCHII_NOTES_PREVIEW")
                     and updates.sha256_file(build.directory / "lichii.exe") == FRITCHII_V54_SHA256):

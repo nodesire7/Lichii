@@ -15,7 +15,7 @@
 - **本地自定义汉化**。在设置中打开自定义汉化目录，将已编译的 Qt 词库命名为 `zh_CN.qm` 放入。启动器优先加载该文件，更新也会保留它。移出该文件后恢复各版本的默认词库。
 - **原版 Fritchii v5.4**。启动器附带对应源码的外置词库，并沿用深色和紫色配色。已验证的 Windows 原版可通过模拟器自带的预览入口显示中文更新日志。[v5.4 源码](https://github.com/Frizti/Fritchii/tree/8ce6c1e0d49b7022d2fa87e60109c7c04f1b5a80) · [Fritchii 源码补译](source.fritchii.zh_CN.json) · [中文更新日志](fritchii-v5.4-notes.zh_CN.md)
 
-状态栏的 `DOCKED`、软件键盘的 `Caps Lock` 等文字直接由模拟器显示。外置词库只能翻译模拟器提交给 Qt 的文字。
+启动器会给使用已验证 Qt 6.8.3 组件的 Windows 版本加载外置 Qt 插件。插件补译两版软件键盘的功能键和主题下拉框、Fritchii 的主机/掌机状态，以及游戏列表显示的更新版本号。启动器按已安装的 Qt 组件校验是否兼容，其他版本仍可使用对应的外置词库。单独双击 `lichii.exe` 时使用模拟器自己的界面行为。
 
 Fork 的 `nx2` 分支镜像上游源码；`afei-zh` 保存启动器和自定义译文；`afei-feed` 发布词库及更新清单。GitHub Actions 每 5 分钟尝试同步，实际调度可能延迟；在 Actions 可手动运行。词库以正式发行标签指向的提交为准，编译过程不改上游源码。启动器不分发游戏、固件、密钥或本机数据。
 
@@ -28,6 +28,6 @@ python -m pip install PySide6
 python afei-launcher/launcher.py
 ```
 
-使用 [build.ps1](build.ps1) 打包（需要 PyInstaller）。执行 `python -m unittest discover -s afei-launcher -p "test_*.py"` 运行测试。打包依赖和源代码链接见 [THIRD-PARTY.md](THIRD-PARTY.md)。
+安装 PyInstaller、Visual Studio 2022 的 C++ 工具、CMake 和 Qt 6.8.3 MSVC 2022 x64 后，使用 `./afei-launcher/build.ps1 -QtDir C:/Qt/6.8.3/msvc2022_64` 打包。执行 `python -m unittest discover -s afei-launcher -p "test_*.py"` 运行启动器测试。打包依赖和源代码链接见 [THIRD-PARTY.md](THIRD-PARTY.md)。
 
 生成词库时可向 `align_catalog.py` 传入 `--audit-output <报告.json>`，查看源码文本键数、词库覆盖数和未命中的键。品牌、渲染 API、快捷键和占位符可能保留原文，因此词库覆盖数与含中文的条目数分别统计。

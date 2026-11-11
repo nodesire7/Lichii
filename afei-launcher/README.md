@@ -2,7 +2,7 @@
 
 启动器与汉化：**A-FEI-** · [GBTGAME 论坛](https://bbs.gbtgame.me) · [Telegram](https://t.me/GBTGame_Team)
 
-在 [启动器发布页](https://github.com/nodesire7/Lichii/releases/tag/afei-launcher-v1.0.0) 下载 Windows x64 启动器，把 EXE 放在原有的 `lichii.exe` 旁边，双击运行。不需要安装 Python。若 `_game` 里只有一个游戏文件，启动器会自动选中它。也可在「设置」中选择游戏目录和游戏文件；不选文件则打开模拟器主界面。
+在 [启动器发布页](https://github.com/nodesire7/Lichii/releases/latest) 下载 Windows x64 启动器，把 EXE 放在原有的 `lichii.exe` 旁边，双击运行。不需要安装 Python。若 `_game` 里只有一个游戏文件，启动器会自动选中它。也可在「设置」中选择游戏目录和游戏文件；不选文件则打开模拟器主界面。
 
 默认启动原有版本。点击「检查更新」查看正式版；「测速」会并行读取同一个发布包的前 256 KiB，显示速度与首包延迟。「自动选最快节点下载」会重新测速，按速度依次尝试，校验上游发布包的大小和 SHA-256 后安装。双击节点可复制地址。默认节点为 GitHub 官方、GH-Proxy CDN 和 GHFast 代理；自有 CDN 或代理可在设置中填入 HTTPS 地址，支持 `{tag}`、`{asset}` 和 `{url}`。没有通过测速的节点只在已通过的节点不可用时尝试完整下载，且同样必须通过校验。
 

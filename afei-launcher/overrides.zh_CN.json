@@ -1,0 +1,82 @@
+[
+  {
+    "context": "AboutDialog",
+    "source": "About Lichii",
+    "translation": "关于 Lichii"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Load File",
+    "translation": "打开游戏文件"
+  },
+  {
+    "context": "MainWindow",
+    "source": "Remove Installed Game Update?",
+    "translation": "移除已安装的游戏更新？"
+  },
+  {
+    "context": "ConfigureUi",
+    "source": "%1 - not in this build",
+    "translation": "%1（此版本未包含）"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Update Available",
+    "translation": "发现新版本"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Would you like to download this update?",
+    "translation": "要下载这个更新吗？"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Available Versions",
+    "translation": "可下载的版本"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "%1 is available for download.",
+    "translation": "可以下载 %1。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "<a href=\"%1\">View on GitHub</a>",
+    "translation": "<a href=\"%1\">在 GitHub 上查看</a>"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Remind Me Later",
+    "translation": "稍后提醒"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Skip This Version",
+    "translation": "跳过此版本"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Failed to install the update",
+    "translation": "无法安装更新"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Download Complete",
+    "translation": "下载完成"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Update Installed",
+    "translation": "更新已安装"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "Could not replace %1. Your installation was not changed.",
+    "translation": "无法替换 %1。现有安装未改动。"
+  },
+  {
+    "context": "UpdateDialog",
+    "source": "The new version is installed. The previous version is kept as %1.\n\nRestart now?",
+    "translation": "新版本已安装，旧版本已保留为 %1。\n\n现在重启吗？"
+  }
+]

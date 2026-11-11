@@ -1,0 +1,98 @@
+name: A-FEI- 上游与汉化同步
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  push:
+    branches: [afei-zh]
+    paths:
+      - '.github/workflows/afei-sync.yml'
+      - 'afei-launcher/align_catalog.py'
+      - 'afei-launcher/updater.py'
+      - 'afei-launcher/overrides.zh_CN.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: afei-upstream-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.repository == 'nodesire7/Lichii' && github.ref == 'refs/heads/afei-zh'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: afei-launcher
+          persist-credentials: false
+      - name: Fast-forward upstream mirror
+        id: mirror
+        continue-on-error: true
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/merge-upstream" -f branch=nx2
+      - name: Read official release
+        id: release
+        run: |
+          set -euo pipefail
+          upstream=zortos293/Lichii
+          gh api "repos/$upstream/releases/latest" > "$RUNNER_TEMP/lichii-release.json"
+          tag=$(jq -er '.tag_name | select(test("^build-[1-9][0-9]*$"))' "$RUNNER_TEMP/lichii-release.json")
+          digest=$(jq -er '.assets[] | select(.name=="lichii-windows-x86_64.zip" and .state=="uploaded") | .digest | sub("^sha256:";"") | select(test("^[0-9a-f]{64}$"))' "$RUNNER_TEMP/lichii-release.json")
+          release_commit=$(gh api "repos/$upstream/commits/$tag" --jq .sha)
+          revision=$(python3 afei-launcher/align_catalog.py --revision)
+          feed="$RUNNER_TEMP/afei-feed"
+          git init -q -b afei-feed "$feed"
+          git -C "$feed" remote add origin "https://github.com/$GITHUB_REPOSITORY.git"
+          gh auth setup-git
+          if git -C "$feed" ls-remote --exit-code origin refs/heads/afei-feed; then
+            git -C "$feed" fetch --depth=1 origin afei-feed
+            git -C "$feed" checkout -q -B afei-feed FETCH_HEAD
+          fi
+          if test -f "$feed/manifest.json" && jq -e --arg tag "$tag" --arg digest "$digest" --arg commit "$release_commit" --arg rev "$revision" \
+             '.asset.tag==$tag and .asset.sha256==$digest and .release_commit==$commit and .revision==$rev' "$feed/manifest.json" >/dev/null; then
+            echo "Catalog and feed already match $tag."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "commit=$release_commit" >> "$GITHUB_OUTPUT"
+      - name: Compile Qt catalog from the release tag
+        if: steps.release.outputs.changed == 'true'
+        env:
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qt6-l10n-tools
+          upstream="$RUNNER_TEMP/lichii-source"
+          git clone --no-checkout --depth=1 --filter=blob:none --branch "$RELEASE_TAG" https://github.com/zortos293/Lichii.git "$upstream"
+          git -C "$upstream" sparse-checkout set --cone dist/languages src/yuzu src/qt_common
+          git -C "$upstream" checkout --detach "$RELEASE_COMMIT"
+          python3 afei-launcher/align_catalog.py \
+            --source "$upstream" --release-json "$RUNNER_TEMP/lichii-release.json" \
+            --release-commit "$RELEASE_COMMIT" --output "$RUNNER_TEMP/afei-feed" \
+            --lupdate /usr/lib/qt6/bin/lupdate --lrelease /usr/lib/qt6/bin/lrelease
+      - name: Publish release metadata and catalog
+        if: steps.release.outputs.changed == 'true'
+        env:
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/afei-feed"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add manifest.json catalogs
+          git commit -m "Sync Lichii release $RELEASE_TAG and Chinese catalog"
+          git push origin HEAD:refs/heads/afei-feed
+      - name: Report mirror result
+        if: steps.mirror.outcome == 'failure'
+        run: |
+          echo "::error::Could not sync nx2. The release feed can still be published; inspect the mirror step."
+          exit 1

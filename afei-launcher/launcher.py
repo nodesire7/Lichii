@@ -39,7 +39,7 @@ GAME_EXTENSIONS = {".nup", ".xci", ".nsp", ".nro", ".nca", ".nsz", ".xcz"}
 STYLE = """
 QMainWindow, QDialog, QWidget#surface { background: #111113; color: #ececf1; }
 QLabel { color: #ececf1; }
-QLabel#title { font-size: 27px; font-weight: 700; }
+QLabel#title { font-size: 30px; font-weight: 500; }
 QLabel#section { font-size: 16px; font-weight: 700; }
 QLabel#muted { color: #b5b3c4; }
 QLabel#message[state="error"] { color: #ffb0b0; }
@@ -240,7 +240,27 @@ def button(text, slot, role=""):
     return result
 
 
+def apply_dark_titlebar(window):
+    if os.name != "nt":
+        return
+    import ctypes
+    from ctypes import wintypes
+
+    set_attribute = ctypes.windll.dwmapi.DwmSetWindowAttribute
+    set_attribute.argtypes = (wintypes.HWND, wintypes.DWORD, ctypes.c_void_p, wintypes.DWORD)
+    set_attribute.restype = ctypes.c_long
+    dark = wintypes.BOOL(True)
+    hwnd = int(window.winId())
+    # Fritchii uses the same Windows attribute and fallback for its native title bars.
+    if set_attribute(hwnd, 20, ctypes.byref(dark), ctypes.sizeof(dark)) < 0:
+        set_attribute(hwnd, 19, ctypes.byref(dark), ctypes.sizeof(dark))
+
+
 class Preferences(QDialog):
+    def showEvent(self, event):
+        super().showEvent(event)
+        apply_dark_titlebar(self)
+
     def __init__(self, parent):
         super().__init__(parent)
         self.setWindowTitle("启动器设置")
@@ -317,6 +337,10 @@ class Preferences(QDialog):
 
 
 class Launcher(QMainWindow):
+    def showEvent(self, event):
+        super().showEvent(event)
+        apply_dark_titlebar(self)
+
     def __init__(self, start_folder):
         super().__init__()
         self.settings = QSettings(str(ROOT / "launcher.ini"), QSettings.Format.IniFormat)
@@ -617,7 +641,9 @@ def main():
     app = QApplication(sys.argv)
     app.setApplicationName("Lichii 中文启动器")
     app.setStyle("Fusion")
-    app.setFont(QFont("Microsoft YaHei UI", 10))
+    font = QFont("Microsoft YaHei UI")
+    font.setPixelSize(14)
+    app.setFont(font)
     palette = app.palette()
     for role, color in {
         QPalette.ColorRole.Window: "#111113",
